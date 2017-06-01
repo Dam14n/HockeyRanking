@@ -1,6 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#3F51B5</color>
-    <color name="colorPrimaryDark">#303F9F</color>
-    <color name="colorAccent">#FF4081</color>
+    <color name="colorPrimary">#2ffc5b</color>
+    <color name="colorPrimaryDark">#21831e</color>
+    <color name="colorAccent">#d6c429</color>
+
+    <color name="overflowMenuBb">#f1f1f1</color>
+
+    <color name="grey_25">#ffffff</color>
+    <color name="grey_50">#f4f4f4</color>
+    <color name="grey_100">#dfdfdf</color>
+    <color name="grey_200">#cccccc</color>
+    <color name="grey_300">#bcbcbc</color>
+    <color name="grey_400">#a7a7a7</color>
+    <color name="grey_500">#9b9b9b</color>
+    <color name="grey_600">#8b8b8b</color>
+    <color name="grey_700">#6e6e6e</color>
+    <color name="grey_800">#464646</color>
+
+    <color name="red">#ff0000</color>
+    <color name="green">#6cea4f</color>
 </resources>

@@ -1,3 +1,17 @@
 <resources>
-    <string name="app_name">Hockey</string>
+    <string name="app_name">RecyclerCardViewGrid</string>
+    <string name="delete">Delete</string>
+    <string name="search">Search</string>
+    <string name="settings">Settings</string>
+    <string name="edit">Edit</string>
+    <string name="exit">Exit</string>
+    <string name="description">Description</string>
+    <string name="title">Title</string>
+    <string name="deleteimage">deleteImage</string>
+    <string name="addimage">addImage</string>
+    <string name="prime">prime</string>
+    <string name="notPrime">not prime</string>
+
+    <string name="drawer_open">Open</string>
+    <string name="drawer_close">Close</string>
 </resources>
