@@ -2,6 +2,7 @@ package com.wip.hockey.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -25,6 +26,7 @@ public class DivisionAdapter extends RecyclerView.Adapter<DivisionAdapter.MyView
     private List<Division> mData;
     private LayoutInflater mInflater;
     private Context context;
+    private Fragment fragment;
 
     public DivisionAdapter(Context context, List<Division> data){
         this.context = context;

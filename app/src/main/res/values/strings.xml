@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">RecyclerCardViewGrid</string>
+    <string name="app_name">Hockey Ranking</string>
     <string name="delete">Delete</string>
     <string name="search">Search</string>
     <string name="settings">Settings</string>
@@ -7,11 +7,15 @@
     <string name="exit">Exit</string>
     <string name="description">Description</string>
     <string name="title">Title</string>
-    <string name="deleteimage">deleteImage</string>
-    <string name="addimage">addImage</string>
-    <string name="prime">prime</string>
-    <string name="notPrime">not prime</string>
+    <string name="deleteImage">deleteImage</string>
+    <string name="addImage">addImage</string>
 
     <string name="drawer_open">Open</string>
     <string name="drawer_close">Close</string>
+    <string name="ic_keyboard_arrow_right">arrow right</string>
+    <string name="ic_email">email</string>
+    <string name="ic_add">add</string>
+    <string name="ic_close">close</string>
+    <string name="ic_laptop">computer</string>
+    <string name="ic_folder">folder</string>
 </resources>

@@ -1,4 +1,4 @@
-package com.wip.hockey.app;
+package com.wip.hockey.fragment;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
