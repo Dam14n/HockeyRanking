@@ -26,13 +26,15 @@ public class DivisionFragment extends Fragment {
     RecyclerView recyclerView;
     private ArrayList<Division> content;
 
+    public DivisionFragment(ArrayList<Division> content) {
+        this.content = content;
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(getLayoutResourceId(),container,false);
 
         ButterKnife.bind(this,view);
-
-        content = Division.getData();
 
         DivisionAdapter adapter = new DivisionAdapter(this.getContext(), content);
 

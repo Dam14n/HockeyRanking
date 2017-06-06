@@ -1,7 +1,9 @@
 package com.wip.hockey.app;
 
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -41,17 +43,15 @@ public class MainActivity extends AppCompatActivity {
 
         Fragment fragment = null;
 
-        try {
-            fragment = (Fragment) fragmentClass.newInstance();
-            fragment.setArguments(bundle);
-        } catch (InstantiationException e) {
-            e.printStackTrace();
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        }
+        fragment = new DivisionFragment(Division.getData());
+        fragment.setArguments(bundle);
 
         FragmentManager fragmentManager = getSupportFragmentManager();
-        fragmentManager.beginTransaction().replace(R.id.fragment, fragment).commit();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+
+        fragmentTransaction.replace(R.id.fragment, fragment);
+
+        fragmentTransaction.commit();
 
     }
 

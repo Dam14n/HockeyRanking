@@ -42,8 +42,6 @@ public class SubDivisionFragment extends Fragment {
 
         ButterKnife.bind(this,view);
 
-        //content = SubDivision.getData();
-
         SubDivisionAdapter adapter = new SubDivisionAdapter(this.getContext(), content);
 
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getActivity().getApplicationContext());

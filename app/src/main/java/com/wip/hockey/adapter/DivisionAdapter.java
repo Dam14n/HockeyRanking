@@ -61,14 +61,12 @@ public class DivisionAdapter extends RecyclerView.Adapter<DivisionAdapter.MyView
             @Override
             public void onClick(View v) {
 
-                Toast.makeText(context,holder.division.getText().toString(), Toast.LENGTH_SHORT).show();
-
                 Bundle bundle = new Bundle();
                 bundle.putInt("id",100);
 
                 Fragment fragment = null;
 
-                fragment = (Fragment) new SubDivisionFragment(currentObj.getSubDivision().getData());
+                fragment = new SubDivisionFragment(currentObj.getSubDivision().getData());
                 fragment.setArguments(bundle);
 
                 FragmentManager fragmentManager = ((FragmentActivity) context).getSupportFragmentManager();
