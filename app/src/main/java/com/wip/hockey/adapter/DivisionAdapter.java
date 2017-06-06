@@ -1,18 +1,26 @@
 package com.wip.hockey.adapter;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.wip.hockey.R;
 import com.wip.hockey.app.MainActivity;
+import com.wip.hockey.fragment.DivisionFragment;
+import com.wip.hockey.fragment.SubDivisionFragment;
 import com.wip.hockey.model.Division;
+import com.wip.hockey.model.SubDivision;
 
 import java.util.List;
 
@@ -46,14 +54,26 @@ public class DivisionAdapter extends RecyclerView.Adapter<DivisionAdapter.MyView
     public void onBindViewHolder(final MyViewHolder holder, int position) {
         Log.d(TAG, "onBindViewHolder " + position);
 
-        Division currentObj = mData.get(position);
+        final Division currentObj = mData.get(position);
         holder.setData(currentObj,position);
-        holder.itemView.setOnClickListener(new View.OnClickListener(){
-
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(context, MainActivity.class);
-                context.startActivity(intent);
+
+                Toast.makeText(context,holder.division.getText().toString(), Toast.LENGTH_SHORT).show();
+
+                Bundle bundle = new Bundle();
+                bundle.putInt("id",100);
+
+                Fragment fragment = null;
+
+                fragment = (Fragment) new SubDivisionFragment(currentObj.getSubDivision().getData());
+                fragment.setArguments(bundle);
+
+                FragmentManager fragmentManager = ((FragmentActivity) context).getSupportFragmentManager();
+                fragmentManager.beginTransaction().replace(R.id.fragment, fragment).commit();
+
+
             }
         });
     }
