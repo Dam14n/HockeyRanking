@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -71,7 +72,13 @@ public class DivisionAdapter extends RecyclerView.Adapter<DivisionAdapter.MyView
                 fragment.setArguments(bundle);
 
                 FragmentManager fragmentManager = ((FragmentActivity) context).getSupportFragmentManager();
-                fragmentManager.beginTransaction().replace(R.id.fragment, fragment).commit();
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+
+                fragmentTransaction.add(R.id.fragment, fragment);
+                fragmentTransaction.addToBackStack("Subdivision"+holder.division.getText().toString());
+
+                fragmentTransaction.commit();
+
 
 
             }
