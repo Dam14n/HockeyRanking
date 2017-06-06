@@ -1,6 +1,7 @@
 package com.wip.hockey.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,6 +11,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.wip.hockey.R;
+import com.wip.hockey.app.MainActivity;
 import com.wip.hockey.model.NavigationDrawerItem;
 
 import java.util.Collections;
@@ -48,7 +50,12 @@ public class NavigationDrawAdapter extends RecyclerView.Adapter<NavigationDrawAd
 
             @Override
             public void onClick(View v) {
-                Toast.makeText(context, holder.title.getText().toString(), Toast.LENGTH_SHORT).show();
+                if ( holder.title.getText() == "Inicio") {
+                    Intent intent = new Intent(context, MainActivity.class);
+                    context.startActivity(intent);
+                }else{
+                    Toast.makeText(context, holder.title.getText().toString(), Toast.LENGTH_SHORT).show();
+                }
             }
         });
     }

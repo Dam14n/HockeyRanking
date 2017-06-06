@@ -54,13 +54,15 @@ public class NavigationDrawerItem {
                 R.drawable.images_4,
                 R.drawable.images_5,
                 R.drawable.images_6,
-                R.drawable.images_7
+                R.drawable.images_7,
+                R.drawable.images_8
         };
     }
 
     private static String[] getTitles(){
 
         return  new String[]{
+                "Inicio",
                 "Birds",
                 "Animals",
                 "Forest",
