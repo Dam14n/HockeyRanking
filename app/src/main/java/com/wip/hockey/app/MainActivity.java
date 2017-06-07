@@ -12,6 +12,8 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.View;
+import android.widget.Toast;
 
 import com.wip.hockey.R;
 import com.wip.hockey.adapter.DivisionAdapter;
@@ -68,6 +70,11 @@ public class MainActivity extends AppCompatActivity {
         NavigationDrawerFragment drawerFragment = (NavigationDrawerFragment) getSupportFragmentManager().findFragmentById(R.id.nav_drwr_fragment);
         DrawerLayout drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawerFragment.setUpDrawer(R.id.nav_drwr_fragment,drawerLayout,toolbar);
+    }
+
+
+    public void buttonFavorite(View v){
+        Toast.makeText(this,"funciona",Toast.LENGTH_SHORT).show();
     }
 }
 

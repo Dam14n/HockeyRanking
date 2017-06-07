@@ -17,11 +17,21 @@
             android:id="@+id/category"
             android:layout_width="wrap_content"
             android:layout_height="60dp"
-            android:text="A"
+            android:text="Primera"
             android:textSize="45dp"
             android:gravity="center"
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true" />
 
+        <ImageButton
+            android:id="@+id/favorite"
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:background="#00ffffff"
+            android:onClick="buttonFavorite"
+            android:src="@drawable/star"
+            android:layout_alignParentRight="true"
+            android:layout_alignBottom="@+id/category" />
     </RelativeLayout>
+
 </android.support.v7.widget.CardView>
