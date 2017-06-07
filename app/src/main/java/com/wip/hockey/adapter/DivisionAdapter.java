@@ -72,7 +72,7 @@ public class DivisionAdapter extends RecyclerView.Adapter<DivisionAdapter.MyView
                 FragmentManager fragmentManager = ((FragmentActivity) context).getSupportFragmentManager();
                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
-                fragmentTransaction.add(R.id.fragment, fragment);
+                fragmentTransaction.replace(R.id.fragment, fragment);
                 fragmentTransaction.addToBackStack("Subdivision"+holder.division.getText().toString());
 
                 fragmentTransaction.commit();

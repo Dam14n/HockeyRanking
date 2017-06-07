@@ -70,7 +70,7 @@ public class NavigationDrawAdapter extends RecyclerView.Adapter<NavigationDrawAd
                     FragmentManager fragmentManager = ((FragmentActivity) context).getSupportFragmentManager();
                     FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
-                    fragmentTransaction.add(R.id.fragment, fragment);
+                    fragmentTransaction.replace(R.id.fragment, fragment);
                     fragmentTransaction.addToBackStack(holder.title.getText().toString());
 
                     fragmentTransaction.commit();
