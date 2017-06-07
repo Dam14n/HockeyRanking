@@ -2,7 +2,11 @@ package com.wip.hockey.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -12,6 +16,8 @@ import android.widget.TextView;
 
 import com.wip.hockey.R;
 import com.wip.hockey.app.MainActivity;
+import com.wip.hockey.fragment.CategoryFragment;
+import com.wip.hockey.fragment.SubDivisionFragment;
 import com.wip.hockey.model.Division;
 import com.wip.hockey.model.SubDivision;
 
@@ -47,8 +53,32 @@ public class SubDivisionAdapter extends RecyclerView.Adapter<SubDivisionAdapter.
     public void onBindViewHolder(final MyViewHolder holder, int position) {
         Log.d(TAG, "onBindViewHolder " + position);
 
-        SubDivision currentObj = mData.get(position);
+        final SubDivision currentObj = mData.get(position);
         holder.setData(currentObj,position);
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Bundle bundle = new Bundle();
+                bundle.putInt("id",200);
+
+                Fragment fragment = null;
+
+                fragment = new CategoryFragment(currentObj.getCategories().getData());
+                fragment.setArguments(bundle);
+
+                FragmentManager fragmentManager = ((FragmentActivity) context).getSupportFragmentManager();
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+
+                fragmentTransaction.replace(R.id.fragment, fragment);
+                fragmentTransaction.addToBackStack("Category "+holder.subDivision.getText().toString());
+
+                fragmentTransaction.commit();
+
+
+
+            }
+        });
     }
 
     @Override

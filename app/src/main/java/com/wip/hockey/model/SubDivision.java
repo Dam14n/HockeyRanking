@@ -8,7 +8,7 @@ import java.util.ArrayList;
 
 public class SubDivision {
 
-    private Category[] categories;
+    private Category categories;
     private String name;
     private String division;
 
@@ -24,11 +24,11 @@ public class SubDivision {
         this.name = name;
     }
 
-    public Category[] getCategories() {
+    public Category getCategories() {
         return categories;
     }
 
-    public void setCategories(Category[] categories) {
+    public void setCategories(Category categories) {
         this.categories = categories;
     }
 
@@ -39,6 +39,9 @@ public class SubDivision {
         for (int i = 0 ; i < names.length ; i++){
             SubDivision subDivision = new SubDivision(names[i]);
 
+            Category category = new Category();
+
+            subDivision.setCategories(category);
             subDivision.setName(names[i]);
 
             dataList.add(subDivision);
@@ -52,8 +55,7 @@ public class SubDivision {
         String[] names = {
                 division + "1",
                 division + "2",
-                division + "3",
-                division + "4"
+                division + "3"
         };
 
         return names;
