@@ -37,8 +37,8 @@ public class MainActivity extends AppCompatActivity {
 
     private void setUpToolbar(){
         toolbar = (Toolbar) findViewById(R.id.toolbar);
-        toolbar.setTitle("Welcome !");
-        toolbar.setSubtitle("Folks !");
+        toolbar.setTitle("Hockey");
+        toolbar.setSubtitle("Ranking");
 
         toolbar.inflateMenu(R.menu.menu_main);
     }

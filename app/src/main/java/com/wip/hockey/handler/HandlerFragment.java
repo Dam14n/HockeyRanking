@@ -9,6 +9,7 @@ import com.wip.hockey.R;
 import com.wip.hockey.fragment.BaseFragment;
 import com.wip.hockey.fragment.CategoryFragment;
 import com.wip.hockey.fragment.DivisionFragment;
+import com.wip.hockey.fragment.MatchFragment;
 import com.wip.hockey.fragment.SubDivisionFragment;
 
 import java.util.ArrayList;
@@ -60,6 +61,10 @@ public class HandlerFragment {
                 break;
             case R.id.fragment_category_recycler:
                 fragment = new CategoryFragment();
+                fragment.setContent(mData);
+                break;
+            case R.id.fragment_match_recycler:
+                fragment = new MatchFragment();
                 fragment.setContent(mData);
                 break;
             default:

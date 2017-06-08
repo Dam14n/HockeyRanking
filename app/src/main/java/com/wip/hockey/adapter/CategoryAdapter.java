@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.wip.hockey.R;
+import com.wip.hockey.app.MainActivity;
 import com.wip.hockey.model.Category;
 
 import java.util.List;
@@ -46,6 +47,12 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.MyView
 
         final Category currentObj = mData.get(position);
         holder.setData(currentObj,position);
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                MainActivity.handlerFragment.setFragment(R.id.fragment_match_recycler,currentObj.getMatch().getData());
+            }
+        });
     }
 
     @Override

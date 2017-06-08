@@ -8,15 +8,24 @@ import java.util.ArrayList;
 
 public class Category {
 
-    private Team[] teams;
+    private Team teams;
     private Date[] dates;
     private String name;
+    private Match match;
 
-    public Team[] getTeams() {
+    public Team getTeams() {
         return teams;
     }
 
-    public void setTeams(Team[] teams) {
+    public Match getMatch() {
+        return match;
+    }
+
+    public void setMatch(Match match) {
+        this.match = match;
+    }
+
+    public void setTeams(Team teams) {
         this.teams = teams;
     }
 
@@ -43,6 +52,9 @@ public class Category {
         for (int i = 0 ; i < names.length ; i++){
             Category category = new Category();
 
+            Match match = new Match();
+
+            category.setMatch(match);
             category.setName(names[i]);
 
             dataList.add(category);
