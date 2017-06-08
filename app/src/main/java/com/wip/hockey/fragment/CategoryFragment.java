@@ -1,7 +1,6 @@
 package com.wip.hockey.fragment;
 
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -11,9 +10,7 @@ import android.view.ViewGroup;
 
 import com.wip.hockey.R;
 import com.wip.hockey.adapter.CategoryAdapter;
-import com.wip.hockey.adapter.DivisionAdapter;
 import com.wip.hockey.model.Category;
-import com.wip.hockey.model.Division;
 
 import java.util.ArrayList;
 
@@ -24,7 +21,6 @@ public class CategoryFragment extends BaseFragment {
 
     @BindView(R.id.fragment_category_recycler)
     RecyclerView recyclerView;
-    private ArrayList<Category> content;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {

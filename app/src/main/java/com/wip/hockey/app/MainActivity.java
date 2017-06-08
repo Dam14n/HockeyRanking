@@ -1,23 +1,14 @@
 package com.wip.hockey.app;
 
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
 import com.wip.hockey.R;
-import com.wip.hockey.adapter.DivisionAdapter;
-import com.wip.hockey.fragment.DivisionFragment;
 import com.wip.hockey.fragment.NavigationDrawerFragment;
 import com.wip.hockey.handler.HandlerFragment;
 import com.wip.hockey.model.Division;

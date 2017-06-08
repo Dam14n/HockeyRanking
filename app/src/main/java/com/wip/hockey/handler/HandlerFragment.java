@@ -1,8 +1,6 @@
 package com.wip.hockey.handler;
 
-import android.content.Context;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -12,7 +10,6 @@ import com.wip.hockey.fragment.BaseFragment;
 import com.wip.hockey.fragment.CategoryFragment;
 import com.wip.hockey.fragment.DivisionFragment;
 import com.wip.hockey.fragment.SubDivisionFragment;
-import com.wip.hockey.model.Division;
 
 import java.util.ArrayList;
 
@@ -22,11 +19,11 @@ import java.util.ArrayList;
 
 public class HandlerFragment {
 
-    private Context context;
+    private FragmentActivity context;
     private ArrayList mData;
     private boolean firstCall = true;
 
-    public HandlerFragment(Context context) {
+    public HandlerFragment(FragmentActivity context) {
         this.context = context;
     }
 
@@ -38,7 +35,7 @@ public class HandlerFragment {
         bundle.putInt("id",id);
         fragment.setArguments(bundle);
 
-        FragmentManager fragmentManager = ((FragmentActivity)context).getSupportFragmentManager();
+        FragmentManager fragmentManager = context.getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
         fragmentTransaction.replace(R.id.fragment, fragment);
