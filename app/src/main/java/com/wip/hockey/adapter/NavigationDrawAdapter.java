@@ -57,14 +57,14 @@ public class NavigationDrawAdapter extends RecyclerView.Adapter<NavigationDrawAd
             @Override
             public void onClick(View v) {
                 if ( holder.title.getText() == "Inicio") {
-                    MainActivity.handlerFragment.setFragment(R.id.fragment_division_recycler,Division.getData());
+                    MainActivity.handlerFragment.setFragment(R.id.fragment_division_recycler,null);
                 }else{
                     SharedPreferences sharedPrefs = context.getSharedPreferences("Favorite", Context.MODE_PRIVATE);
                     Gson gson = new Gson();
                     String json = sharedPrefs.getString("Favorite" , null);
                     Type type = new TypeToken<ArrayList<Category>>() {}.getType();
                     ArrayList data = gson.fromJson(json, type);
-                    MainActivity.handlerFragment.setFragment(R.id.fragment_category_recycler,data);
+                    MainActivity.handlerFragment.setFragment(R.id.fragment_favorite_recycler,data);
                 }
             }
         });

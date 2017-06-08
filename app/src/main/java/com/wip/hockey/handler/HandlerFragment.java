@@ -9,6 +9,7 @@ import com.wip.hockey.R;
 import com.wip.hockey.fragment.BaseFragment;
 import com.wip.hockey.fragment.CategoryFragment;
 import com.wip.hockey.fragment.DivisionFragment;
+import com.wip.hockey.fragment.FavoriteFragment;
 import com.wip.hockey.fragment.MatchFragment;
 import com.wip.hockey.fragment.SubDivisionFragment;
 
@@ -22,6 +23,7 @@ public class HandlerFragment {
 
     private FragmentActivity context;
     private ArrayList mData;
+    private int lastId;
     private boolean firstCall = true;
 
     public HandlerFragment(FragmentActivity context) {
@@ -30,6 +32,7 @@ public class HandlerFragment {
 
     public void setFragment(int id,ArrayList data) {
         mData = data;
+
         BaseFragment fragment = getFragment(id);
 
         Bundle bundle = new Bundle();
@@ -39,13 +42,18 @@ public class HandlerFragment {
         FragmentManager fragmentManager = context.getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
-        fragmentTransaction.replace(R.id.fragment, fragment);
-        if (firstCall) {
-            firstCall = false;
-        }else{
-            fragmentTransaction.addToBackStack("id:" + id);
+        if (lastId != id) {
+            if (!firstCall){
+                fragmentTransaction.replace(R.id.fragment, fragment);
+                fragmentTransaction.addToBackStack("id:" + id);
+            }else{
+                fragmentTransaction.replace(R.id.fragment, fragment);
+                firstCall = false;
+            }
+            lastId = id;
+            fragmentTransaction.commit();
         }
-        fragmentTransaction.commit();
+
     }
 
     public BaseFragment getFragment(int id) {
@@ -65,6 +73,10 @@ public class HandlerFragment {
                 break;
             case R.id.fragment_match_recycler:
                 fragment = new MatchFragment();
+                fragment.setContent(mData);
+                break;
+            case R.id.fragment_favorite_recycler:
+                fragment = new FavoriteFragment();
                 fragment.setContent(mData);
                 break;
             default:
