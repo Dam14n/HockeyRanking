@@ -10,6 +10,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.wip.hockey.R;
+import com.wip.hockey.app.MainActivity;
+import com.wip.hockey.model.Division;
 import com.wip.hockey.model.NavigationDrawerItem;
 
 import java.util.Collections;
@@ -48,7 +50,11 @@ public class NavigationDrawAdapter extends RecyclerView.Adapter<NavigationDrawAd
 
             @Override
             public void onClick(View v) {
-                Toast.makeText(context, holder.title.getText().toString(), Toast.LENGTH_SHORT).show();
+                if ( holder.title.getText() == "Inicio") {
+                    MainActivity.handlerFragment.setFragment(R.id.fragment_division_recycler,Division.getData());
+                }else{
+                    Toast.makeText(context, holder.title.getText().toString(), Toast.LENGTH_SHORT).show();
+                }
             }
         });
     }

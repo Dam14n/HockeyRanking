@@ -11,7 +11,7 @@ import android.widget.TextView;
 
 import com.wip.hockey.R;
 import com.wip.hockey.app.MainActivity;
-import com.wip.hockey.model.Division;
+import com.wip.hockey.model.Category;
 
 import java.util.List;
 
@@ -19,15 +19,15 @@ import java.util.List;
  * Created by djorda on 11/05/2017.
  */
 
-public class DivisionAdapter extends RecyclerView.Adapter<DivisionAdapter.MyViewHolder> {
+public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.MyViewHolder> {
 
-    private static final String TAG = DivisionAdapter.class.getSimpleName();
-    private List<Division> mData;
+    private static final String TAG = CategoryAdapter.class.getSimpleName();
+    private List<Category> mData;
     private LayoutInflater mInflater;
     private Context context;
     private Fragment fragment;
 
-    public DivisionAdapter(Context context, List<Division> data){
+    public CategoryAdapter(Context context, List<Category> data){
         this.context = context;
         this.mData = data;
         this.mInflater = LayoutInflater.from(context);
@@ -36,7 +36,7 @@ public class DivisionAdapter extends RecyclerView.Adapter<DivisionAdapter.MyView
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         Log.d(TAG, "onCreateViewHolder");
-        ViewGroup row = (ViewGroup) mInflater.inflate(R.layout.list_item_division,parent,false);
+        ViewGroup row = (ViewGroup) mInflater.inflate(R.layout.list_item_category,parent,false);
         MyViewHolder holder = new MyViewHolder(row);
         return holder;
     }
@@ -45,12 +45,12 @@ public class DivisionAdapter extends RecyclerView.Adapter<DivisionAdapter.MyView
     public void onBindViewHolder(final MyViewHolder holder, int position) {
         Log.d(TAG, "onBindViewHolder " + position);
 
-        final Division currentObj = mData.get(position);
+        final Category currentObj = mData.get(position);
         holder.setData(currentObj,position);
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                MainActivity.handlerFragment.setFragment(R.id.fragment_sub_division_recycler,currentObj.getSubDivision().getData());
+                MainActivity.handlerFragment.setFragment(R.id.fragment_match_recycler,currentObj.getMatch().getData());
             }
         });
     }
@@ -62,18 +62,18 @@ public class DivisionAdapter extends RecyclerView.Adapter<DivisionAdapter.MyView
 
     class MyViewHolder extends RecyclerView.ViewHolder {
 
-        TextView division;
+        TextView category;
 
         public  MyViewHolder(View itemView) {
             super(itemView);
 
-            division = (TextView) itemView.findViewById(R.id.division);
+            category = (TextView) itemView.findViewById(R.id.category);
         }
 
-        public void setData(Division current, int position) {
-            Log.d(TAG, "Division: " + current.getName());
+        public void setData(Category current, int position) {
+            Log.d(TAG, "Category: " + current.getName());
 
-            this.division.setText(current.getName());
+            this.category.setText(current.getName());
          }
 
     }

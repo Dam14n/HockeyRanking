@@ -1,25 +1,22 @@
 package com.wip.hockey.app;
 
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.View;
+import android.widget.Toast;
 
 import com.wip.hockey.R;
-import com.wip.hockey.adapter.DivisionAdapter;
-import com.wip.hockey.fragment.DivisionFragment;
 import com.wip.hockey.fragment.NavigationDrawerFragment;
+import com.wip.hockey.handler.HandlerFragment;
 import com.wip.hockey.model.Division;
 
 public class MainActivity extends AppCompatActivity {
 
     private static final String TAG = MainActivity.class.getSimpleName();
+    public static HandlerFragment handlerFragment;
     private Toolbar toolbar;
 
     @Override
@@ -34,31 +31,14 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setUpFragment() {
-        Bundle bundle = new Bundle();
-        bundle.putInt("id",0);
-
-        Class fragmentClass = DivisionFragment.class;
-
-        Fragment fragment = null;
-
-        try {
-            fragment = (Fragment) fragmentClass.newInstance();
-            fragment.setArguments(bundle);
-        } catch (InstantiationException e) {
-            e.printStackTrace();
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        }
-
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        fragmentManager.beginTransaction().replace(R.id.fragment, fragment).commit();
-
+        handlerFragment = new HandlerFragment(this);
+        handlerFragment.setFragment(R.id.fragment_division_recycler,Division.getData());
     }
 
     private void setUpToolbar(){
         toolbar = (Toolbar) findViewById(R.id.toolbar);
-        toolbar.setTitle("Welcome !");
-        toolbar.setSubtitle("Folks !");
+        toolbar.setTitle("Hockey");
+        toolbar.setSubtitle("Ranking");
 
         toolbar.inflateMenu(R.menu.menu_main);
     }
@@ -68,6 +48,11 @@ public class MainActivity extends AppCompatActivity {
         NavigationDrawerFragment drawerFragment = (NavigationDrawerFragment) getSupportFragmentManager().findFragmentById(R.id.nav_drwr_fragment);
         DrawerLayout drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawerFragment.setUpDrawer(R.id.nav_drwr_fragment,drawerLayout,toolbar);
+    }
+
+
+    public void buttonFavorite(View v){
+        Toast.makeText(this,"funciona",Toast.LENGTH_SHORT).show();
     }
 }
 

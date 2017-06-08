@@ -9,17 +9,15 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.wip.hockey.R;
-import com.wip.hockey.adapter.DivisionAdapter;
-import com.wip.hockey.model.Division;
-
-import java.util.ArrayList;
+import com.wip.hockey.adapter.CategoryAdapter;
+import com.wip.hockey.adapter.MatchAdapter;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class DivisionFragment extends BaseFragment {
+public class MatchFragment extends BaseFragment {
 
-    @BindView(R.id.fragment_division_recycler)
+    @BindView(R.id.fragment_match_recycler)
     RecyclerView recyclerView;
 
     @Override
@@ -28,21 +26,19 @@ public class DivisionFragment extends BaseFragment {
 
         ButterKnife.bind(this,view);
 
-        DivisionAdapter adapter = new DivisionAdapter(this.getContext(), getContent());
+        MatchAdapter adapter = new MatchAdapter(this.getContext(), getContent());
 
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getActivity().getApplicationContext());
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(adapter);
 
+
         return view;
     }
 
-    public ArrayList getContent(){
-        return Division.getData();
-    }
 
     protected int getLayoutResourceId() {
-        return R.layout.fragment_list_division;
+        return R.layout.fragment_list_match;
     }
 }

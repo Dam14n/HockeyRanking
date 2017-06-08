@@ -34,10 +34,8 @@ public class Division {
         for (int i = 0 ; i < names.length ; i++){
             Division division = new Division();
 
-            SubDivision primera = new SubDivision();
-            SubDivision inter = new SubDivision();
-            division.setSubDivision(primera);
-            division.setSubDivision(inter);
+            SubDivision subDivision = new SubDivision(names[i]);
+            division.setSubDivision(subDivision);
 
             division.setName(names[i]);
 
