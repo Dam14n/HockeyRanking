@@ -62,7 +62,7 @@ public class Match {
         this.enemyGoals = enemyGoals;
     }
 
-    public static ArrayList<Match> getData(){
+    public ArrayList<Match> getData(){
         ArrayList<Match> dataList = new ArrayList<>();
         int[] images = getImages();
         String[] names = getNames();
@@ -87,7 +87,7 @@ public class Match {
         return dataList;
     }
 
-    private static int[] getImages() {
+    private int[] getImages() {
 
         int[] images = {
                 R.drawable.regatas,
@@ -100,7 +100,7 @@ public class Match {
         return images;
     }
 
-    private static String[] getNames() {
+    private String[] getNames() {
 
         String[] names = {
                 "REGATAS DE AVELLANEDA",

@@ -12,6 +12,15 @@ public class Category {
     private Date[] dates;
     private String name;
     private Match match;
+    private boolean favorite;
+
+    public boolean isFavorite() {
+        return favorite;
+    }
+
+    public void setFavorite(boolean favorite) {
+        this.favorite = favorite;
+    }
 
     public Team getTeams() {
         return teams;

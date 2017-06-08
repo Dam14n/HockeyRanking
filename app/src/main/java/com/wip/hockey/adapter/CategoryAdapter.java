@@ -1,18 +1,24 @@
 package com.wip.hockey.adapter;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.google.gson.Gson;
 import com.wip.hockey.R;
 import com.wip.hockey.app.MainActivity;
 import com.wip.hockey.model.Category;
+import com.wip.hockey.model.Division;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -47,6 +53,23 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.MyView
 
         final Category currentObj = mData.get(position);
         holder.setData(currentObj,position);
+        holder.star.setOnClickListener(new View.OnClickListener(){
+
+            @Override
+            public void onClick(View v) {
+                SharedPreferences sharedPrefs = context.getSharedPreferences("Favorite", Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor = sharedPrefs.edit();
+                Gson gson = new Gson();
+                ArrayList<Category> listaDatos = new ArrayList();
+                listaDatos.add(currentObj);
+                Log.d(TAG,listaDatos.toString());
+                String json = gson.toJson(listaDatos);
+
+                editor.putString("Favorite", json);
+                editor.commit();
+                Toast.makeText(context,"funciona",Toast.LENGTH_SHORT).show();
+            }
+        });
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -63,11 +86,13 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.MyView
     class MyViewHolder extends RecyclerView.ViewHolder {
 
         TextView category;
+        ImageView star;
 
         public  MyViewHolder(View itemView) {
             super(itemView);
 
             category = (TextView) itemView.findViewById(R.id.category);
+            star = (ImageView) itemView.findViewById(R.id.favorite);
         }
 
         public void setData(Category current, int position) {

@@ -1,6 +1,7 @@
 package com.wip.hockey.adapter;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,11 +10,16 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.wip.hockey.R;
 import com.wip.hockey.app.MainActivity;
+import com.wip.hockey.model.Category;
 import com.wip.hockey.model.Division;
 import com.wip.hockey.model.NavigationDrawerItem;
 
+import java.lang.reflect.Type;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -53,7 +59,12 @@ public class NavigationDrawAdapter extends RecyclerView.Adapter<NavigationDrawAd
                 if ( holder.title.getText() == "Inicio") {
                     MainActivity.handlerFragment.setFragment(R.id.fragment_division_recycler,Division.getData());
                 }else{
-                    Toast.makeText(context, holder.title.getText().toString(), Toast.LENGTH_SHORT).show();
+                    SharedPreferences sharedPrefs = context.getSharedPreferences("Favorite", Context.MODE_PRIVATE);
+                    Gson gson = new Gson();
+                    String json = sharedPrefs.getString("Favorite" , null);
+                    Type type = new TypeToken<ArrayList<Category>>() {}.getType();
+                    ArrayList data = gson.fromJson(json, type);
+                    MainActivity.handlerFragment.setFragment(R.id.fragment_category_recycler,data);
                 }
             }
         });

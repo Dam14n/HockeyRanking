@@ -28,7 +28,6 @@
             android:layout_width="wrap_content"
             android:layout_height="fill_parent"
             android:background="#00ffffff"
-            android:onClick="buttonFavorite"
             android:src="@drawable/star"
             android:layout_alignParentRight="true"
             android:layout_alignBottom="@+id/category" />

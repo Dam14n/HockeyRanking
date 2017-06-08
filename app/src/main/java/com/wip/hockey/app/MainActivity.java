@@ -1,5 +1,7 @@
 package com.wip.hockey.app;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -8,6 +10,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
 import com.wip.hockey.R;
 import com.wip.hockey.fragment.NavigationDrawerFragment;
 import com.wip.hockey.handler.HandlerFragment;
@@ -15,7 +18,7 @@ import com.wip.hockey.model.Division;
 
 public class MainActivity extends AppCompatActivity {
 
-    private static final String TAG = MainActivity.class.getSimpleName();
+    public static final String TAG = MainActivity.class.getSimpleName();
     public static HandlerFragment handlerFragment;
     private Toolbar toolbar;
 
@@ -50,9 +53,5 @@ public class MainActivity extends AppCompatActivity {
         drawerFragment.setUpDrawer(R.id.nav_drwr_fragment,drawerLayout,toolbar);
     }
 
-
-    public void buttonFavorite(View v){
-        Toast.makeText(this,"funciona",Toast.LENGTH_SHORT).show();
-    }
 }
 
