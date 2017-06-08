@@ -20,15 +20,11 @@ import java.util.ArrayList;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class CategoryFragment extends Fragment {
+public class CategoryFragment extends BaseFragment {
 
     @BindView(R.id.fragment_category_recycler)
     RecyclerView recyclerView;
     private ArrayList<Category> content;
-
-    public CategoryFragment(ArrayList<Category> content) {
-        this.content = content;
-    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -36,7 +32,7 @@ public class CategoryFragment extends Fragment {
 
         ButterKnife.bind(this,view);
 
-        CategoryAdapter adapter = new CategoryAdapter(this.getContext(), content);
+        CategoryAdapter adapter = new CategoryAdapter(this.getContext(), getContent());
 
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getActivity().getApplicationContext());
         recyclerView.setLayoutManager(mLayoutManager);

@@ -19,6 +19,7 @@ import com.wip.hockey.R;
 import com.wip.hockey.app.MainActivity;
 import com.wip.hockey.fragment.DivisionFragment;
 import com.wip.hockey.fragment.SubDivisionFragment;
+import com.wip.hockey.handler.HandlerFragment;
 import com.wip.hockey.model.Division;
 import com.wip.hockey.model.NavigationDrawerItem;
 
@@ -59,21 +60,7 @@ public class NavigationDrawAdapter extends RecyclerView.Adapter<NavigationDrawAd
             @Override
             public void onClick(View v) {
                 if ( holder.title.getText() == "Inicio") {
-                    Bundle bundle = new Bundle();
-                    bundle.putInt("id",100);
-
-                    Fragment fragment = null;
-
-                    fragment = new DivisionFragment(Division.getData());
-                    fragment.setArguments(bundle);
-
-                    FragmentManager fragmentManager = ((FragmentActivity) context).getSupportFragmentManager();
-                    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-
-                    fragmentTransaction.replace(R.id.fragment, fragment);
-                    fragmentTransaction.addToBackStack(holder.title.getText().toString());
-
-                    fragmentTransaction.commit();
+                    MainActivity.handlerFragment.setFragment(R.id.fragment_division_recycler,Division.getData());
                 }else{
                     Toast.makeText(context, holder.title.getText().toString(), Toast.LENGTH_SHORT).show();
                 }

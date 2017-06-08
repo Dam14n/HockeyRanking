@@ -58,25 +58,7 @@ public class SubDivisionAdapter extends RecyclerView.Adapter<SubDivisionAdapter.
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                Bundle bundle = new Bundle();
-                bundle.putInt("id",200);
-
-                Fragment fragment = null;
-
-                fragment = new CategoryFragment(currentObj.getCategories().getData());
-                fragment.setArguments(bundle);
-
-                FragmentManager fragmentManager = ((FragmentActivity) context).getSupportFragmentManager();
-                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-
-                fragmentTransaction.replace(R.id.fragment, fragment);
-                fragmentTransaction.addToBackStack("Category "+holder.subDivision.getText().toString());
-
-                fragmentTransaction.commit();
-
-
-
+                MainActivity.handlerFragment.setFragment(R.id.fragment_category_recycler,currentObj.getCategories().getData());
             }
         });
     }

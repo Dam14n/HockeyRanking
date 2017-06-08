@@ -1,5 +1,6 @@
 package com.wip.hockey.fragment;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -9,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsSeekBar;
 import android.widget.Toast;
 
 import com.wip.hockey.R;
@@ -20,15 +22,10 @@ import java.util.ArrayList;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class DivisionFragment extends Fragment {
+public class DivisionFragment extends BaseFragment {
 
     @BindView(R.id.fragment_division_recycler)
     RecyclerView recyclerView;
-    private ArrayList<Division> content;
-
-    public DivisionFragment(ArrayList<Division> content) {
-        this.content = content;
-    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -36,17 +33,19 @@ public class DivisionFragment extends Fragment {
 
         ButterKnife.bind(this,view);
 
-        DivisionAdapter adapter = new DivisionAdapter(this.getContext(), content);
+        DivisionAdapter adapter = new DivisionAdapter(this.getContext(), getContent());
 
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getActivity().getApplicationContext());
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(adapter);
 
-
         return view;
     }
 
+    public ArrayList getContent(){
+        return Division.getData();
+    }
 
     protected int getLayoutResourceId() {
         return R.layout.fragment_list_division;

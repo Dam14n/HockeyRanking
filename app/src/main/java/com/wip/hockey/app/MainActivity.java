@@ -19,11 +19,13 @@ import com.wip.hockey.R;
 import com.wip.hockey.adapter.DivisionAdapter;
 import com.wip.hockey.fragment.DivisionFragment;
 import com.wip.hockey.fragment.NavigationDrawerFragment;
+import com.wip.hockey.handler.HandlerFragment;
 import com.wip.hockey.model.Division;
 
 public class MainActivity extends AppCompatActivity {
 
     private static final String TAG = MainActivity.class.getSimpleName();
+    public static HandlerFragment handlerFragment;
     private Toolbar toolbar;
 
     @Override
@@ -38,23 +40,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setUpFragment() {
-        Bundle bundle = new Bundle();
-        bundle.putInt("id",0);
-
-        Class fragmentClass = DivisionFragment.class;
-
-        Fragment fragment = null;
-
-        fragment = new DivisionFragment(Division.getData());
-        fragment.setArguments(bundle);
-
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-
-        fragmentTransaction.replace(R.id.fragment, fragment);
-
-        fragmentTransaction.commit();
-
+        handlerFragment = new HandlerFragment(this);
+        handlerFragment.setFragment(R.id.fragment_division_recycler,Division.getData());
     }
 
     private void setUpToolbar(){

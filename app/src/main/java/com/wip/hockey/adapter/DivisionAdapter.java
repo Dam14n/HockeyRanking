@@ -60,25 +60,7 @@ public class DivisionAdapter extends RecyclerView.Adapter<DivisionAdapter.MyView
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                Bundle bundle = new Bundle();
-                bundle.putInt("id",100);
-
-                Fragment fragment = null;
-
-                fragment = new SubDivisionFragment(currentObj.getSubDivision().getData());
-                fragment.setArguments(bundle);
-
-                FragmentManager fragmentManager = ((FragmentActivity) context).getSupportFragmentManager();
-                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-
-                fragmentTransaction.replace(R.id.fragment, fragment);
-                fragmentTransaction.addToBackStack("Subdivision"+holder.division.getText().toString());
-
-                fragmentTransaction.commit();
-
-
-
+                MainActivity.handlerFragment.setFragment(R.id.fragment_sub_division_recycler,currentObj.getSubDivision().getData());
             }
         });
     }
