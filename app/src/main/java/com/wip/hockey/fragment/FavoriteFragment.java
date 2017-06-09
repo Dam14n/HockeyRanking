@@ -13,7 +13,6 @@ import android.view.ViewGroup;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.wip.hockey.R;
-import com.wip.hockey.adapter.CategoryAdapter;
 import com.wip.hockey.adapter.FavoriteAdapter;
 import com.wip.hockey.model.Category;
 

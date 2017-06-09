@@ -1,7 +1,6 @@
 package com.wip.hockey.adapter;
 
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,16 +9,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 import com.wip.hockey.R;
 import com.wip.hockey.app.MainActivity;
-import com.wip.hockey.model.Category;
-import com.wip.hockey.model.Division;
 import com.wip.hockey.model.NavigationDrawerItem;
 
-import java.lang.reflect.Type;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
