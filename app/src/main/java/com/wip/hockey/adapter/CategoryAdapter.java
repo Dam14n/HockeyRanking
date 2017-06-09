@@ -69,6 +69,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.MyView
                     MainActivity.favoriteManager.deleteFavorite(currentObj);
                     holder.star.setImageResource(R.drawable.button_normal);
                 }else {
+                    //4616
                     currentObj.setFavorite(true);
                     MainActivity.favoriteManager.saveFavorite(currentObj);
                     holder.star.setImageResource(R.drawable.button_pressed);
@@ -78,7 +79,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.MyView
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                MainActivity.handlerFragment.setFragment(R.id.fragment_match_recycler,currentObj.getMatch().getData());
+                MainActivity.handlerFragment.setFragment(R.id.fragment_match_recycler,MainActivity.repository.getMatches(currentObj));
             }
         });
     }

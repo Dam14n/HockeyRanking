@@ -50,7 +50,7 @@ public class DivisionAdapter extends RecyclerView.Adapter<DivisionAdapter.MyView
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                MainActivity.handlerFragment.setFragment(R.id.fragment_sub_division_recycler,currentObj.getSubDivision().getData());
+                MainActivity.handlerFragment.setFragment(R.id.fragment_sub_division_recycler,MainActivity.repository.getSubDivisions(currentObj));
             }
         });
     }

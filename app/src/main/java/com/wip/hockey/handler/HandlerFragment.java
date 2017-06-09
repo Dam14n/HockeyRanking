@@ -5,9 +5,11 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 
 import com.wip.hockey.R;
 import com.wip.hockey.adapter.DivisionAdapter;
+import com.wip.hockey.app.MainActivity;
 import com.wip.hockey.fragment.BaseFragment;
 import com.wip.hockey.fragment.CategoryFragment;
 import com.wip.hockey.fragment.DivisionFragment;
@@ -58,26 +60,32 @@ public class HandlerFragment {
         switch (id){
             case R.id.fragment_division_recycler:
                 fragment = new DivisionFragment();
+                Log.d(MainActivity.TAG,"La data es: "+mData);
                 fragment.setContent(mData);
                 break;
             case R.id.fragment_sub_division_recycler:
                 fragment = new SubDivisionFragment();
+                Log.d(MainActivity.TAG,"La data es: "+mData);
                 fragment.setContent(mData);
                 break;
             case R.id.fragment_category_recycler:
                 fragment = new CategoryFragment();
+                Log.d(MainActivity.TAG,"La data es: "+mData);
                 fragment.setContent(mData);
                 break;
             case R.id.fragment_match_recycler:
                 fragment = new MatchFragment();
+                Log.d(MainActivity.TAG,"La data es: "+mData);
                 fragment.setContent(mData);
                 break;
             case R.id.fragment_favorite_recycler:
                 fragment = new FavoriteFragment();
+                Log.d(MainActivity.TAG,"La data es: "+mData);
                 fragment.setContent(mData);
                 break;
             default:
                 fragment = new DivisionFragment();
+                Log.d(MainActivity.TAG,"La data es: "+mData);
                 fragment.setContent(mData);
         }
         return fragment;

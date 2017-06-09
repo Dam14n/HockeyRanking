@@ -39,10 +39,6 @@ public class DivisionFragment extends BaseFragment {
         return view;
     }
 
-    public ArrayList getContent(){
-        return Division.getData();
-    }
-
     protected int getLayoutResourceId() {
         return R.layout.fragment_list_division;
     }

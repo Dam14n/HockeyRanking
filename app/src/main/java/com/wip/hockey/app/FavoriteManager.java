@@ -27,8 +27,11 @@ public class FavoriteManager {
     public void deleteFavorite(Category category){
         SharedPreferences sharedPrefs = context.getSharedPreferences("Favorite", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPrefs.edit();
-        ArrayList data = getData(sharedPrefs);
-        data.remove(category);
+        ArrayList<Category> data = getData(sharedPrefs);
+        Category cat = exist(data,category);
+        if( cat != null){
+            data.remove(cat);
+        }
         Gson gson = new Gson();
         String json = gson.toJson(data);
         editor.putString("Favorite", json);
@@ -37,10 +40,20 @@ public class FavoriteManager {
 
     }
 
+    public Category exist(ArrayList<Category> data, Category category){
+        for (Category cat: data) {
+            if (cat.getId().equals(category.getId())){
+                return cat;
+            }
+
+        }
+        return null;
+    }
+
     public void saveFavorite(Category category){
         SharedPreferences sharedPrefs = context.getSharedPreferences("Favorite", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPrefs.edit();
-        ArrayList data = getData(sharedPrefs);
+        ArrayList<Category> data = getData(sharedPrefs);
         data.add(category);
         Gson gson = new Gson();
         String json = gson.toJson(data);
@@ -58,5 +71,17 @@ public class FavoriteManager {
         Type type = new TypeToken<ArrayList<Category>>() {}.getType();
         ArrayList data = gson.fromJson(json, type);
         return data;
+    }
+
+    public void removeAll() {
+        SharedPreferences sharedPrefs = context.getSharedPreferences("Favorite", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPrefs.edit();
+        ArrayList<Category> data = getData(sharedPrefs);
+        data.clear();
+        Gson gson = new Gson();
+        String json = gson.toJson(data);
+        editor.putString("Favorite", json);
+        editor.commit();
+        Log.d(MainActivity.TAG,data.toString());
     }
 }
