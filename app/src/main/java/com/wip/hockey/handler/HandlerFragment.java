@@ -99,7 +99,7 @@ public class HandlerFragment {
         }*/
     }
 
-    public void updateFragment(int id) {
+    public void updateFragment() {
         FragmentTransaction fragmentTransaction = context.getSupportFragmentManager().beginTransaction();
         fragmentTransaction.detach(fragment);
         fragmentTransaction.attach(fragment);
