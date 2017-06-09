@@ -8,11 +8,20 @@ import java.util.ArrayList;
 
 public class Category {
 
+    private String id;
     private Team teams;
     private Date[] dates;
     private String name;
-    private Match match;
+    private ArrayList<Match> match;
     private boolean favorite;
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
 
     public boolean isFavorite() {
         return favorite;
@@ -26,11 +35,11 @@ public class Category {
         return teams;
     }
 
-    public Match getMatch() {
+    public ArrayList<Match> getMatch() {
         return match;
     }
 
-    public void setMatch(Match match) {
+    public void setMatch(ArrayList<Match> match) {
         this.match = match;
     }
 
@@ -54,31 +63,4 @@ public class Category {
         this.name = name;
     }
 
-    public ArrayList<Category> getData(){
-        ArrayList<Category> dataList = new ArrayList<>();
-        String[] names = getNames();
-
-        for (int i = 0 ; i < names.length ; i++){
-            Category category = new Category();
-
-            Match match = new Match();
-
-            category.setMatch(match);
-            category.setName(names[i]);
-
-            dataList.add(category);
-        }
-
-        return dataList;
-    }
-
-    private String[] getNames() {
-
-        String[] names = {
-                "Primera",
-                "Intermedia"
-        };
-
-        return names;
-    }
 }

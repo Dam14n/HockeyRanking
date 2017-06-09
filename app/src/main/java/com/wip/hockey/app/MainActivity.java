@@ -8,23 +8,25 @@ import com.wip.hockey.R;
 import com.wip.hockey.fragment.NavigationDrawerFragment;
 import com.wip.hockey.handler.HandlerFragment;
 import com.wip.hockey.model.Division;
+import com.wip.hockey.repository.Repository;
 
 public class MainActivity extends AppCompatActivity {
 
     public static final String TAG = MainActivity.class.getSimpleName();
     public static HandlerFragment handlerFragment;
     public static FavoriteManager favoriteManager;
+    public static Repository repository;
     private Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        repository = new Repository();
         setContentView(R.layout.activity_main);
         setUpToolbar();
         setUpDrawer();
         setUpFragment();
         setUpFavorite();
-
     }
 
     private void setUpFavorite() {
@@ -33,7 +35,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void setUpFragment() {
         handlerFragment = new HandlerFragment(this);
-        handlerFragment.setFragment(R.id.fragment_division_recycler,Division.getData());
+        handlerFragment.setFragment(R.id.fragment_division_recycler,repository.getDivisions());
     }
 
     private void setUpToolbar(){
