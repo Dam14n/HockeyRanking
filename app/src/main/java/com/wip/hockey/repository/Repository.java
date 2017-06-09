@@ -195,4 +195,17 @@ public class Repository {
         }
         return null;
     }
+
+    public ArrayList<Match> getMatches(long id) {
+        for (Division div: divisions ) {
+            for (SubDivision sub : div.getSubDivision()){
+                for (Category cat : sub.getCategories()){
+                    if (cat.getId() == id) {
+                        return cat.getMatch();
+                    }
+                }
+            }
+        }
+        return new ArrayList<>();
+    }
 }
