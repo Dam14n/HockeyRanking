@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 
 import com.wip.hockey.R;
 import com.wip.hockey.adapter.DivisionAdapter;
+import com.wip.hockey.handler.HandlerFragment;
 import com.wip.hockey.model.Division;
 
 import java.util.ArrayList;

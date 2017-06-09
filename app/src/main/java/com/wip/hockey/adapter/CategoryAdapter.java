@@ -13,11 +13,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.wip.hockey.R;
 import com.wip.hockey.app.MainActivity;
 import com.wip.hockey.model.Category;
 import com.wip.hockey.model.Division;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -57,17 +59,17 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.MyView
 
             @Override
             public void onClick(View v) {
-                SharedPreferences sharedPrefs = context.getSharedPreferences("Favorite", Context.MODE_PRIVATE);
-                SharedPreferences.Editor editor = sharedPrefs.edit();
-                Gson gson = new Gson();
-                ArrayList<Category> listaDatos = new ArrayList();
-                listaDatos.add(currentObj);
-                Log.d(TAG,listaDatos.toString());
-                String json = gson.toJson(listaDatos);
-
-                editor.putString("Favorite", json);
-                editor.commit();
-                Toast.makeText(context,"funciona",Toast.LENGTH_SHORT).show();
+                if (currentObj.isFavorite()){
+                    currentObj.setFavorite(false);
+                    deleteFavorite(currentObj);
+                    holder.star.setImageResource(R.drawable.button_normal);
+                    Toast.makeText(context,"La categoria se ha eliminado de Favoritos",Toast.LENGTH_SHORT).show();
+                }else {
+                    currentObj.setFavorite(true);
+                    saveFavorite(currentObj);
+                    holder.star.setImageResource(R.drawable.button_pressed);
+                    Toast.makeText(context,"La categoria se ha agregado a Favoritos",Toast.LENGTH_SHORT).show();
+                }
             }
         });
         holder.itemView.setOnClickListener(new View.OnClickListener() {
@@ -76,6 +78,25 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.MyView
                 MainActivity.handlerFragment.setFragment(R.id.fragment_match_recycler,currentObj.getMatch().getData());
             }
         });
+    }
+
+    public void deleteFavorite(Category category){
+        SharedPreferences sharedPrefs = context.getSharedPreferences("Favorite", Context.MODE_PRIVATE);
+        Gson gson = new Gson();
+        String json = sharedPrefs.getString("Favorite" , null);
+        Type type = new TypeToken<ArrayList<Category>>() {}.getType();
+        ArrayList data = gson.fromJson(json, type);
+    }
+
+    public void saveFavorite(Category category){
+        SharedPreferences sharedPrefs = context.getSharedPreferences("Favorite", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPrefs.edit();
+        Gson gson = new Gson();
+        ArrayList<Category> listaDatos = new ArrayList();
+        listaDatos.add(category);
+        String json = gson.toJson(listaDatos);
+        editor.putString("Favorite", json);
+        editor.commit();
     }
 
     @Override

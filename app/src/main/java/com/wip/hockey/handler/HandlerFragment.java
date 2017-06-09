@@ -6,6 +6,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 
 import com.wip.hockey.R;
+import com.wip.hockey.adapter.DivisionAdapter;
 import com.wip.hockey.fragment.BaseFragment;
 import com.wip.hockey.fragment.CategoryFragment;
 import com.wip.hockey.fragment.DivisionFragment;
@@ -53,7 +54,6 @@ public class HandlerFragment {
             lastId = id;
             fragmentTransaction.commit();
         }
-
     }
 
     public BaseFragment getFragment(int id) {
