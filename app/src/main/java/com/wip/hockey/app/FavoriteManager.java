@@ -42,7 +42,7 @@ public class FavoriteManager {
 
     public Category exist(ArrayList<Category> data, Category category){
         for (Category cat: data) {
-            if (cat.getId().equals(category.getId())){
+            if (cat.getId() == category.getId()){
                 return cat;
             }
 

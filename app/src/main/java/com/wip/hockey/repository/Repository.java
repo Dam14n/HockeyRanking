@@ -8,6 +8,8 @@ import com.wip.hockey.model.SubDivision;
 import com.wip.hockey.model.Team;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.TimeZone;
 
 /**
@@ -53,7 +55,9 @@ public class Repository {
 
         for (int i = 0 ; i < names.length ; i++){
             Category category  = new Category();
-            category.setId(TimeZone.getDefault().toString());
+            Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("GMT"));
+            long time = cal.getTimeInMillis();
+            category.setId(time);
             category.setName(names[i]);
             category.setMatch(createMatches());
             categories.add(category);
@@ -177,5 +181,18 @@ public class Repository {
             }
         }
         return new ArrayList();
+    }
+
+    public Category removeFavorite(long id) {
+        for (Division div: divisions ) {
+            for (SubDivision sub : div.getSubDivision()){
+                for (Category cat : sub.getCategories()){
+                    if (cat.getId() == id) {
+                        return cat;
+                    }
+                }
+            }
+        }
+        return null;
     }
 }

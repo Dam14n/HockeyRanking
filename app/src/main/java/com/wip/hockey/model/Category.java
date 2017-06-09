@@ -8,18 +8,18 @@ import java.util.ArrayList;
 
 public class Category {
 
-    private String id;
+    private long id;
     private Team teams;
     private Date[] dates;
     private String name;
     private ArrayList<Match> match;
     private boolean favorite;
 
-    public String getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(long id) {
         this.id = id;
     }
 
