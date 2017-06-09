@@ -10,13 +10,14 @@ import android.view.ViewGroup;
 
 import com.wip.hockey.R;
 import com.wip.hockey.adapter.CategoryAdapter;
+import com.wip.hockey.adapter.FavoriteAdapter;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class FavoriteFragment extends BaseFragment {
 
-    @BindView(R.id.fragment_category_recycler)
+    @BindView(R.id.fragment_favorite_recycler)
     RecyclerView recyclerView;
 
     @Override
@@ -25,7 +26,7 @@ public class FavoriteFragment extends BaseFragment {
 
         ButterKnife.bind(this,view);
 
-        CategoryAdapter adapter = new CategoryAdapter(this.getContext(), getContent());
+        FavoriteAdapter adapter = new FavoriteAdapter(this.getContext(), getContent());
 
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getActivity().getApplicationContext());
         recyclerView.setLayoutManager(mLayoutManager);
@@ -38,6 +39,6 @@ public class FavoriteFragment extends BaseFragment {
 
 
     protected int getLayoutResourceId() {
-        return R.layout.fragment_list_category;
+        return R.layout.fragment_list_favorite;
     }
 }

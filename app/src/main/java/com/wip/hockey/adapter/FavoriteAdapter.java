@@ -17,7 +17,6 @@ import com.google.gson.reflect.TypeToken;
 import com.wip.hockey.R;
 import com.wip.hockey.app.MainActivity;
 import com.wip.hockey.model.Category;
-import com.wip.hockey.model.Division;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
@@ -27,15 +26,15 @@ import java.util.List;
  * Created by djorda on 11/05/2017.
  */
 
-public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.MyViewHolder> {
+public class FavoriteAdapter extends RecyclerView.Adapter<FavoriteAdapter.MyViewHolder> {
 
-    private static final String TAG = CategoryAdapter.class.getSimpleName();
+    private static final String TAG = FavoriteAdapter.class.getSimpleName();
     private List<Category> mData;
     private LayoutInflater mInflater;
     private Context context;
     private Fragment fragment;
 
-    public CategoryAdapter(Context context, List<Category> data){
+    public FavoriteAdapter(Context context, List<Category> data){
         this.context = context;
         this.mData = data;
         this.mInflater = LayoutInflater.from(context);
@@ -44,7 +43,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.MyView
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         Log.d(TAG, "onCreateViewHolder");
-        ViewGroup row = (ViewGroup) mInflater.inflate(R.layout.list_item_category,parent,false);
+        ViewGroup row = (ViewGroup) mInflater.inflate(R.layout.list_item_favorite,parent,false);
         MyViewHolder holder = new MyViewHolder(row);
         return holder;
     }
@@ -55,24 +54,13 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.MyView
 
         final Category currentObj = mData.get(position);
         holder.setData(currentObj,position);
-
-        Log.d(TAG,"El objeto "+currentObj.getName()+" es favorito: "+currentObj.isFavorite());
-        if(currentObj.isFavorite()){
-            holder.star.setImageResource(R.drawable.button_pressed);
-        }
+        holder.star.setImageResource(R.drawable.button_pressed);
         holder.star.setOnClickListener(new View.OnClickListener(){
-
             @Override
             public void onClick(View v) {
-                if (currentObj.isFavorite()){
-                    currentObj.setFavorite(false);
-                    MainActivity.favoriteManager.deleteFavorite(currentObj);
-                    holder.star.setImageResource(R.drawable.button_normal);
-                }else {
-                    currentObj.setFavorite(true);
-                    MainActivity.favoriteManager.saveFavorite(currentObj);
-                    holder.star.setImageResource(R.drawable.button_pressed);
-                }
+                currentObj.setFavorite(false);
+                MainActivity.favoriteManager.deleteFavorite(currentObj);
+                MainActivity.handlerFragment.updateFragment(R.id.fragment_favorite_recycler);
             }
         });
         holder.itemView.setOnClickListener(new View.OnClickListener() {
@@ -96,7 +84,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.MyView
         public  MyViewHolder(View itemView) {
             super(itemView);
 
-            category = (TextView) itemView.findViewById(R.id.category);
+            category = (TextView) itemView.findViewById(R.id.category_favorite);
             star = (ImageView) itemView.findViewById(R.id.favorite);
         }
 

@@ -1,6 +1,7 @@
 package com.wip.hockey.handler;
 
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -24,7 +25,6 @@ public class HandlerFragment {
 
     private FragmentActivity context;
     private ArrayList mData;
-    private int lastId;
     private boolean firstCall = true;
 
     public HandlerFragment(FragmentActivity context) {
@@ -43,17 +43,14 @@ public class HandlerFragment {
         FragmentManager fragmentManager = context.getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
-        if (lastId != id) {
-            if (!firstCall){
-                fragmentTransaction.replace(R.id.fragment, fragment);
-                fragmentTransaction.addToBackStack("id:" + id);
-            }else{
-                fragmentTransaction.replace(R.id.fragment, fragment);
-                firstCall = false;
-            }
-            lastId = id;
-            fragmentTransaction.commit();
+        if (!firstCall){
+            fragmentTransaction.replace(R.id.fragment, fragment);
+            fragmentTransaction.addToBackStack("id:" + id);
+        }else{
+            fragmentTransaction.replace(R.id.fragment, fragment);
+            firstCall = false;
         }
+        fragmentTransaction.commit();
     }
 
     public BaseFragment getFragment(int id) {
@@ -84,5 +81,21 @@ public class HandlerFragment {
                 fragment.setContent(mData);
         }
         return fragment;
+    }
+
+    public void onBackPressed() {
+       /* if (getFragmentManager().getBackStackEntryCount() > 0) {
+            getFragmentManager().popBackStack();
+        } else {
+            super.onBackPressed();
+        }*/
+    }
+
+    public void updateFragment(int id) {
+        BaseFragment fragment = getFragment(id);
+        FragmentTransaction fragmentTransaction = context.getSupportFragmentManager().beginTransaction();
+        fragmentTransaction.detach(fragment);
+        fragmentTransaction.attach(fragment);
+        fragmentTransaction.commit();
     }
 }

@@ -4,7 +4,6 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import com.wip.hockey.R;
 import com.wip.hockey.fragment.NavigationDrawerFragment;
 import com.wip.hockey.handler.HandlerFragment;
@@ -14,6 +13,7 @@ public class MainActivity extends AppCompatActivity {
 
     public static final String TAG = MainActivity.class.getSimpleName();
     public static HandlerFragment handlerFragment;
+    public static FavoriteManager favoriteManager;
     private Toolbar toolbar;
 
     @Override
@@ -23,7 +23,12 @@ public class MainActivity extends AppCompatActivity {
         setUpToolbar();
         setUpDrawer();
         setUpFragment();
+        setUpFavorite();
 
+    }
+
+    private void setUpFavorite() {
+        favoriteManager = new FavoriteManager(this);
     }
 
     private void setUpFragment() {
@@ -44,5 +49,10 @@ public class MainActivity extends AppCompatActivity {
         drawerFragment.setUpDrawer(R.id.nav_drwr_fragment,drawerLayout,toolbar);
     }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        handlerFragment.onBackPressed();
+    }
 }
 

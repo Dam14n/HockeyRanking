@@ -1,9 +1,6 @@
 package com.wip.hockey.fragment;
 
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.RecyclerView;
-
-import com.wip.hockey.interfaces.Listable;
 
 import java.util.ArrayList;
 
