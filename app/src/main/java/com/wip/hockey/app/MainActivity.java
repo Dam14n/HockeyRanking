@@ -1,5 +1,6 @@
 package com.wip.hockey.app;
 
+import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -27,6 +28,8 @@ public class MainActivity extends AppCompatActivity {
         setUpDrawer();
         setUpFragment();
         setUpFavorite();
+        //This line must be removed when Database will be determined
+        MainActivity.favoriteManager.removeAll();
     }
 
     private void setUpFavorite() {

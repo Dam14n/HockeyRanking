@@ -183,7 +183,7 @@ public class Repository {
         return new ArrayList();
     }
 
-    public Category removeFavorite(long id) {
+    public Category getCategory(long id) {
         for (Division div: divisions ) {
             for (SubDivision sub : div.getSubDivision()){
                 for (Category cat : sub.getCategories()){

@@ -52,7 +52,7 @@ public class FavoriteAdapter extends RecyclerView.Adapter<FavoriteAdapter.MyView
         holder.star.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-                MainActivity.repository.removeFavorite(currentObj.getId()).setFavorite(false);
+                MainActivity.repository.getCategory(currentObj.getId()).setFavorite(false);
                 MainActivity.favoriteManager.deleteFavorite(currentObj);
                 MainActivity.handlerFragment.updateFragment();
             }

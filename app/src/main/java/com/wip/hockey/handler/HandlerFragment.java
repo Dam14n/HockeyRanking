@@ -1,6 +1,7 @@
 package com.wip.hockey.handler;
 
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -16,6 +17,7 @@ import com.wip.hockey.fragment.MatchFragment;
 import com.wip.hockey.fragment.SubDivisionFragment;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * Created by djorda on 08/06/2017.
@@ -26,23 +28,19 @@ public class HandlerFragment {
     private FragmentActivity context;
     private ArrayList mData;
     private boolean firstCall = true;
-    private int lastId;
     private BaseFragment fragment;
+    private HashMap<Integer,BaseFragment> listFragments;
 
     public HandlerFragment(FragmentActivity context) {
         this.context = context;
+        this.listFragments = new HashMap();
     }
 
     public void setFragment(int id,ArrayList data) {
         mData = data;
 
-        if (lastId != id) {
-            fragment = getFragment(id);
-        }
-        Bundle bundle = new Bundle();
-        bundle.putInt("id",id);
-        fragment.setArguments(bundle);
-
+        fragment = getFragment(id);
+        setDataFragment();
         FragmentManager fragmentManager = context.getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
@@ -56,28 +54,31 @@ public class HandlerFragment {
         fragmentTransaction.commit();
     }
 
+    private void setDataFragment() {
+        this.fragment.setContent(mData);
+    }
+
     public BaseFragment getFragment(int id) {
+        if(listFragments.containsKey(id)){
+            return listFragments.get(id);
+        }
         BaseFragment fragment = null;
         switch (id){
             case R.id.fragment_division_recycler:
                 fragment = new DivisionFragment();
                 Log.d(MainActivity.TAG,"La data es: "+mData);
-                fragment.setContent(mData);
                 break;
             case R.id.fragment_sub_division_recycler:
                 fragment = new SubDivisionFragment();
                 Log.d(MainActivity.TAG,"La data es: "+mData);
-                fragment.setContent(mData);
                 break;
             case R.id.fragment_category_recycler:
                 fragment = new CategoryFragment();
                 Log.d(MainActivity.TAG,"La data es: "+mData);
-                fragment.setContent(mData);
                 break;
             case R.id.fragment_match_recycler:
                 fragment = new MatchFragment();
                 Log.d(MainActivity.TAG,"La data es: "+mData);
-                fragment.setContent(mData);
                 break;
             case R.id.fragment_favorite_recycler:
                 fragment = new FavoriteFragment();
@@ -86,17 +87,20 @@ public class HandlerFragment {
             default:
                 fragment = new DivisionFragment();
                 Log.d(MainActivity.TAG,"La data es: "+mData);
-                fragment.setContent(mData);
         }
+        Bundle bundle = new Bundle();
+        bundle.putInt("id",id);
+        fragment.setArguments(bundle);
+        listFragments.put(id,fragment);
         return fragment;
     }
 
     public void onBackPressed() {
-       /* if (getFragmentManager().getBackStackEntryCount() > 0) {
-            getFragmentManager().popBackStack();
-        } else {
-            super.onBackPressed();
-        }*/
+        for (BaseFragment fragment: listFragments.values()) {
+            if(fragment!= null && fragment.isVisible()){
+                this.fragment = fragment;
+            }
+        }
     }
 
     public void updateFragment() {
