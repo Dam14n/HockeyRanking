@@ -53,10 +53,10 @@ public class NavigationDrawAdapter extends RecyclerView.Adapter<NavigationDrawAd
                     case "Inicio":
                         MainActivity.handlerFragment.setFragment(R.id.fragment_division_recycler,MainActivity.repository.getDivisions());
                         break;
-                    case "Favorites":
+                    case "Favoritos":
                         MainActivity.handlerFragment.setFragment(R.id.fragment_favorite_recycler,null);
                         break;
-                    case "Remove Favorites":
+                    case "Borrar Favoritos":
                         MainActivity.favoriteManager.removeAll();
                         MainActivity.handlerFragment.updateFragment();
                         Toast.makeText(context,"Se han removido todos los favoritos!!",Toast.LENGTH_SHORT).show();

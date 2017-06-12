@@ -49,8 +49,10 @@ public class NavigationDrawerItem {
 
         return new int[]{
                 R.drawable.images_1,
-                R.drawable.images_2,
-                R.drawable.images_3
+                R.drawable.images_1,
+                R.drawable.images_1,
+                R.drawable.images_1,
+                R.drawable.images_1
         };
     }
 
@@ -58,8 +60,10 @@ public class NavigationDrawerItem {
 
         return  new String[]{
                 "Inicio",
-                "Favorites",
-                "Remove Favorites"
+                "Fixture",
+                "Posiciones",
+                "Favoritos",
+                "Borrar Favoritos"
         };
     }
 }

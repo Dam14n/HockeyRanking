@@ -14,6 +14,15 @@ public class Category {
     private String name;
     private ArrayList<Match> match;
     private boolean favorite;
+    private long subDivision;
+
+    public long getSubDivision() {
+        return subDivision;
+    }
+
+    public void setSubDivision(long subDivision) {
+        this.subDivision = subDivision;
+    }
 
     public long getId() {
         return id;

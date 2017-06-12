@@ -69,7 +69,6 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.MyView
                     MainActivity.favoriteManager.deleteFavorite(currentObj);
                     holder.star.setImageResource(R.drawable.button_normal);
                 }else {
-                    //4616
                     currentObj.setFavorite(true);
                     MainActivity.favoriteManager.saveFavorite(currentObj);
                     holder.star.setImageResource(R.drawable.button_pressed);

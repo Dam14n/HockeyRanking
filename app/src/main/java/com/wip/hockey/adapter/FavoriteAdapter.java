@@ -13,6 +13,7 @@ import android.widget.TextView;
 import com.wip.hockey.R;
 import com.wip.hockey.app.MainActivity;
 import com.wip.hockey.model.Category;
+import com.wip.hockey.model.SubDivision;
 
 import java.util.List;
 
@@ -84,8 +85,8 @@ public class FavoriteAdapter extends RecyclerView.Adapter<FavoriteAdapter.MyView
 
         public void setData(Category current, int position) {
             Log.d(TAG, "Category: " + current.getName());
-
-            this.category.setText(current.getName());
+            SubDivision subDivision = MainActivity.repository.getSubDivision(current.getSubDivision());
+            this.category.setText(subDivision.getName()+": " + current.getName());
          }
 
     }
