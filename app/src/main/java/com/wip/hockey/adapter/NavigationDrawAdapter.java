@@ -11,7 +11,6 @@ import android.widget.Toast;
 
 import com.wip.hockey.R;
 import com.wip.hockey.app.MainActivity;
-import com.wip.hockey.model.Division;
 import com.wip.hockey.model.NavigationDrawerItem;
 
 import java.util.Collections;
@@ -50,10 +49,20 @@ public class NavigationDrawAdapter extends RecyclerView.Adapter<NavigationDrawAd
 
             @Override
             public void onClick(View v) {
-                if ( holder.title.getText() == "Inicio") {
-                    MainActivity.handlerFragment.setFragment(R.id.fragment_division_recycler,Division.getData());
-                }else{
-                    Toast.makeText(context, holder.title.getText().toString(), Toast.LENGTH_SHORT).show();
+                switch (holder.title.getText().toString()){
+                    case "Inicio":
+                        MainActivity.handlerFragment.setFragment(R.id.fragment_division_recycler,MainActivity.repository.getDivisions());
+                        break;
+                    case "Favorites":
+                        MainActivity.handlerFragment.setFragment(R.id.fragment_favorite_recycler,null);
+                        break;
+                    case "Remove Favorites":
+                        MainActivity.favoriteManager.removeAll();
+                        MainActivity.handlerFragment.updateFragment();
+                        Toast.makeText(context,"Se han removido todos los favoritos!!",Toast.LENGTH_SHORT).show();
+                        break;
+                    default:
+                        break;
                 }
             }
         });

@@ -8,13 +8,8 @@ import java.util.ArrayList;
 
 public class SubDivision {
 
-    private Category categories;
+    private ArrayList<Category> categories;
     private String name;
-    private String division;
-
-    public SubDivision(String division) {
-        this.division = division;
-    }
 
     public String getName() {
         return name;
@@ -24,40 +19,12 @@ public class SubDivision {
         this.name = name;
     }
 
-    public Category getCategories() {
+    public ArrayList<Category> getCategories() {
         return categories;
     }
 
-    public void setCategories(Category categories) {
+    public void setCategories(ArrayList<Category> categories) {
         this.categories = categories;
     }
 
-    public ArrayList<SubDivision> getData(){
-        ArrayList<SubDivision> dataList = new ArrayList<>();
-        String[] names = getNames();
-
-        for (int i = 0 ; i < names.length ; i++){
-            SubDivision subDivision = new SubDivision(names[i]);
-
-            Category category = new Category();
-
-            subDivision.setCategories(category);
-            subDivision.setName(names[i]);
-
-            dataList.add(subDivision);
-        }
-
-        return dataList;
-    }
-
-    private String[] getNames() {
-
-        String[] names = {
-                division + "1",
-                division + "2",
-                division + "3"
-        };
-
-        return names;
-    }
 }

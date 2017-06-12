@@ -50,7 +50,7 @@ public class SubDivisionAdapter extends RecyclerView.Adapter<SubDivisionAdapter.
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                MainActivity.handlerFragment.setFragment(R.id.fragment_category_recycler,currentObj.getCategories().getData());
+                MainActivity.handlerFragment.setFragment(R.id.fragment_category_recycler,MainActivity.repository.getCategories(currentObj));
             }
         });
     }
