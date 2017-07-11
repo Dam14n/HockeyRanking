@@ -10,10 +10,17 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.wip.hockey.R;
+import com.wip.hockey.api.ApiRealState;
+import com.wip.hockey.api.ServiceApi;
 import com.wip.hockey.app.MainActivity;
+import com.wip.hockey.model.Category;
 import com.wip.hockey.model.SubDivision;
 
 import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * Created by djorda on 11/05/2017.
@@ -50,7 +57,18 @@ public class SubDivisionAdapter extends RecyclerView.Adapter<SubDivisionAdapter.
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                MainActivity.handlerFragment.setFragment(R.id.fragment_category_recycler,MainActivity.repository.getCategories(currentObj));
+                ServiceApi serviceApi = ApiRealState.getInstance();
+                serviceApi.getCategoriesBySubDivision(new Callback<List<Category>>() {
+                    @Override
+                    public void onResponse(Call<List<Category>> call, Response<List<Category>> response) {
+                        MainActivity.handlerFragment.setFragment(R.id.fragment_category_recycler,response.body());
+                    }
+
+                    @Override
+                    public void onFailure(Call<List<Category>> call, Throwable t) {
+                        System.out.println(t.getMessage());
+                    }
+                },currentObj.getId());
             }
         });
     }

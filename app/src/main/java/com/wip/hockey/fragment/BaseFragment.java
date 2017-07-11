@@ -2,7 +2,7 @@ package com.wip.hockey.fragment;
 
 import android.support.v4.app.Fragment;
 
-import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by djorda on 08/06/2017.
@@ -11,13 +11,13 @@ import java.util.ArrayList;
 public class BaseFragment extends Fragment {
 
 
-    private ArrayList content;
+    private List content;
 
-    public ArrayList getContent(){
+    public List getContent(){
         return this.content;
     }
 
-    public void setContent(ArrayList content){
+    public void setContent(List content){
         this.content = content;
     };
 

@@ -10,11 +10,18 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.wip.hockey.R;
+import com.wip.hockey.api.ApiRealState;
+import com.wip.hockey.api.ServiceApi;
 import com.wip.hockey.app.MainActivity;
+import com.wip.hockey.model.Division;
 import com.wip.hockey.model.NavigationDrawerItem;
 
 import java.util.Collections;
 import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * Created by djorda on 12/05/2017.
@@ -51,7 +58,17 @@ public class NavigationDrawAdapter extends RecyclerView.Adapter<NavigationDrawAd
             public void onClick(View v) {
                 switch (holder.title.getText().toString()){
                     case "Inicio":
-                        MainActivity.handlerFragment.setFragment(R.id.fragment_division_recycler,MainActivity.repository.getDivisions());
+                        ServiceApi serviceApi = ApiRealState.getInstance();
+                        serviceApi.getDivisions(new Callback<List<Division>>() {
+                            @Override
+                            public void onResponse(Call<List<Division>> call, Response<List<Division>> response) {
+                                MainActivity.handlerFragment.setFragment(R.id.fragment_division_recycler,response.body());
+                            }
+                            @Override
+                            public void onFailure(Call<List<Division>> call, Throwable t) {
+                                System.out.println(t.getMessage());
+                            }
+                        });
                         break;
                     case "Favoritos":
                         MainActivity.handlerFragment.setFragment(R.id.fragment_favorite_recycler,null);

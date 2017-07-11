@@ -1,65 +1,83 @@
 package com.wip.hockey.model;
 
-import com.wip.hockey.R;
 
-import java.util.ArrayList;
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
+
+import java.util.List;
 
 /**
  * Created by djorda on 15/05/2017.
  */
 
-public class Match {
+public class Match implements  IIdentificable{
 
-    private Team localTeam,enemyTeam;
-    private Goal localGoals;
-    private Goal enemyGoals;
+    @SerializedName("Id")
+    @Expose
+    private int id;
+    @SerializedName("DateId")
+    @Expose
+    private int dateId;
+    @SerializedName("LocalTeamId")
+    @Expose
+    private int localTeamId;
+    @SerializedName("EnemyTeamId")
+    @Expose
+    private int enemyTeamId;
+    @SerializedName("LocalGoalsIds")
+    @Expose
+    private List<Integer> localGoalsIds;
+    @SerializedName("AwayGoalsIds")
+    @Expose
+    private List<Integer> enemyGoalsIds;
 
-    public String getNameLocalTeam() {
-        return localTeam.getName();
+    @Override
+    public int getId() {
+        return id;
     }
 
-    public String getNameEnemyTeam() {
-        return enemyTeam.getName();
+    @Override
+    public void setId(int id) {
+        this.id = id;
     }
 
-    public int getLogoLocalTeam() {
-        return localTeam.getLogo();
+    public int getDateId() {
+        return dateId;
     }
 
-    public int getLogoEnemyTeam() {
-        return enemyTeam.getLogo();
+    public void setDateId(int dateId) {
+        this.dateId = dateId;
     }
 
-    public Team getLocalTeam() {
-        return localTeam;
+    public int getLocalTeamId() {
+        return localTeamId;
     }
 
-    public void setLocalTeam(Team localTeam) {
-        this.localTeam = localTeam;
+    public void setLocalTeamId(int localTeamId) {
+        this.localTeamId = localTeamId;
     }
 
-    public Team getEnemyTeam() {
-        return enemyTeam;
+    public int getEnemyTeamId() {
+        return enemyTeamId;
     }
 
-    public void setEnemyTeam(Team enemyTeam) {
-        this.enemyTeam = enemyTeam;
+    public void setEnemyTeamId(int enemyTeamId) {
+        this.enemyTeamId = enemyTeamId;
     }
 
-    public Goal getLocalGoals() {
-        return localGoals;
+    public List<Integer> getLocalGoalsIds() {
+        return localGoalsIds;
     }
 
-    public void setLocalGoals(Goal localGoals) {
-        this.localGoals = localGoals;
+    public void setLocalGoalsIds(List<Integer> localGoalsIds) {
+        this.localGoalsIds = localGoalsIds;
     }
 
-    public Goal getEnemyGoals() {
-        return enemyGoals;
+    public List<Integer> getEnemyGoalsIds() {
+        return enemyGoalsIds;
     }
 
-    public void setEnemyGoals(Goal enemyGoals) {
-        this.enemyGoals = enemyGoals;
+    public void setEnemyGoalsIds(List<Integer> enemyGoalsIds) {
+        this.enemyGoalsIds = enemyGoalsIds;
     }
-
 }

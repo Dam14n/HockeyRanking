@@ -1,7 +1,6 @@
 package com.wip.hockey.adapter;
 
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -10,18 +9,20 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 import com.wip.hockey.R;
+import com.wip.hockey.api.ApiRealState;
+import com.wip.hockey.api.ServiceApi;
 import com.wip.hockey.app.MainActivity;
 import com.wip.hockey.model.Category;
+import com.wip.hockey.model.Date;
 import com.wip.hockey.model.Division;
 
-import java.lang.reflect.Type;
-import java.util.ArrayList;
 import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * Created by djorda on 11/05/2017.
@@ -56,8 +57,25 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.MyView
         final Category currentObj = mData.get(position);
         holder.setData(currentObj,position);
 
-        Log.d(TAG,"El objeto "+currentObj.getName()+" es favorito: "+currentObj.isFavorite());
-        if(currentObj.isFavorite()){
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ServiceApi serviceApi = ApiRealState.getInstance();
+                serviceApi.getDatesByCategory(new Callback<List<Date>>() {
+                    @Override
+                    public void onResponse(Call<List<Date>> call, Response<List<Date>> response) {
+                        MainActivity.handlerFragment.setFragment(R.id.pager,response.body());
+                    }
+
+                    @Override
+                    public void onFailure(Call<List<Date>> call, Throwable t) {
+                        System.out.println(t.getMessage());
+                    }
+                },currentObj.getId());
+            }
+        });
+        Log.d(TAG,"El objeto "+currentObj.getName());
+       /* if(currentObj.isFavorite()){
             holder.star.setImageResource(R.drawable.button_pressed);
         }
         holder.star.setOnClickListener(new View.OnClickListener(){
@@ -80,7 +98,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.MyView
             public void onClick(View v) {
                 MainActivity.handlerFragment.setFragment(R.id.fragment_match_recycler,MainActivity.repository.getMatches(currentObj));
             }
-        });
+        });*/
     }
 
     @Override

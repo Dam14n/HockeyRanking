@@ -11,13 +11,15 @@ import com.wip.hockey.R;
 import com.wip.hockey.app.MainActivity;
 import com.wip.hockey.fragment.BaseFragment;
 import com.wip.hockey.fragment.CategoryFragment;
+import com.wip.hockey.fragment.DateFragment;
 import com.wip.hockey.fragment.DivisionFragment;
 import com.wip.hockey.fragment.FavoriteFragment;
 import com.wip.hockey.fragment.MatchFragment;
 import com.wip.hockey.fragment.SubDivisionFragment;
+import com.wip.hockey.model.IIdentificable;
 
-import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 /**
  * Created by djorda on 08/06/2017.
@@ -26,24 +28,26 @@ import java.util.HashMap;
 public class HandlerFragment {
 
     private FragmentActivity context;
-    private ArrayList mData;
+    private List mData;
     private boolean firstCall = true;
     private BaseFragment fragment;
     private HashMap<Integer,BaseFragment> listFragments;
+    private BaseFragment lastFragment;
 
     public HandlerFragment(FragmentActivity context) {
         this.context = context;
         this.listFragments = new HashMap();
     }
 
-    public void setFragment(int id,ArrayList data) {
+    public void setFragment(int id,List data) {
         mData = data;
 
         fragment = getFragment(id);
-        setDataFragment();
+        Log.d(MainActivity.TAG,"se seteo el fragment");
+        this.setLastFragment(fragment);
+        this.setDataFragment();
         FragmentManager fragmentManager = context.getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-
         if (!firstCall){
             fragmentTransaction.replace(R.id.fragment, fragment);
             fragmentTransaction.addToBackStack("id:" + id);
@@ -84,6 +88,10 @@ public class HandlerFragment {
                 fragment = new FavoriteFragment();
                 Log.d(MainActivity.TAG,"La data es: "+mData);
                 break;
+            case R.id.pager:
+                fragment = new DateFragment();
+                Log.d(MainActivity.TAG,"La data es: pager");
+                break;
             default:
                 fragment = new DivisionFragment();
                 Log.d(MainActivity.TAG,"La data es: "+mData);
@@ -96,11 +104,7 @@ public class HandlerFragment {
     }
 
     public void onBackPressed() {
-        for (BaseFragment fragment: listFragments.values()) {
-            if(fragment!= null && fragment.isVisible()){
-                this.fragment = fragment;
-            }
-        }
+        this.fragment = getActualFragment();
     }
 
     public void updateFragment() {
@@ -108,5 +112,22 @@ public class HandlerFragment {
         fragmentTransaction.detach(fragment);
         fragmentTransaction.attach(fragment);
         fragmentTransaction.commit();
+    }
+
+    public BaseFragment getActualFragment(){
+        for (BaseFragment fragment: listFragments.values()) {
+            if(fragment!= null && fragment.isVisible()){
+                return fragment;
+            }
+        }
+        return null;
+    }
+
+    public void setLastFragment(BaseFragment fragment){
+        this.lastFragment = fragment;
+    }
+
+    public BaseFragment getLastFragment() {
+        return lastFragment;
     }
 }

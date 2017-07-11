@@ -1,15 +1,27 @@
 package com.wip.hockey.model;
 
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
+
+import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by djorda on 23/05/2017.
  */
 
-public class Division {
+public class Division implements IIdentificable{
 
-    private ArrayList<SubDivision> subDivision;
+    @SerializedName("Name")
+    @Expose
     private String name;
+    @SerializedName("SubDivisionsIds")
+    @Expose
+    private List<Integer> subDivisionsIds = new ArrayList<Integer>();
+    @SerializedName("Id")
+    @Expose
+    private int id;
 
     public String getName() {
         return name;
@@ -19,12 +31,20 @@ public class Division {
         this.name = name;
     }
 
-    public ArrayList<SubDivision> getSubDivision() {
-        return subDivision;
+    public List<Integer> getSubDivisionsIds() {
+        return subDivisionsIds;
     }
 
-    public void setSubDivision(ArrayList<SubDivision> subDivision) {
-        this.subDivision = subDivision;
+    public void setSubDivisionsIds(List<Integer> subDivisionsIds) {
+        this.subDivisionsIds = subDivisionsIds;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
 }

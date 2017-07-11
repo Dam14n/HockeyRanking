@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.wip.hockey.R;
 import com.wip.hockey.model.Match;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -25,6 +26,9 @@ public class MatchAdapter extends RecyclerView.Adapter<MatchAdapter.MyViewHolder
     private LayoutInflater mInflater;
 
     public MatchAdapter(Context context, List<Match> data){
+        if (data == null){
+            data = new ArrayList<Match>();
+        }
         this.mData = data;
         this.mInflater = LayoutInflater.from(context);
     }
@@ -67,7 +71,7 @@ public class MatchAdapter extends RecyclerView.Adapter<MatchAdapter.MyViewHolder
         }
 
         public void setData(Match current, int position) {
-            Log.d(TAG, "Equipo local : " + current.getNameLocalTeam()+ ", Equipo visitante : " + current.getNameEnemyTeam());
+/*            Log.d(TAG, "Equipo local : " + current.getNameLocalTeam()+ ", Equipo visitante : " + current.getNameEnemyTeam());
 
             this.localTeam.setText(current.getNameLocalTeam());
             this.enemyTeam.setText(current.getNameEnemyTeam());
@@ -75,6 +79,7 @@ public class MatchAdapter extends RecyclerView.Adapter<MatchAdapter.MyViewHolder
             this.imgEnemyTeam.setImageResource(current.getLogoEnemyTeam());
             this.position = position;
             this.current = current;
+            */
         }
 
     }

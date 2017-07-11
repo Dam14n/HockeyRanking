@@ -11,9 +11,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.wip.hockey.R;
-import com.wip.hockey.app.MainActivity;
 import com.wip.hockey.model.Category;
-import com.wip.hockey.model.SubDivision;
 
 import java.util.List;
 
@@ -50,18 +48,18 @@ public class FavoriteAdapter extends RecyclerView.Adapter<FavoriteAdapter.MyView
         final Category currentObj = mData.get(position);
         holder.setData(currentObj,position);
         holder.star.setImageResource(R.drawable.button_pressed);
-        holder.star.setOnClickListener(new View.OnClickListener(){
+       /* holder.star.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
                 MainActivity.repository.getCategory(currentObj.getId()).setFavorite(false);
                 MainActivity.favoriteManager.deleteFavorite(currentObj);
                 MainActivity.handlerFragment.updateFragment();
             }
-        });
+        });*/
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                MainActivity.handlerFragment.setFragment(R.id.fragment_match_recycler,MainActivity.repository.getMatches(currentObj.getId()));
+                //MainActivity.handlerFragment.setFragment(R.id.fragment_match_recycler,MainActivity.repository.getMatches(currentObj.getId()));
             }
         });
     }
@@ -85,8 +83,8 @@ public class FavoriteAdapter extends RecyclerView.Adapter<FavoriteAdapter.MyView
 
         public void setData(Category current, int position) {
             Log.d(TAG, "Category: " + current.getName());
-            SubDivision subDivision = MainActivity.repository.getSubDivision(current.getSubDivision());
-            this.category.setText(subDivision.getName()+": " + current.getName());
+           // SubDivision subDivision = MainActivity.repository.getSubDivision(current.getSubDivision());
+            //this.category.setText(subDivision.getName()+": " + current.getName());
          }
 
     }

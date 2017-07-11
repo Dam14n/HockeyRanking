@@ -1,24 +1,12 @@
 package com.wip.hockey.repository;
 
-import com.wip.hockey.R;
-import com.wip.hockey.model.Category;
-import com.wip.hockey.model.Division;
-import com.wip.hockey.model.Match;
-import com.wip.hockey.model.SubDivision;
-import com.wip.hockey.model.Team;
-
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
-import java.util.TimeZone;
-
 /**
  * Created by djorda on 09/06/2017.
  */
 
 public class Repository {
 
-    private ArrayList<Division> divisions;
+  /*  private ArrayList<Division> divisions;
 
     public Repository() {
         createDivisions();
@@ -221,5 +209,5 @@ public class Repository {
             }
         }
         return new ArrayList<>();
-    }
+    }*/
 }

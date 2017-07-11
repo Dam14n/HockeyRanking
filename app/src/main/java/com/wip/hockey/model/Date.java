@@ -1,27 +1,61 @@
 package com.wip.hockey.model;
 
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
+
+import java.util.List;
+
 /**
  * Created by djorda on 23/05/2017.
  */
 
-public class Date {
+public class Date implements IIdentificable {
 
-    private int number;
-    private Match[] matches;
+    @SerializedName("Id")
+    @Expose
+    private int id;
+    @SerializedName("CategoryId")
+    @Expose
+    private int categoryId;
+    @SerializedName("MatchesIds")
+    @Expose
+    private List<Integer> matchesIds;
+    @SerializedName("DateNumber")
+    @Expose
+    private int dateNumber;
 
-    public int getNumber() {
-        return number;
+
+    @Override
+    public int getId() {
+        return id;
     }
 
-    public void setNumber(int number) {
-        this.number = number;
+    @Override
+    public void setId(int id) {
+        this.id = id;
     }
 
-    public Match[] getMatches() {
-        return matches;
+    public int getCategoryId() {
+        return categoryId;
     }
 
-    public void setMatches(Match[] matches) {
-        this.matches = matches;
+    public void setCategoryId(int categoryId) {
+        this.categoryId = categoryId;
+    }
+
+    public List<Integer> getMatchesIds() {
+        return matchesIds;
+    }
+
+    public void setMatchesIds(List<Integer> matchesIds) {
+        this.matchesIds = matchesIds;
+    }
+
+    public int getDateNumber() {
+        return dateNumber;
+    }
+
+    public void setDateNumber(int dateNumber) {
+        this.dateNumber = dateNumber;
     }
 }

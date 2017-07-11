@@ -10,10 +10,17 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.wip.hockey.R;
+import com.wip.hockey.api.ApiRealState;
+import com.wip.hockey.api.ServiceApi;
 import com.wip.hockey.app.MainActivity;
 import com.wip.hockey.model.Division;
+import com.wip.hockey.model.SubDivision;
 
 import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * Created by djorda on 11/05/2017.
@@ -50,7 +57,18 @@ public class DivisionAdapter extends RecyclerView.Adapter<DivisionAdapter.MyView
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                MainActivity.handlerFragment.setFragment(R.id.fragment_sub_division_recycler,MainActivity.repository.getSubDivisions(currentObj));
+                ServiceApi serviceApi = ApiRealState.getInstance();
+                serviceApi.getSubDivisionsByDivision(new Callback<List<SubDivision>>() {
+                    @Override
+                    public void onResponse(Call<List<SubDivision>> call, Response<List<SubDivision>> response) {
+                        MainActivity.handlerFragment.setFragment(R.id.fragment_sub_division_recycler,response.body());
+                    }
+
+                    @Override
+                    public void onFailure(Call<List<SubDivision>> call, Throwable t) {
+                        System.out.println(t.getMessage());
+                    }
+                },currentObj.getId());
             }
         });
     }

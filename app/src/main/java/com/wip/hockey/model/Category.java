@@ -1,67 +1,37 @@
 package com.wip.hockey.model;
 
-import java.util.ArrayList;
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
+
+import java.util.List;
 
 /**
  * Created by djorda on 23/05/2017.
  */
 
-public class Category {
+public class Category implements  IIdentificable{
 
-    private long id;
-    private Team teams;
-    private Date[] dates;
+    @SerializedName("Id")
+    @Expose
+    private int id;
+    @SerializedName("Name")
+    @Expose
     private String name;
-    private ArrayList<Match> match;
-    private boolean favorite;
-    private long subDivision;
+    @SerializedName("SubDivisionId")
+    @Expose
+    private int subDivisionId;
+    @SerializedName("DatesIds")
+    @Expose
+    private List<Integer> datesIds;
 
-    public long getSubDivision() {
-        return subDivision;
-    }
-
-    public void setSubDivision(long subDivision) {
-        this.subDivision = subDivision;
-    }
-
-    public long getId() {
+    @Override
+    public int getId() {
         return id;
     }
 
-    public void setId(long id) {
+    @Override
+    public void setId(int id) {
         this.id = id;
-    }
-
-    public boolean isFavorite() {
-        return favorite;
-    }
-
-    public void setFavorite(boolean favorite) {
-        this.favorite = favorite;
-    }
-
-    public Team getTeams() {
-        return teams;
-    }
-
-    public ArrayList<Match> getMatch() {
-        return match;
-    }
-
-    public void setMatch(ArrayList<Match> match) {
-        this.match = match;
-    }
-
-    public void setTeams(Team teams) {
-        this.teams = teams;
-    }
-
-    public Date[] getDates() {
-        return dates;
-    }
-
-    public void setDates(Date[] dates) {
-        this.dates = dates;
     }
 
     public String getName() {
@@ -72,4 +42,19 @@ public class Category {
         this.name = name;
     }
 
+    public int getSubDivisionId() {
+        return subDivisionId;
+    }
+
+    public void setSubDivisionId(int subDivisionId) {
+        this.subDivisionId = subDivisionId;
+    }
+
+    public List<Integer> getDatesIds() {
+        return datesIds;
+    }
+
+    public void setDatesIds(List<Integer> datesIds) {
+        this.datesIds = datesIds;
+    }
 }
