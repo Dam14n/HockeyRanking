@@ -42,12 +42,11 @@ public class FavoriteFragment extends BaseFragment {
         String json = sharedPrefs.getString("Favorite" , null);
         Type type = new TypeToken<ArrayList<Category>>() {}.getType();
         ArrayList data = gson.fromJson(json, type);
-        this.setContent(data);
+       // this.setContent(data);
     }
 
     public void setRecyclerView(){
-        FavoriteAdapter adapter = new FavoriteAdapter(this.getContext(), getContent());
-
+        FavoriteAdapter adapter = new FavoriteAdapter(this.getContext(),getContent());
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getActivity().getApplicationContext());
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
@@ -57,4 +56,5 @@ public class FavoriteFragment extends BaseFragment {
     protected int getLayoutResourceId() {
         return R.layout.fragment_list_favorite;
     }
+
 }

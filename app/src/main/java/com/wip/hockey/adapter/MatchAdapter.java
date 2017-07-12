@@ -1,12 +1,14 @@
 package com.wip.hockey.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.wip.hockey.R;
@@ -44,9 +46,10 @@ public class MatchAdapter extends RecyclerView.Adapter<MatchAdapter.MyViewHolder
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
         Log.d(TAG, "onBindViewHolder " + position);
-
-        Match currentObj = mData.get(position);
-        holder.setData(currentObj,position);
+        if(!mData.isEmpty()) {
+            Match currentObj = mData.get(position);
+            holder.setData(currentObj, position);
+        }
     }
 
     @Override
@@ -56,7 +59,7 @@ public class MatchAdapter extends RecyclerView.Adapter<MatchAdapter.MyViewHolder
 
     class MyViewHolder extends RecyclerView.ViewHolder{
 
-        TextView localTeam, enemyTeam;
+        TextView localTeam, enemyTeam,localTeamGoals,enemyTeamGoals;
         ImageView imgLocalTeam,imgEnemyTeam;
         int position;
         Match current;
@@ -64,6 +67,9 @@ public class MatchAdapter extends RecyclerView.Adapter<MatchAdapter.MyViewHolder
         public  MyViewHolder(View itemView) {
             super(itemView);
 
+            LinearLayout layout = (LinearLayout) itemView.findViewById(R.id.result);
+            localTeamGoals = (TextView) layout.findViewById(R.id.local_team_goals);
+            enemyTeamGoals = (TextView) layout.findViewById(R.id.enemy_team_goals);
             localTeam = (TextView) itemView.findViewById(R.id.local_team);
             enemyTeam = (TextView) itemView.findViewById(R.id.enemy_team);
             imgLocalTeam = (ImageView) itemView.findViewById(R.id.img_local_team);
@@ -71,15 +77,17 @@ public class MatchAdapter extends RecyclerView.Adapter<MatchAdapter.MyViewHolder
         }
 
         public void setData(Match current, int position) {
-/*            Log.d(TAG, "Equipo local : " + current.getNameLocalTeam()+ ", Equipo visitante : " + current.getNameEnemyTeam());
+           Log.d(TAG, "Equipo local : " + current.getLocalTeamId()+ ", Equipo visitante : " + current.getEnemyTeamId());
 
-            this.localTeam.setText(current.getNameLocalTeam());
-            this.enemyTeam.setText(current.getNameEnemyTeam());
-            this.imgLocalTeam.setImageResource(current.getLogoLocalTeam());
-            this.imgEnemyTeam.setImageResource(current.getLogoEnemyTeam());
+            //this.localTeam.setText(current.getNameLocalTeam());
+            //this.enemyTeam.setText(current.getNameEnemyTeam());
+            //this.imgLocalTeam.setImageResource(current.getLogoLocalTeam());
+            //this.imgEnemyTeam.setImageResource(current.getLogoEnemyTeam());
+            this.enemyTeamGoals.setText(Integer.toString(current.getEnemyGoalsIds().size()));
+            this.localTeamGoals.setText(Integer.toString(current.getLocalGoalsIds().size()));
             this.position = position;
             this.current = current;
-            */
+
         }
 
     }

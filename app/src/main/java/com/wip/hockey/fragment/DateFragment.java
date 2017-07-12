@@ -39,4 +39,5 @@ public class DateFragment extends BaseFragment {
     protected int getLayoutResourceId() {
         return R.layout.fragment_dates;
     }
+
 }

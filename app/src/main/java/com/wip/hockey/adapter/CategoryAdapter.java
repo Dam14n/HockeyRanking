@@ -14,9 +14,9 @@ import com.wip.hockey.R;
 import com.wip.hockey.api.ApiRealState;
 import com.wip.hockey.api.ServiceApi;
 import com.wip.hockey.app.MainActivity;
+import com.wip.hockey.handler.HandlerFragment;
 import com.wip.hockey.model.Category;
 import com.wip.hockey.model.Date;
-import com.wip.hockey.model.Division;
 
 import java.util.List;
 
@@ -60,11 +60,13 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.MyView
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                MainActivity.progressBar.setVisibility(View.VISIBLE);
                 ServiceApi serviceApi = ApiRealState.getInstance();
                 serviceApi.getDatesByCategory(new Callback<List<Date>>() {
                     @Override
                     public void onResponse(Call<List<Date>> call, Response<List<Date>> response) {
-                        MainActivity.handlerFragment.setFragment(R.id.pager,response.body());
+                        HandlerFragment.getInstance().changeToFragment(R.id.pager, response.body());
+                        MainActivity.progressBar.setVisibility(View.GONE);
                     }
 
                     @Override
@@ -96,7 +98,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.MyView
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                MainActivity.handlerFragment.setFragment(R.id.fragment_match_recycler,MainActivity.repository.getMatches(currentObj));
+                MainActivity.handlerFragment.changeToFragment(R.id.fragment_match_recycler,MainActivity.repository.getMatches(currentObj));
             }
         });*/
     }

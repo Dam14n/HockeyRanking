@@ -36,8 +36,8 @@ public class CategoryFragment extends BaseFragment {
         return view;
     }
 
-
     protected int getLayoutResourceId() {
         return R.layout.fragment_list_category;
     }
+
 }

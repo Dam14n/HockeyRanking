@@ -1,18 +1,20 @@
 package com.wip.hockey.adapter;
 
 import android.content.Context;
-import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.wip.hockey.R;
 import com.wip.hockey.api.ApiRealState;
 import com.wip.hockey.api.ServiceApi;
 import com.wip.hockey.app.MainActivity;
+import com.wip.hockey.handler.HandlerFragment;
 import com.wip.hockey.model.Division;
 import com.wip.hockey.model.SubDivision;
 
@@ -26,17 +28,16 @@ import retrofit2.Response;
  * Created by djorda on 11/05/2017.
  */
 
-public class DivisionAdapter extends RecyclerView.Adapter<DivisionAdapter.MyViewHolder> {
+public class DivisionAdapter extends RecyclerView.Adapter<DivisionAdapter.MyViewHolder>{
 
     private static final String TAG = DivisionAdapter.class.getSimpleName();
     private List<Division> mData;
     private LayoutInflater mInflater;
     private Context context;
-    private Fragment fragment;
 
-    public DivisionAdapter(Context context, List<Division> data){
+    public DivisionAdapter(Context context,List<Division> mData ) {
+        this.mData = mData;
         this.context = context;
-        this.mData = data;
         this.mInflater = LayoutInflater.from(context);
     }
 
@@ -51,17 +52,18 @@ public class DivisionAdapter extends RecyclerView.Adapter<DivisionAdapter.MyView
     @Override
     public void onBindViewHolder(final MyViewHolder holder, int position) {
         Log.d(TAG, "onBindViewHolder " + position);
-
         final Division currentObj = mData.get(position);
         holder.setData(currentObj,position);
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                MainActivity.progressBar.setVisibility(View.VISIBLE);
                 ServiceApi serviceApi = ApiRealState.getInstance();
                 serviceApi.getSubDivisionsByDivision(new Callback<List<SubDivision>>() {
                     @Override
                     public void onResponse(Call<List<SubDivision>> call, Response<List<SubDivision>> response) {
-                        MainActivity.handlerFragment.setFragment(R.id.fragment_sub_division_recycler,response.body());
+                        HandlerFragment.getInstance().changeToFragment(R.id.fragment_sub_division_recycler, response.body());
+                        MainActivity.progressBar.setVisibility(View.GONE);
                     }
 
                     @Override

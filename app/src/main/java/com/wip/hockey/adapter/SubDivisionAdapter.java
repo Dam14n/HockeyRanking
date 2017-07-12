@@ -13,6 +13,7 @@ import com.wip.hockey.R;
 import com.wip.hockey.api.ApiRealState;
 import com.wip.hockey.api.ServiceApi;
 import com.wip.hockey.app.MainActivity;
+import com.wip.hockey.handler.HandlerFragment;
 import com.wip.hockey.model.Category;
 import com.wip.hockey.model.SubDivision;
 
@@ -57,11 +58,13 @@ public class SubDivisionAdapter extends RecyclerView.Adapter<SubDivisionAdapter.
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                MainActivity.progressBar.setVisibility(View.VISIBLE);
                 ServiceApi serviceApi = ApiRealState.getInstance();
                 serviceApi.getCategoriesBySubDivision(new Callback<List<Category>>() {
                     @Override
                     public void onResponse(Call<List<Category>> call, Response<List<Category>> response) {
-                        MainActivity.handlerFragment.setFragment(R.id.fragment_category_recycler,response.body());
+                        HandlerFragment.getInstance().changeToFragment(R.id.fragment_category_recycler, response.body());
+                        MainActivity.progressBar.setVisibility(View.GONE);
                     }
 
                     @Override

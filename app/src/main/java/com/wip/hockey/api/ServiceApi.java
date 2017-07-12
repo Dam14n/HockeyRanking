@@ -8,7 +8,6 @@ import com.wip.hockey.model.SubDivision;
 
 import java.util.List;
 
-import retrofit2.Call;
 import retrofit2.Callback;
 
 /**

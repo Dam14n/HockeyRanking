@@ -13,6 +13,7 @@ import com.wip.hockey.R;
 import com.wip.hockey.api.ApiRealState;
 import com.wip.hockey.api.ServiceApi;
 import com.wip.hockey.app.MainActivity;
+import com.wip.hockey.handler.HandlerFragment;
 import com.wip.hockey.model.Division;
 import com.wip.hockey.model.NavigationDrawerItem;
 
@@ -49,7 +50,6 @@ public class NavigationDrawAdapter extends RecyclerView.Adapter<NavigationDrawAd
     @Override
     public void onBindViewHolder(final MyViewHolder holder, int position) {
         NavigationDrawerItem current = mDataList.get(position);
-
         holder.imgIcon.setImageResource(current.getImageId());
         holder.title.setText(current.getTitle());
         holder.itemView.setOnClickListener(new View.OnClickListener(){
@@ -62,7 +62,7 @@ public class NavigationDrawAdapter extends RecyclerView.Adapter<NavigationDrawAd
                         serviceApi.getDivisions(new Callback<List<Division>>() {
                             @Override
                             public void onResponse(Call<List<Division>> call, Response<List<Division>> response) {
-                                MainActivity.handlerFragment.setFragment(R.id.fragment_division_recycler,response.body());
+                                HandlerFragment.getInstance().changeToFragment(R.id.fragment_division_recycler, response.body());
                             }
                             @Override
                             public void onFailure(Call<List<Division>> call, Throwable t) {
@@ -71,11 +71,11 @@ public class NavigationDrawAdapter extends RecyclerView.Adapter<NavigationDrawAd
                         });
                         break;
                     case "Favoritos":
-                        MainActivity.handlerFragment.setFragment(R.id.fragment_favorite_recycler,null);
+                        HandlerFragment.getInstance().changeToFragment(R.id.fragment_favorite_recycler, null);
                         break;
                     case "Borrar Favoritos":
                         MainActivity.favoriteManager.removeAll();
-                        MainActivity.handlerFragment.updateFragment();
+                        HandlerFragment.getInstance().updateFragment(null);
                         Toast.makeText(context,"Se han removido todos los favoritos!!",Toast.LENGTH_SHORT).show();
                         break;
                     default:

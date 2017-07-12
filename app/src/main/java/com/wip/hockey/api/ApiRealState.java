@@ -27,7 +27,7 @@ public class ApiRealState implements ServiceApi {
     private static ApiRealState apiRealState = new ApiRealState();
     private final Retrofit retrofit;
     private final RealestateBffMobile bffMobileApi;
-    private final String BASE_URL1 = "http://10.0.2.2:2491/api/";
+    private final String BASE_URL1 = "http://192.168.0.145/webapi/api/";
     private final String BASE_URL = "http://10.0.2.2/webapi/api/";
 
     private ApiRealState() {

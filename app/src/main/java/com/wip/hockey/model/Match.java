@@ -27,7 +27,7 @@ public class Match implements  IIdentificable{
     @SerializedName("LocalGoalsIds")
     @Expose
     private List<Integer> localGoalsIds;
-    @SerializedName("AwayGoalsIds")
+    @SerializedName("EnemyGoalsIds")
     @Expose
     private List<Integer> enemyGoalsIds;
 

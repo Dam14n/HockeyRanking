@@ -4,6 +4,9 @@ import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.View;
+import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import com.wip.hockey.R;
 import com.wip.hockey.api.ApiRealState;
@@ -22,10 +25,11 @@ import retrofit2.Response;
 public class MainActivity extends AppCompatActivity {
 
     public static final String TAG = MainActivity.class.getSimpleName();
-    public static HandlerFragment handlerFragment;
+    private  HandlerFragment handlerFragment;
     public static FavoriteManager favoriteManager;
     public static Repository repository;
     private Toolbar toolbar;
+    public static ProgressBar progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,17 +49,22 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setUpFragment() {
-        handlerFragment = new HandlerFragment(this);
+        handlerFragment = HandlerFragment.getInstance();
+        handlerFragment.setContext(this);
+        progressBar = (ProgressBar) findViewById(R.id.loading);
+        progressBar.setVisibility(View.VISIBLE);
         ServiceApi serviceApi = ApiRealState.getInstance();
         serviceApi.getDivisions(new Callback<List<Division>>() {
             @Override
             public void onResponse(Call<List<Division>> call, Response<List<Division>> response) {
-                handlerFragment.setFragment(R.id.fragment_division_recycler,response.body());
+                handlerFragment.changeToFragment(R.id.fragment_division_recycler,response.body());
+                progressBar.setVisibility(View.GONE);
             }
 
             @Override
             public void onFailure(Call<List<Division>> call, Throwable t) {
                 System.out.println(t.getMessage());
+                Toast.makeText(MainActivity.this, "Error al buscar datos", Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -76,7 +85,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        handlerFragment.onBackPressed();
+        //handlerFragment.onBackPressed();
     }
 }
 

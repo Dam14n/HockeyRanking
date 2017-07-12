@@ -43,4 +43,5 @@ public class SubDivisionFragment extends BaseFragment {
     protected int getLayoutResourceId() {
         return R.layout.fragment_list_sub_division;
     }
+
 }
