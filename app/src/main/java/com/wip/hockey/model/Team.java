@@ -1,5 +1,8 @@
 package com.wip.hockey.model;
 
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
+
 import java.util.List;
 
 /**
@@ -8,14 +11,30 @@ import java.util.List;
 
 public class Team implements IIdentificable {
 
+    @SerializedName("Id")
+    @Expose
     private int id;
+    @SerializedName("Name")
+    @Expose
     private String name;
+    @SerializedName("Location")
+    @Expose
     private String location;
+    @SerializedName("Logo")
+    @Expose
     private int logo;
-    private List<Player> players;
-    private List<Match> localMatches;
-    private List<Match> awayMatches;
-    private List<Goal> goals;
+    @SerializedName("PlayersIds")
+    @Expose
+    private List<Integer> playersIds;
+    @SerializedName("LocalMatchesIds")
+    @Expose
+    private List<Integer> localMatchesIds;
+    @SerializedName("AwayMatchesIds")
+    @Expose
+    private List<Integer> awayMatchesIds;
+    @SerializedName("GoalsIds")
+    @Expose
+    private List<Integer> goalsIds;
 
     @Override
     public int getId() {
@@ -51,35 +70,35 @@ public class Team implements IIdentificable {
         this.logo = logo;
     }
 
-    public List<Player> getPlayers() {
-        return players;
+    public List<Integer> getPlayersIds() {
+        return playersIds;
     }
 
-    public void setPlayers(List<Player> players) {
-        this.players = players;
+    public void setPlayersIds(List<Integer> playersIds) {
+        this.playersIds = playersIds;
     }
 
-    public List<Match> getLocalMatches() {
-        return localMatches;
+    public List<Integer> getLocalMatchesIds() {
+        return localMatchesIds;
     }
 
-    public void setLocalMatches(List<Match> localMatches) {
-        this.localMatches = localMatches;
+    public void setLocalMatchesIds(List<Integer> localMatchesIds) {
+        this.localMatchesIds = localMatchesIds;
     }
 
-    public List<Match> getAwayMatches() {
-        return awayMatches;
+    public List<Integer> getAwayMatchesIds() {
+        return awayMatchesIds;
     }
 
-    public void setAwayMatches(List<Match> awayMatches) {
-        this.awayMatches = awayMatches;
+    public void setAwayMatchesIds(List<Integer> awayMatchesIds) {
+        this.awayMatchesIds = awayMatchesIds;
     }
 
-    public List<Goal> getGoals() {
-        return goals;
+    public List<Integer> getGoalsIds() {
+        return goalsIds;
     }
 
-    public void setGoals(List<Goal> goals) {
-        this.goals = goals;
+    public void setGoalsIds(List<Integer> goalsIds) {
+        this.goalsIds = goalsIds;
     }
 }

@@ -29,7 +29,7 @@ public class DateFragment extends BaseFragment {
 
         ButterKnife.bind(this,view);
 
-        DateAdapter adapter = new DateAdapter(this.getFragmentManager(),this.getContent(),view);
+        DateAdapter adapter = new DateAdapter(this.getContext(),this.getContent(),view);
         pager.setAdapter(adapter);
 
 

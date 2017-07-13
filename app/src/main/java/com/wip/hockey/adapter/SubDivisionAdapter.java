@@ -10,7 +10,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.wip.hockey.R;
-import com.wip.hockey.api.ApiRealState;
+import com.wip.hockey.api.Api;
 import com.wip.hockey.api.ServiceApi;
 import com.wip.hockey.app.MainActivity;
 import com.wip.hockey.handler.HandlerFragment;
@@ -32,11 +32,11 @@ public class SubDivisionAdapter extends RecyclerView.Adapter<SubDivisionAdapter.
     private static final String TAG = SubDivisionAdapter.class.getSimpleName();
     private List<SubDivision> mData;
     private LayoutInflater mInflater;
-    private Context context;
+    private MainActivity context;
     private Fragment fragment;
 
     public SubDivisionAdapter(Context context, List<SubDivision> data){
-        this.context = context;
+        this.context = (MainActivity)context;
         this.mData = data;
         this.mInflater = LayoutInflater.from(context);
     }
@@ -58,13 +58,13 @@ public class SubDivisionAdapter extends RecyclerView.Adapter<SubDivisionAdapter.
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                MainActivity.progressBar.setVisibility(View.VISIBLE);
-                ServiceApi serviceApi = ApiRealState.getInstance();
+                context.showProgress(true);
+                ServiceApi serviceApi = Api.getInstance();
                 serviceApi.getCategoriesBySubDivision(new Callback<List<Category>>() {
                     @Override
                     public void onResponse(Call<List<Category>> call, Response<List<Category>> response) {
                         HandlerFragment.getInstance().changeToFragment(R.id.fragment_category_recycler, response.body());
-                        MainActivity.progressBar.setVisibility(View.GONE);
+                        context.showProgress(false);
                     }
 
                     @Override

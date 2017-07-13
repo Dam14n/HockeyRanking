@@ -9,7 +9,7 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.wip.hockey.R;
-import com.wip.hockey.api.ApiRealState;
+import com.wip.hockey.api.Api;
 import com.wip.hockey.api.ServiceApi;
 import com.wip.hockey.fragment.NavigationDrawerFragment;
 import com.wip.hockey.handler.HandlerFragment;
@@ -29,7 +29,7 @@ public class MainActivity extends AppCompatActivity {
     public static FavoriteManager favoriteManager;
     public static Repository repository;
     private Toolbar toolbar;
-    public static ProgressBar progressBar;
+    public ProgressBar progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,13 +52,13 @@ public class MainActivity extends AppCompatActivity {
         handlerFragment = HandlerFragment.getInstance();
         handlerFragment.setContext(this);
         progressBar = (ProgressBar) findViewById(R.id.loading);
-        progressBar.setVisibility(View.VISIBLE);
-        ServiceApi serviceApi = ApiRealState.getInstance();
+        this.showProgress(true);
+        ServiceApi serviceApi = Api.getInstance();
         serviceApi.getDivisions(new Callback<List<Division>>() {
             @Override
             public void onResponse(Call<List<Division>> call, Response<List<Division>> response) {
                 handlerFragment.changeToFragment(R.id.fragment_division_recycler,response.body());
-                progressBar.setVisibility(View.GONE);
+                showProgress(false);
             }
 
             @Override
@@ -86,6 +86,10 @@ public class MainActivity extends AppCompatActivity {
     public void onBackPressed() {
         super.onBackPressed();
         //handlerFragment.onBackPressed();
+    }
+
+    public void showProgress(boolean isVisible){
+        progressBar.setVisibility(isVisible ? View.VISIBLE : View.GONE);
     }
 }
 

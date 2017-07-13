@@ -11,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.wip.hockey.R;
+import com.wip.hockey.app.MainActivity;
 import com.wip.hockey.model.Category;
 
 import java.util.List;
@@ -24,11 +25,11 @@ public class FavoriteAdapter extends RecyclerView.Adapter<FavoriteAdapter.MyView
     private static final String TAG = FavoriteAdapter.class.getSimpleName();
     private List<Category> mData;
     private LayoutInflater mInflater;
-    private Context context;
+    private MainActivity context;
     private Fragment fragment;
 
     public FavoriteAdapter(Context context, List<Category> data){
-        this.context = context;
+        this.context = (MainActivity)context;
         this.mData = data;
         this.mInflater = LayoutInflater.from(context);
     }

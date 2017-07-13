@@ -1,7 +1,6 @@
 package com.wip.hockey.adapter;
 
 import android.content.Context;
-import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -12,10 +11,19 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.wip.hockey.R;
+import com.wip.hockey.api.Api;
+import com.wip.hockey.api.ServiceApi;
+import com.wip.hockey.app.MainActivity;
 import com.wip.hockey.model.Match;
+import com.wip.hockey.model.Team;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeoutException;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * Created by djorda on 11/05/2017.
@@ -26,11 +34,13 @@ public class MatchAdapter extends RecyclerView.Adapter<MatchAdapter.MyViewHolder
     private static final String TAG = MatchAdapter.class.getSimpleName();
     private List<Match> mData;
     private LayoutInflater mInflater;
+    private MainActivity context;
 
     public MatchAdapter(Context context, List<Match> data){
         if (data == null){
             data = new ArrayList<Match>();
         }
+        this.context = (MainActivity) context;
         this.mData = data;
         this.mInflater = LayoutInflater.from(context);
     }
@@ -59,10 +69,12 @@ public class MatchAdapter extends RecyclerView.Adapter<MatchAdapter.MyViewHolder
 
     class MyViewHolder extends RecyclerView.ViewHolder{
 
-        TextView localTeam, enemyTeam,localTeamGoals,enemyTeamGoals;
+        TextView textLocalTeam, textEnemyTeam,localTeamGoals,enemyTeamGoals;
         ImageView imgLocalTeam,imgEnemyTeam;
         int position;
         Match current;
+        Team localTeam;
+        Team enemyTeam;
 
         public  MyViewHolder(View itemView) {
             super(itemView);
@@ -70,8 +82,8 @@ public class MatchAdapter extends RecyclerView.Adapter<MatchAdapter.MyViewHolder
             LinearLayout layout = (LinearLayout) itemView.findViewById(R.id.result);
             localTeamGoals = (TextView) layout.findViewById(R.id.local_team_goals);
             enemyTeamGoals = (TextView) layout.findViewById(R.id.enemy_team_goals);
-            localTeam = (TextView) itemView.findViewById(R.id.local_team);
-            enemyTeam = (TextView) itemView.findViewById(R.id.enemy_team);
+            textLocalTeam = (TextView) itemView.findViewById(R.id.local_team);
+            textEnemyTeam = (TextView) itemView.findViewById(R.id.enemy_team);
             imgLocalTeam = (ImageView) itemView.findViewById(R.id.img_local_team);
             imgEnemyTeam = (ImageView) itemView.findViewById(R.id.img_enemy_team);
         }
@@ -79,8 +91,32 @@ public class MatchAdapter extends RecyclerView.Adapter<MatchAdapter.MyViewHolder
         public void setData(Match current, int position) {
            Log.d(TAG, "Equipo local : " + current.getLocalTeamId()+ ", Equipo visitante : " + current.getEnemyTeamId());
 
-            //this.localTeam.setText(current.getNameLocalTeam());
-            //this.enemyTeam.setText(current.getNameEnemyTeam());
+            Api api = Api.getInstance();
+            api.getTeamByMatch(new Callback<Team>() {
+                @Override
+                public void onResponse(Call<Team> call, Response<Team> response) {
+                    localTeam = response.body();
+                    textLocalTeam.setText(localTeam.getName());
+                }
+
+                @Override
+                public void onFailure(Call<Team> call, Throwable t) {
+
+                }
+            },current.getId(),current.getLocalTeamId());
+            api.getTeamByMatch(new Callback<Team>() {
+                @Override
+                public void onResponse(Call<Team> call, Response<Team> response) {
+                    enemyTeam = response.body();
+                    textEnemyTeam.setText(enemyTeam.getName());
+                }
+
+                @Override
+                public void onFailure(Call<Team> call, Throwable t) {
+
+                }
+            },current.getId(),current.getEnemyTeamId());
+
             //this.imgLocalTeam.setImageResource(current.getLogoLocalTeam());
             //this.imgEnemyTeam.setImageResource(current.getLogoEnemyTeam());
             this.enemyTeamGoals.setText(Integer.toString(current.getEnemyGoalsIds().size()));

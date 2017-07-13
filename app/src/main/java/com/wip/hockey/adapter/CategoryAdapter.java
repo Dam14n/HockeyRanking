@@ -11,7 +11,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.wip.hockey.R;
-import com.wip.hockey.api.ApiRealState;
+import com.wip.hockey.api.Api;
 import com.wip.hockey.api.ServiceApi;
 import com.wip.hockey.app.MainActivity;
 import com.wip.hockey.handler.HandlerFragment;
@@ -33,11 +33,11 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.MyView
     private static final String TAG = CategoryAdapter.class.getSimpleName();
     private List<Category> mData;
     private LayoutInflater mInflater;
-    private Context context;
+    private MainActivity context;
     private Fragment fragment;
 
     public CategoryAdapter(Context context, List<Category> data){
-        this.context = context;
+        this.context = (MainActivity)context;
         this.mData = data;
         this.mInflater = LayoutInflater.from(context);
     }
@@ -60,13 +60,13 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.MyView
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                MainActivity.progressBar.setVisibility(View.VISIBLE);
-                ServiceApi serviceApi = ApiRealState.getInstance();
+                context.showProgress(true);
+                ServiceApi serviceApi = Api.getInstance();
                 serviceApi.getDatesByCategory(new Callback<List<Date>>() {
                     @Override
                     public void onResponse(Call<List<Date>> call, Response<List<Date>> response) {
                         HandlerFragment.getInstance().changeToFragment(R.id.pager, response.body());
-                        MainActivity.progressBar.setVisibility(View.GONE);
+                        context.showProgress(false);
                     }
 
                     @Override

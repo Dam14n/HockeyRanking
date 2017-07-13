@@ -10,7 +10,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.wip.hockey.R;
-import com.wip.hockey.api.ApiRealState;
+import com.wip.hockey.api.Api;
 import com.wip.hockey.api.ServiceApi;
 import com.wip.hockey.app.MainActivity;
 import com.wip.hockey.handler.HandlerFragment;
@@ -58,7 +58,7 @@ public class NavigationDrawAdapter extends RecyclerView.Adapter<NavigationDrawAd
             public void onClick(View v) {
                 switch (holder.title.getText().toString()){
                     case "Inicio":
-                        ServiceApi serviceApi = ApiRealState.getInstance();
+                        ServiceApi serviceApi = Api.getInstance();
                         serviceApi.getDivisions(new Callback<List<Division>>() {
                             @Override
                             public void onResponse(Call<List<Division>> call, Response<List<Division>> response) {

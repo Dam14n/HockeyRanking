@@ -5,6 +5,7 @@ import com.wip.hockey.model.Date;
 import com.wip.hockey.model.Division;
 import com.wip.hockey.model.Match;
 import com.wip.hockey.model.SubDivision;
+import com.wip.hockey.model.Team;
 
 import java.util.List;
 
@@ -27,4 +28,8 @@ public interface ServiceApi {
     void getCategory(Callback<Category> callback, int id);
     void getDatesByCategory(Callback<List<Date>> callback, int categoryId);
     void getMatchesByDate(Callback<List<Match>> callback, int dateId);
+    void getTeams(Callback<List<Team>> callback);
+    void getTeam(Callback<Team> callback,int id);
+    void getTeamByMatch(Callback<Team> callback,int matchId, int id);
+    void getTeamsByMatch(Callback<List<Team>> callback,int matchId);
 }

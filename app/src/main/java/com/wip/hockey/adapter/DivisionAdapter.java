@@ -6,12 +6,10 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ProgressBar;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.wip.hockey.R;
-import com.wip.hockey.api.ApiRealState;
+import com.wip.hockey.api.Api;
 import com.wip.hockey.api.ServiceApi;
 import com.wip.hockey.app.MainActivity;
 import com.wip.hockey.handler.HandlerFragment;
@@ -33,11 +31,11 @@ public class DivisionAdapter extends RecyclerView.Adapter<DivisionAdapter.MyView
     private static final String TAG = DivisionAdapter.class.getSimpleName();
     private List<Division> mData;
     private LayoutInflater mInflater;
-    private Context context;
+    private MainActivity context;
 
     public DivisionAdapter(Context context,List<Division> mData ) {
         this.mData = mData;
-        this.context = context;
+        this.context = (MainActivity) context;
         this.mInflater = LayoutInflater.from(context);
     }
 
@@ -57,13 +55,13 @@ public class DivisionAdapter extends RecyclerView.Adapter<DivisionAdapter.MyView
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                MainActivity.progressBar.setVisibility(View.VISIBLE);
-                ServiceApi serviceApi = ApiRealState.getInstance();
+                context.showProgress(true);
+                ServiceApi serviceApi = Api.getInstance();
                 serviceApi.getSubDivisionsByDivision(new Callback<List<SubDivision>>() {
                     @Override
                     public void onResponse(Call<List<SubDivision>> call, Response<List<SubDivision>> response) {
                         HandlerFragment.getInstance().changeToFragment(R.id.fragment_sub_division_recycler, response.body());
-                        MainActivity.progressBar.setVisibility(View.GONE);
+                        context.showProgress(false);
                     }
 
                     @Override

@@ -18,7 +18,6 @@ public class DivisionFragment extends BaseFragment {
 
     @BindView(R.id.fragment_division_recycler)
     RecyclerView recyclerView;
-    private int relationId;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
