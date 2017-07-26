@@ -16,7 +16,6 @@ import retrofit2.Callback;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.http.GET;
-import retrofit2.http.Header;
 import retrofit2.http.Path;
 
 /**
@@ -51,134 +50,134 @@ public class Api implements ServiceApi {
 
     @Override
     public void getDivisions(Callback<List<Division>> callback) {
-        bffApi.getDivisions("application/json").enqueue(callback);
+        bffApi.getDivisions().enqueue(callback);
     }
 
 
     @Override
     public void getDivision(Callback<Division> callback, int id) {
-        bffApi.getDivision("application/json",id).enqueue(callback);
+        bffApi.getDivision(id).enqueue(callback);
     }
 
 
     @Override
     public void getSubDivisionsByDivision(Callback<List<SubDivision>> callback, int divisionId) {
-        bffApi.getSubDivisionsByDivision("application/json",divisionId).enqueue(callback);
+        bffApi.getSubDivisionsByDivision(divisionId).enqueue(callback);
     }
 
     @Override
     public void getSubDivisionByDivision(Callback<SubDivision> callback, int divisionId, int id) {
-        bffApi.getSubDivisionByDivision("application/json",divisionId,id).enqueue(callback);
+        bffApi.getSubDivisionByDivision(divisionId,id).enqueue(callback);
     }
 
     @Override
     public void getSubDivisions(Callback<List<SubDivision>> callback) {
-        bffApi.getSubDivisions("application/json").enqueue(callback);
+        bffApi.getSubDivisions().enqueue(callback);
     }
 
     @Override
     public void getSubDivision(Callback<SubDivision> callback, int id) {
-        bffApi.getSubDivision("application/json",id).enqueue(callback);
+        bffApi.getSubDivision(id).enqueue(callback);
     }
 
     @Override
     public void getCategoriesBySubDivision(Callback<List<Category>> callback, int subDivisionId) {
-        bffApi.getCategoriesBySubDivision("application/json",subDivisionId).enqueue(callback);
+        bffApi.getCategoriesBySubDivision(subDivisionId).enqueue(callback);
     }
 
     @Override
     public void getCategoryBySubDivision(Callback<Category> callback, int subDivisionId, int id) {
-        bffApi.getCategoryBySubDivision("application/json",subDivisionId,id).enqueue(callback);
+        bffApi.getCategoryBySubDivision(subDivisionId,id).enqueue(callback);
     }
 
     @Override
     public void getCategories(Callback<List<Category>> callback) {
-        bffApi.getCategories("application/json").enqueue(callback);
+        bffApi.getCategories().enqueue(callback);
     }
 
     @Override
     public void getCategory(Callback<Category> callback, int id) {
-        bffApi.getCategory("application/json",id).enqueue(callback);
+        bffApi.getCategory(id).enqueue(callback);
     }
 
     @Override
     public void getDatesByCategory(Callback<List<Date>> callback, int categoryId) {
-        bffApi.getDatesByCategory("application/json",categoryId).enqueue(callback);
+        bffApi.getDatesByCategory(categoryId).enqueue(callback);
     }
 
     @Override
     public void getMatchesByDate(Callback<List<Match>> callback, int dateId) {
-        bffApi.getMatchesByDate("application/json",dateId).enqueue(callback);
+        bffApi.getMatchesByDate(dateId).enqueue(callback);
     }
 
     @Override
     public void getTeams(Callback<List<Team>> callback) {
-        bffApi.getTeams("application/json").enqueue(callback);
+        bffApi.getTeams().enqueue(callback);
     }
 
     @Override
     public void getTeam(Callback<Team> callback, int id) {
-        bffApi.getTeam("application/json",id).enqueue(callback);
+        bffApi.getTeam(id).enqueue(callback);
     }
 
     @Override
     public void getTeamByMatch(Callback<Team> callback, int matchId, int id) {
-        bffApi.getTeamByMatch("application/json",matchId,id).enqueue(callback);
+        bffApi.getTeamByMatch(matchId,id).enqueue(callback);
     }
 
     @Override
     public void getTeamsByMatch(Callback<List<Team>> callback, int matchId) {
-        bffApi.getTeamsByMatch("application/json",matchId).enqueue(callback);
+        bffApi.getTeamsByMatch(matchId).enqueue(callback);
     }
 
     public interface IMobile{
 
         @GET("divisions")
-        Call<List<Division>> getDivisions(@Header("Content-Type") String contentType);
+        Call<List<Division>> getDivisions();
 
         @GET("divisions/{id}")
-        Call<Division> getDivision(@Header("Content-Type") String contentType, @Path("id") int divisionId);
+        Call<Division> getDivision(@Path("id") int divisionId);
 
         @GET("divisions/{divisionId}/subdivisions")
-        Call<List<SubDivision>> getSubDivisionsByDivision(@Header("Content-Type") String contentType,@Path("divisionId") int divisionId);
+        Call<List<SubDivision>> getSubDivisionsByDivision(@Path("divisionId") int divisionId);
 
         @GET("divisions/{divisionId}/subdivisions/{id}")
-        Call<SubDivision> getSubDivisionByDivision(@Header("Content-Type") String contentType,@Path("divisionId") int divisionId,@Path("id") int subDivisionId);
+        Call<SubDivision> getSubDivisionByDivision(@Path("divisionId") int divisionId, @Path("id") int subDivisionId);
 
         @GET("subdivisions")
-        Call<List<SubDivision>> getSubDivisions(@Header("Content-Type") String contentType);
+        Call<List<SubDivision>> getSubDivisions();
 
         @GET("subdivisions/{id}")
-        Call<SubDivision> getSubDivision(@Header("Content-Type") String contentType, @Path("id") int subdivisionId);
+        Call<SubDivision> getSubDivision(@Path("id") int subdivisionId);
 
         @GET("subdivisions/{subDivisionId}/categories")
-        Call<List<Category>> getCategoriesBySubDivision(@Header("Content-Type") String contentType, @Path("subDivisionId") int subDivisionId);
+        Call<List<Category>> getCategoriesBySubDivision(@Path("subDivisionId") int subDivisionId);
 
         @GET("subdivisions/{subDivisionId}/categories/{categoryId}")
-        Call<Category> getCategoryBySubDivision(@Header("Content-Type") String contentType,@Path("subDivisionId") int subDivisionId,@Path("id") int categoryId);
+        Call<Category> getCategoryBySubDivision(@Path("subDivisionId") int subDivisionId, @Path("id") int categoryId);
 
         @GET("categories")
-        Call<List<Category>> getCategories(@Header("Content-Type") String contentType);
+        Call<List<Category>> getCategories();
 
         @GET("categories/{id}")
-        Call<Category> getCategory(@Header("Content-Type") String contentType, @Path("id") int categoryId);
+        Call<Category> getCategory(@Path("id") int categoryId);
 
         @GET("categories/{categoryId}/dates")
-        Call<List<Date>> getDatesByCategory(@Header("Content-Type") String contentType, @Path("categoryId") int categoryId);
+        Call<List<Date>> getDatesByCategory(@Path("categoryId") int categoryId);
 
         @GET("dates/{dateId}/matches")
-        Call<List<Match>> getMatchesByDate(@Header("Content-Type") String contentType, @Path("dateId") int dateId);
+        Call<List<Match>> getMatchesByDate(@Path("dateId") int dateId);
 
         @GET("teams")
-        Call<List<Team>> getTeams(@Header("Content-Type") String contentType);
+        Call<List<Team>> getTeams();
 
         @GET("teams/{id}")
-        Call<Team> getTeam(@Header("Content-Type") String contentType, @Path("id") int id);
+        Call<Team> getTeam(@Path("id") int id);
 
         @GET("matches/{matchId}/teams/{id}")
-        Call<Team> getTeamByMatch(@Header("Content-Type") String contentType, @Path("matchId") int matchId, @Path("id") int id);
+        Call<Team> getTeamByMatch(@Path("matchId") int matchId, @Path("id") int id);
 
         @GET("matches/{matchId}/teams")
-        Call<List<Team>> getTeamsByMatch(@Header("Content-Type") String contentType, @Path("matchId") int matchId);
+        Call<List<Team>> getTeamsByMatch(@Path("matchId") int matchId);
     }
 }

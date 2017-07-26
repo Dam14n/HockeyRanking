@@ -12,36 +12,25 @@ import android.widget.TextView;
 
 import com.wip.hockey.R;
 import com.wip.hockey.api.Api;
-import com.wip.hockey.api.ServiceApi;
 import com.wip.hockey.app.MainActivity;
 import com.wip.hockey.model.Match;
 import com.wip.hockey.model.Team;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.TimeoutException;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-/**
- * Created by djorda on 11/05/2017.
- */
-
-public class MatchAdapter extends RecyclerView.Adapter<MatchAdapter.MyViewHolder> {
+public class MatchAdapter extends RecyclerView.Adapter<MatchAdapter.MyViewHolder> implements DataListener{
 
     private static final String TAG = MatchAdapter.class.getSimpleName();
     private List<Match> mData;
     private LayoutInflater mInflater;
     private MainActivity context;
 
-    public MatchAdapter(Context context, List<Match> data){
-        if (data == null){
-            data = new ArrayList<Match>();
-        }
+    public MatchAdapter(Context context){
         this.context = (MainActivity) context;
-        this.mData = data;
         this.mInflater = LayoutInflater.from(context);
     }
 
@@ -49,14 +38,13 @@ public class MatchAdapter extends RecyclerView.Adapter<MatchAdapter.MyViewHolder
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         Log.d(TAG, "onCreateViewHolder");
         ViewGroup row = (ViewGroup) mInflater.inflate(R.layout.list_item_match,parent,false);
-        MyViewHolder holder = new MyViewHolder(row);
-        return holder;
+        return new MyViewHolder(row,this);
     }
 
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
         Log.d(TAG, "onBindViewHolder " + position);
-        if(!mData.isEmpty()) {
+        if(mData != null) {
             Match currentObj = mData.get(position);
             holder.setData(currentObj, position);
         }
@@ -64,11 +52,26 @@ public class MatchAdapter extends RecyclerView.Adapter<MatchAdapter.MyViewHolder
 
     @Override
     public int getItemCount() {
-        return mData.size();
+        return mData != null ? mData.size() : 0;
+    }
+
+    @Override
+    public void dataHasChanged(List list) {
+        this.mData = list;
+        this.notifyDataSetChanged();
+        if(list.isEmpty()){
+            updateFinish();
+        }
+    }
+
+    @Override
+    public void updateFinish() {
+        context.showProgress(false);
     }
 
     class MyViewHolder extends RecyclerView.ViewHolder{
 
+        private DataListener mListener;
         TextView textLocalTeam, textEnemyTeam,localTeamGoals,enemyTeamGoals;
         ImageView imgLocalTeam,imgEnemyTeam;
         int position;
@@ -76,9 +79,10 @@ public class MatchAdapter extends RecyclerView.Adapter<MatchAdapter.MyViewHolder
         Team localTeam;
         Team enemyTeam;
 
-        public  MyViewHolder(View itemView) {
-            super(itemView);
 
+        public  MyViewHolder(View itemView,DataListener mListener) {
+            super(itemView);
+            this.mListener = mListener;
             LinearLayout layout = (LinearLayout) itemView.findViewById(R.id.result);
             localTeamGoals = (TextView) layout.findViewById(R.id.local_team_goals);
             enemyTeamGoals = (TextView) layout.findViewById(R.id.enemy_team_goals);
@@ -96,7 +100,8 @@ public class MatchAdapter extends RecyclerView.Adapter<MatchAdapter.MyViewHolder
                 @Override
                 public void onResponse(Call<Team> call, Response<Team> response) {
                     localTeam = response.body();
-                    textLocalTeam.setText(localTeam.getName());
+                    textLocalTeam.setText(localTeam != null ? localTeam.getName() : "");
+                    finishUpdate(textLocalTeam,textEnemyTeam);
                 }
 
                 @Override
@@ -108,8 +113,10 @@ public class MatchAdapter extends RecyclerView.Adapter<MatchAdapter.MyViewHolder
                 @Override
                 public void onResponse(Call<Team> call, Response<Team> response) {
                     enemyTeam = response.body();
-                    textEnemyTeam.setText(enemyTeam.getName());
+                    textEnemyTeam.setText(enemyTeam != null ? enemyTeam.getName() : "");
+                    finishUpdate(textLocalTeam,textEnemyTeam);
                 }
+
 
                 @Override
                 public void onFailure(Call<Team> call, Throwable t) {
@@ -124,6 +131,12 @@ public class MatchAdapter extends RecyclerView.Adapter<MatchAdapter.MyViewHolder
             this.position = position;
             this.current = current;
 
+        }
+
+        private void finishUpdate(TextView textLocalTeam, TextView textEnemyTeam){
+            if (!textEnemyTeam.getText().equals("") && !textLocalTeam.getText().equals("")){
+                mListener.updateFinish();
+            }
         }
 
     }

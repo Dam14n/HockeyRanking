@@ -30,7 +30,7 @@
 
             <TextView
                 android:id="@+id/local_team"
-                android:text="local team"
+                android:text=""
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="left"
@@ -69,7 +69,7 @@
 
             <TextView
                 android:id="@+id/enemy_team"
-                android:text="enemy team"
+                android:text=""
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="right"

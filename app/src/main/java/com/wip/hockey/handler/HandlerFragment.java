@@ -1,6 +1,7 @@
 package com.wip.hockey.handler;
 
 import android.content.Context;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -15,8 +16,6 @@ import com.wip.hockey.fragment.DivisionFragment;
 import com.wip.hockey.fragment.FavoriteFragment;
 import com.wip.hockey.fragment.MatchFragment;
 import com.wip.hockey.fragment.SubDivisionFragment;
-
-import java.util.List;
 
 /**
  * Created by djorda on 08/06/2017.
@@ -39,7 +38,7 @@ public class HandlerFragment {
         this.context = (FragmentActivity) context;
     }
 
-    public void changeToFragment(int id, List data) {
+    public Fragment changeToFragment(int id) {
         BaseFragment fragment = this.getFragment(id);
         try {
             checkContext();
@@ -55,8 +54,8 @@ public class HandlerFragment {
             fragmentTransaction.replace(R.id.fragment, fragment);
             firstCall = false;
         }
-        fragment.setContent(data);
         fragmentTransaction.commit();
+        return fragment;
     }
 
     public BaseFragment getFragment(int id) {
@@ -96,19 +95,7 @@ public class HandlerFragment {
 
     private void checkContext() throws ContextNotFoundException {
         if (context == null){
-            throw new ContextNotFoundException("Context is not defined.");
+            throw new ContextNotFoundException();
         }
     }
-
-    public void onBackPressed() {
-        //this.fragment = getActualFragment();
-    }
-
-    public void updateFragment(BaseFragment fragment) {
-        FragmentTransaction fragmentTransaction = context.getSupportFragmentManager().beginTransaction();
-        fragmentTransaction.detach(fragment);
-        fragmentTransaction.attach(fragment);
-        fragmentTransaction.commit();
-    }
-
 }

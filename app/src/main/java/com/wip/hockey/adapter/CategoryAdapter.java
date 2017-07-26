@@ -1,7 +1,6 @@
 package com.wip.hockey.adapter;
 
 import android.content.Context;
-import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -11,34 +10,26 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.wip.hockey.R;
-import com.wip.hockey.api.Api;
-import com.wip.hockey.api.ServiceApi;
 import com.wip.hockey.app.MainActivity;
+import com.wip.hockey.fragment.ISelected;
 import com.wip.hockey.handler.HandlerFragment;
 import com.wip.hockey.model.Category;
-import com.wip.hockey.model.Date;
 
 import java.util.List;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 /**
  * Created by djorda on 11/05/2017.
  */
 
-public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.MyViewHolder> {
+public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.MyViewHolder> implements DataListener {
 
     private static final String TAG = CategoryAdapter.class.getSimpleName();
     private List<Category> mData;
     private LayoutInflater mInflater;
     private MainActivity context;
-    private Fragment fragment;
 
-    public CategoryAdapter(Context context, List<Category> data){
+    public CategoryAdapter(Context context){
         this.context = (MainActivity)context;
-        this.mData = data;
         this.mInflater = LayoutInflater.from(context);
     }
 
@@ -46,8 +37,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.MyView
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         Log.d(TAG, "onCreateViewHolder");
         ViewGroup row = (ViewGroup) mInflater.inflate(R.layout.list_item_category,parent,false);
-        MyViewHolder holder = new MyViewHolder(row);
-        return holder;
+        return new MyViewHolder(row);
     }
 
     @Override
@@ -61,19 +51,8 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.MyView
             @Override
             public void onClick(View v) {
                 context.showProgress(true);
-                ServiceApi serviceApi = Api.getInstance();
-                serviceApi.getDatesByCategory(new Callback<List<Date>>() {
-                    @Override
-                    public void onResponse(Call<List<Date>> call, Response<List<Date>> response) {
-                        HandlerFragment.getInstance().changeToFragment(R.id.pager, response.body());
-                        context.showProgress(false);
-                    }
-
-                    @Override
-                    public void onFailure(Call<List<Date>> call, Throwable t) {
-                        System.out.println(t.getMessage());
-                    }
-                },currentObj.getId());
+                ISelected childFragment = (ISelected) HandlerFragment.getInstance().changeToFragment(R.id.pager);
+                childFragment.setParent(currentObj);
             }
         });
         Log.d(TAG,"El objeto "+currentObj.getName());
@@ -103,9 +82,21 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.MyView
         });*/
     }
 
+
     @Override
     public int getItemCount() {
-        return mData.size();
+        return mData != null ? mData.size() : 0;
+    }
+
+    @Override
+    public void dataHasChanged(List list) {
+        this.mData = list;
+        this.notifyDataSetChanged();
+    }
+
+    @Override
+    public void updateFinish() {
+        context.showProgress(false);
     }
 
     class MyViewHolder extends RecyclerView.ViewHolder {

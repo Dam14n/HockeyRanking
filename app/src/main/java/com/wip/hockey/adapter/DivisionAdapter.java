@@ -9,32 +9,25 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.wip.hockey.R;
-import com.wip.hockey.api.Api;
-import com.wip.hockey.api.ServiceApi;
 import com.wip.hockey.app.MainActivity;
+import com.wip.hockey.fragment.ISelected;
 import com.wip.hockey.handler.HandlerFragment;
 import com.wip.hockey.model.Division;
-import com.wip.hockey.model.SubDivision;
 
 import java.util.List;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 /**
  * Created by djorda on 11/05/2017.
  */
 
-public class DivisionAdapter extends RecyclerView.Adapter<DivisionAdapter.MyViewHolder>{
+public class DivisionAdapter extends RecyclerView.Adapter<DivisionAdapter.MyViewHolder> implements DataListener{
 
     private static final String TAG = DivisionAdapter.class.getSimpleName();
     private List<Division> mData;
     private LayoutInflater mInflater;
     private MainActivity context;
 
-    public DivisionAdapter(Context context,List<Division> mData ) {
-        this.mData = mData;
+    public DivisionAdapter(Context context) {
         this.context = (MainActivity) context;
         this.mInflater = LayoutInflater.from(context);
     }
@@ -43,8 +36,7 @@ public class DivisionAdapter extends RecyclerView.Adapter<DivisionAdapter.MyView
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         Log.d(TAG, "onCreateViewHolder");
         ViewGroup row = (ViewGroup) mInflater.inflate(R.layout.list_item_division,parent,false);
-        MyViewHolder holder = new MyViewHolder(row);
-        return holder;
+        return new MyViewHolder(row);
     }
 
     @Override
@@ -56,26 +48,26 @@ public class DivisionAdapter extends RecyclerView.Adapter<DivisionAdapter.MyView
             @Override
             public void onClick(View v) {
                 context.showProgress(true);
-                ServiceApi serviceApi = Api.getInstance();
-                serviceApi.getSubDivisionsByDivision(new Callback<List<SubDivision>>() {
-                    @Override
-                    public void onResponse(Call<List<SubDivision>> call, Response<List<SubDivision>> response) {
-                        HandlerFragment.getInstance().changeToFragment(R.id.fragment_sub_division_recycler, response.body());
-                        context.showProgress(false);
-                    }
-
-                    @Override
-                    public void onFailure(Call<List<SubDivision>> call, Throwable t) {
-                        System.out.println(t.getMessage());
-                    }
-                },currentObj.getId());
+                ISelected childFragment = (ISelected) HandlerFragment.getInstance().changeToFragment(R.id.fragment_sub_division_recycler);
+                childFragment.setParent(currentObj);
             }
         });
     }
 
     @Override
     public int getItemCount() {
-        return mData.size();
+        return mData != null ? mData.size() : 0;
+    }
+
+    @Override
+    public void dataHasChanged(List list) {
+        this.mData = list;
+        this.notifyDataSetChanged();
+    }
+
+    @Override
+    public void updateFinish() {
+        context.showProgress(false);
     }
 
     class MyViewHolder extends RecyclerView.ViewHolder {

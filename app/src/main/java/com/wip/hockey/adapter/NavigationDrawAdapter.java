@@ -43,8 +43,7 @@ public class NavigationDrawAdapter extends RecyclerView.Adapter<NavigationDrawAd
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = inflater.inflate(R.layout.nav_drawer_list_item,parent,false);
-        MyViewHolder holder = new MyViewHolder(view);
-        return holder;
+        return new MyViewHolder(view);
     }
 
     @Override
@@ -62,7 +61,7 @@ public class NavigationDrawAdapter extends RecyclerView.Adapter<NavigationDrawAd
                         serviceApi.getDivisions(new Callback<List<Division>>() {
                             @Override
                             public void onResponse(Call<List<Division>> call, Response<List<Division>> response) {
-                                HandlerFragment.getInstance().changeToFragment(R.id.fragment_division_recycler, response.body());
+                                HandlerFragment.getInstance().changeToFragment(R.id.fragment_division_recycler);
                             }
                             @Override
                             public void onFailure(Call<List<Division>> call, Throwable t) {
@@ -71,11 +70,10 @@ public class NavigationDrawAdapter extends RecyclerView.Adapter<NavigationDrawAd
                         });
                         break;
                     case "Favoritos":
-                        HandlerFragment.getInstance().changeToFragment(R.id.fragment_favorite_recycler, null);
+                        HandlerFragment.getInstance().changeToFragment(R.id.fragment_favorite_recycler);
                         break;
                     case "Borrar Favoritos":
                         MainActivity.favoriteManager.removeAll();
-                        HandlerFragment.getInstance().updateFragment(null);
                         Toast.makeText(context,"Se han removido todos los favoritos!!",Toast.LENGTH_SHORT).show();
                         break;
                     default:

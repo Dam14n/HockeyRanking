@@ -38,8 +38,7 @@ public class FavoriteAdapter extends RecyclerView.Adapter<FavoriteAdapter.MyView
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         Log.d(TAG, "onCreateViewHolder");
         ViewGroup row = (ViewGroup) mInflater.inflate(R.layout.list_item_favorite,parent,false);
-        MyViewHolder holder = new MyViewHolder(row);
-        return holder;
+        return new MyViewHolder(row);
     }
 
     @Override

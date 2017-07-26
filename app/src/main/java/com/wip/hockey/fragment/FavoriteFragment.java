@@ -13,7 +13,6 @@ import android.view.ViewGroup;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.wip.hockey.R;
-import com.wip.hockey.adapter.FavoriteAdapter;
 import com.wip.hockey.model.Category;
 
 import java.lang.reflect.Type;
@@ -46,11 +45,11 @@ public class FavoriteFragment extends BaseFragment {
     }
 
     public void setRecyclerView(){
-        FavoriteAdapter adapter = new FavoriteAdapter(this.getContext(),getContent());
+        //FavoriteAdapter adapter = new FavoriteAdapter(this.getContext());
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getActivity().getApplicationContext());
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
-        recyclerView.setAdapter(adapter);
+        //recyclerView.setAdapter(adapter);
     }
 
     protected int getLayoutResourceId() {
