@@ -1,7 +1,6 @@
 package com.wip.hockey.adapter;
 
 import android.content.Context;
-import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -11,6 +10,8 @@ import android.widget.TextView;
 
 import com.wip.hockey.R;
 import com.wip.hockey.app.MainActivity;
+import com.wip.hockey.fragment.ISelected;
+import com.wip.hockey.handler.HandlerFragment;
 import com.wip.hockey.model.SubDivision;
 
 import java.util.List;
@@ -19,17 +20,15 @@ import java.util.List;
  * Created by djorda on 11/05/2017.
  */
 
-public class SubDivisionAdapter extends RecyclerView.Adapter<SubDivisionAdapter.MyViewHolder> {
+public class SubDivisionAdapter extends RecyclerView.Adapter<SubDivisionAdapter.MyViewHolder> implements DataListener{
 
     private static final String TAG = SubDivisionAdapter.class.getSimpleName();
     private List<SubDivision> mData;
     private LayoutInflater mInflater;
-    private Context context;
-    private Fragment fragment;
+    private MainActivity context;
 
-    public SubDivisionAdapter(Context context, List<SubDivision> data){
-        this.context = context;
-        this.mData = data;
+    public SubDivisionAdapter(Context context){
+        this.context = (MainActivity)context;
         this.mInflater = LayoutInflater.from(context);
     }
 
@@ -37,8 +36,7 @@ public class SubDivisionAdapter extends RecyclerView.Adapter<SubDivisionAdapter.
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         Log.d(TAG, "onCreateViewHolder");
         ViewGroup row = (ViewGroup) mInflater.inflate(R.layout.list_item_sub_division,parent,false);
-        MyViewHolder holder = new MyViewHolder(row);
-        return holder;
+        return new MyViewHolder(row);
     }
 
     @Override
@@ -50,14 +48,27 @@ public class SubDivisionAdapter extends RecyclerView.Adapter<SubDivisionAdapter.
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                MainActivity.handlerFragment.setFragment(R.id.fragment_category_recycler,MainActivity.repository.getCategories(currentObj));
+                context.showProgress(true);
+                ISelected childFragment = (ISelected) HandlerFragment.getInstance().changeToFragment(R.id.fragment_category_recycler);
+                childFragment.setParent(currentObj);
             }
         });
     }
 
     @Override
     public int getItemCount() {
-        return mData.size();
+        return mData != null ? mData.size() : 0;
+    }
+
+    @Override
+    public void dataHasChanged(List list) {
+        this.mData = list;
+        this.notifyDataSetChanged();
+    }
+
+    @Override
+    public void updateFinish() {
+        context.showProgress(false);
     }
 
     class MyViewHolder extends RecyclerView.ViewHolder {

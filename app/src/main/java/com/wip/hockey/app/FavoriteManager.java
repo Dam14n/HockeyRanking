@@ -69,8 +69,7 @@ public class FavoriteManager {
         }
         Gson gson = new Gson();
         Type type = new TypeToken<ArrayList<Category>>() {}.getType();
-        ArrayList data = gson.fromJson(json, type);
-        return data;
+        return gson.fromJson(json, type);
     }
 
     public void removeAll() {

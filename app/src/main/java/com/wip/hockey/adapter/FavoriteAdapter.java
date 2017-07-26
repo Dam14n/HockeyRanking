@@ -25,11 +25,11 @@ public class FavoriteAdapter extends RecyclerView.Adapter<FavoriteAdapter.MyView
     private static final String TAG = FavoriteAdapter.class.getSimpleName();
     private List<Category> mData;
     private LayoutInflater mInflater;
-    private Context context;
+    private MainActivity context;
     private Fragment fragment;
 
     public FavoriteAdapter(Context context, List<Category> data){
-        this.context = context;
+        this.context = (MainActivity)context;
         this.mData = data;
         this.mInflater = LayoutInflater.from(context);
     }
@@ -38,8 +38,7 @@ public class FavoriteAdapter extends RecyclerView.Adapter<FavoriteAdapter.MyView
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         Log.d(TAG, "onCreateViewHolder");
         ViewGroup row = (ViewGroup) mInflater.inflate(R.layout.list_item_favorite,parent,false);
-        MyViewHolder holder = new MyViewHolder(row);
-        return holder;
+        return new MyViewHolder(row);
     }
 
     @Override
@@ -49,18 +48,18 @@ public class FavoriteAdapter extends RecyclerView.Adapter<FavoriteAdapter.MyView
         final Category currentObj = mData.get(position);
         holder.setData(currentObj,position);
         holder.star.setImageResource(R.drawable.button_pressed);
-        holder.star.setOnClickListener(new View.OnClickListener(){
+       /* holder.star.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
                 MainActivity.repository.getCategory(currentObj.getId()).setFavorite(false);
                 MainActivity.favoriteManager.deleteFavorite(currentObj);
                 MainActivity.handlerFragment.updateFragment();
             }
-        });
+        });*/
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                MainActivity.handlerFragment.setFragment(R.id.fragment_match_recycler,MainActivity.repository.getMatches(currentObj.getId()));
+                //MainActivity.handlerFragment.changeToFragment(R.id.fragment_match_recycler,MainActivity.repository.getMatches(currentObj.getId()));
             }
         });
     }
@@ -84,8 +83,8 @@ public class FavoriteAdapter extends RecyclerView.Adapter<FavoriteAdapter.MyView
 
         public void setData(Category current, int position) {
             Log.d(TAG, "Category: " + current.getName());
-
-            this.category.setText(current.getName());
+           // SubDivision subDivision = MainActivity.repository.getSubDivision(current.getSubDivision());
+            //this.category.setText(subDivision.getName()+": " + current.getName());
          }
 
     }

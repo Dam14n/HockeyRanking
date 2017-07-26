@@ -1,28 +1,30 @@
 package com.wip.hockey.app;
 
-import android.support.v4.app.FragmentManager;
+import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.view.View;
+import android.widget.ProgressBar;
+
 import com.wip.hockey.R;
 import com.wip.hockey.fragment.NavigationDrawerFragment;
 import com.wip.hockey.handler.HandlerFragment;
-import com.wip.hockey.model.Division;
 import com.wip.hockey.repository.Repository;
 
 public class MainActivity extends AppCompatActivity {
 
     public static final String TAG = MainActivity.class.getSimpleName();
-    public static HandlerFragment handlerFragment;
+    private  HandlerFragment handlerFragment;
     public static FavoriteManager favoriteManager;
     public static Repository repository;
     private Toolbar toolbar;
+    private ProgressBar progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        repository = new Repository();
+    //    repository = new Repository();
         setContentView(R.layout.activity_main);
         setUpToolbar();
         setUpDrawer();
@@ -37,14 +39,17 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setUpFragment() {
-        handlerFragment = new HandlerFragment(this);
-        handlerFragment.setFragment(R.id.fragment_division_recycler,repository.getDivisions());
+        handlerFragment = HandlerFragment.getInstance();
+        handlerFragment.setContext(this);
+        progressBar = (ProgressBar) findViewById(R.id.loading);
+        showProgress(true);
+        handlerFragment.changeToFragment(R.id.fragment_division_recycler);
     }
 
     private void setUpToolbar(){
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle("Hockey");
-        toolbar.setSubtitle("Ranking");
+        toolbar.setSubtitle("Pasion");
         toolbar.inflateMenu(R.menu.menu_main);
     }
 
@@ -57,7 +62,12 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        handlerFragment.onBackPressed();
+        //handlerFragment.onBackPressed();
     }
+
+    public void showProgress(boolean isVisible){
+        progressBar.setVisibility(isVisible ? View.VISIBLE : View.GONE);
+    }
+
 }
 

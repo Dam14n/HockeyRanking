@@ -1,24 +1,12 @@
 package com.wip.hockey.repository;
 
-import com.wip.hockey.R;
-import com.wip.hockey.model.Category;
-import com.wip.hockey.model.Division;
-import com.wip.hockey.model.Match;
-import com.wip.hockey.model.SubDivision;
-import com.wip.hockey.model.Team;
-
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
-import java.util.TimeZone;
-
 /**
  * Created by djorda on 09/06/2017.
  */
 
 public class Repository {
 
-    private ArrayList<Division> divisions;
+  /*  private ArrayList<Division> divisions;
 
     public Repository() {
         createDivisions();
@@ -42,14 +30,17 @@ public class Repository {
 
         for (int i = 0 ; i < names.length ; i++){
             SubDivision subDivision = new SubDivision();
+            Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("GMT"));
+            long time = cal.getTimeInMillis();
+            subDivision.setId(time);
             subDivision.setName(names[i]);
-            subDivision.setCategories(createCategories());
+            subDivision.setCategories(createCategories(subDivision.getId()));
             subDivisions.add(subDivision);
         }
         return subDivisions;
     }
 
-    private ArrayList<Category> createCategories() {
+    private ArrayList<Category> createCategories(long subDivision) {
         ArrayList<Category> categories = new ArrayList<>();
         String[] names = getCategoryNames();
 
@@ -58,6 +49,7 @@ public class Repository {
             Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("GMT"));
             long time = cal.getTimeInMillis();
             category.setId(time);
+            category.setSubDivision(subDivision);
             category.setName(names[i]);
             category.setMatch(createMatches());
             categories.add(category);
@@ -196,6 +188,16 @@ public class Repository {
         return null;
     }
 
+    public SubDivision getSubDivision(long id) {
+        for (Division div: divisions ) {
+            for (SubDivision sub : div.getSubDivision()){
+                if (sub.getId() == id) {
+                        return sub;
+                }
+            }
+        }
+        return null;
+    }
     public ArrayList<Match> getMatches(long id) {
         for (Division div: divisions ) {
             for (SubDivision sub : div.getSubDivision()){
@@ -207,5 +209,5 @@ public class Repository {
             }
         }
         return new ArrayList<>();
-    }
+    }*/
 }
