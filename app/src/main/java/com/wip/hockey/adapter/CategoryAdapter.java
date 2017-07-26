@@ -1,8 +1,6 @@
 package com.wip.hockey.adapter;
 
 import android.content.Context;
-import android.content.SharedPreferences;
-import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -10,34 +8,28 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 import com.wip.hockey.R;
 import com.wip.hockey.app.MainActivity;
+import com.wip.hockey.fragment.ISelected;
+import com.wip.hockey.handler.HandlerFragment;
 import com.wip.hockey.model.Category;
-import com.wip.hockey.model.Division;
 
-import java.lang.reflect.Type;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Created by djorda on 11/05/2017.
  */
 
-public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.MyViewHolder> {
+public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.MyViewHolder> implements DataListener {
 
     private static final String TAG = CategoryAdapter.class.getSimpleName();
     private List<Category> mData;
     private LayoutInflater mInflater;
-    private Context context;
-    private Fragment fragment;
+    private MainActivity context;
 
-    public CategoryAdapter(Context context, List<Category> data){
-        this.context = context;
-        this.mData = data;
+    public CategoryAdapter(Context context){
+        this.context = (MainActivity)context;
         this.mInflater = LayoutInflater.from(context);
     }
 
@@ -45,8 +37,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.MyView
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         Log.d(TAG, "onCreateViewHolder");
         ViewGroup row = (ViewGroup) mInflater.inflate(R.layout.list_item_category,parent,false);
-        MyViewHolder holder = new MyViewHolder(row);
-        return holder;
+        return new MyViewHolder(row);
     }
 
     @Override
@@ -56,8 +47,16 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.MyView
         final Category currentObj = mData.get(position);
         holder.setData(currentObj,position);
 
-        Log.d(TAG,"El objeto "+currentObj.getName()+" es favorito: "+currentObj.isFavorite());
-        if(currentObj.isFavorite()){
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                context.showProgress(true);
+                ISelected childFragment = (ISelected) HandlerFragment.getInstance().changeToFragment(R.id.pager);
+                childFragment.setParent(currentObj);
+            }
+        });
+        Log.d(TAG,"El objeto "+currentObj.getName());
+       /* if(currentObj.isFavorite()){
             holder.star.setImageResource(R.drawable.button_pressed);
         }
         holder.star.setOnClickListener(new View.OnClickListener(){
@@ -69,7 +68,6 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.MyView
                     MainActivity.favoriteManager.deleteFavorite(currentObj);
                     holder.star.setImageResource(R.drawable.button_normal);
                 }else {
-                    //4616
                     currentObj.setFavorite(true);
                     MainActivity.favoriteManager.saveFavorite(currentObj);
                     holder.star.setImageResource(R.drawable.button_pressed);
@@ -79,14 +77,26 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.MyView
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                MainActivity.handlerFragment.setFragment(R.id.fragment_match_recycler,MainActivity.repository.getMatches(currentObj));
+                MainActivity.handlerFragment.changeToFragment(R.id.fragment_match_recycler,MainActivity.repository.getMatches(currentObj));
             }
-        });
+        });*/
     }
+
 
     @Override
     public int getItemCount() {
-        return mData.size();
+        return mData != null ? mData.size() : 0;
+    }
+
+    @Override
+    public void dataHasChanged(List list) {
+        this.mData = list;
+        this.notifyDataSetChanged();
+    }
+
+    @Override
+    public void updateFinish() {
+        context.showProgress(false);
     }
 
     class MyViewHolder extends RecyclerView.ViewHolder {

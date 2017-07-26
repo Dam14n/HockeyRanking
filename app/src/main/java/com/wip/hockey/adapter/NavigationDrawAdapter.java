@@ -10,11 +10,19 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.wip.hockey.R;
+import com.wip.hockey.api.Api;
+import com.wip.hockey.api.ServiceApi;
 import com.wip.hockey.app.MainActivity;
+import com.wip.hockey.handler.HandlerFragment;
+import com.wip.hockey.model.Division;
 import com.wip.hockey.model.NavigationDrawerItem;
 
 import java.util.Collections;
 import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * Created by djorda on 12/05/2017.
@@ -35,14 +43,12 @@ public class NavigationDrawAdapter extends RecyclerView.Adapter<NavigationDrawAd
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = inflater.inflate(R.layout.nav_drawer_list_item,parent,false);
-        MyViewHolder holder = new MyViewHolder(view);
-        return holder;
+        return new MyViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(final MyViewHolder holder, int position) {
         NavigationDrawerItem current = mDataList.get(position);
-
         holder.imgIcon.setImageResource(current.getImageId());
         holder.title.setText(current.getTitle());
         holder.itemView.setOnClickListener(new View.OnClickListener(){
@@ -51,14 +57,23 @@ public class NavigationDrawAdapter extends RecyclerView.Adapter<NavigationDrawAd
             public void onClick(View v) {
                 switch (holder.title.getText().toString()){
                     case "Inicio":
-                        MainActivity.handlerFragment.setFragment(R.id.fragment_division_recycler,MainActivity.repository.getDivisions());
+                        ServiceApi serviceApi = Api.getInstance();
+                        serviceApi.getDivisions(new Callback<List<Division>>() {
+                            @Override
+                            public void onResponse(Call<List<Division>> call, Response<List<Division>> response) {
+                                HandlerFragment.getInstance().changeToFragment(R.id.fragment_division_recycler);
+                            }
+                            @Override
+                            public void onFailure(Call<List<Division>> call, Throwable t) {
+                                System.out.println(t.getMessage());
+                            }
+                        });
                         break;
-                    case "Favorites":
-                        MainActivity.handlerFragment.setFragment(R.id.fragment_favorite_recycler,null);
+                    case "Favoritos":
+                        HandlerFragment.getInstance().changeToFragment(R.id.fragment_favorite_recycler);
                         break;
-                    case "Remove Favorites":
+                    case "Borrar Favoritos":
                         MainActivity.favoriteManager.removeAll();
-                        MainActivity.handlerFragment.updateFragment();
                         Toast.makeText(context,"Se han removido todos los favoritos!!",Toast.LENGTH_SHORT).show();
                         break;
                     default:

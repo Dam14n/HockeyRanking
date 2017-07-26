@@ -1,6 +1,6 @@
 package com.wip.hockey.handler;
 
-import android.os.Bundle;
+import android.content.Context;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
@@ -11,13 +11,11 @@ import com.wip.hockey.R;
 import com.wip.hockey.app.MainActivity;
 import com.wip.hockey.fragment.BaseFragment;
 import com.wip.hockey.fragment.CategoryFragment;
+import com.wip.hockey.fragment.DateFragment;
 import com.wip.hockey.fragment.DivisionFragment;
 import com.wip.hockey.fragment.FavoriteFragment;
 import com.wip.hockey.fragment.MatchFragment;
 import com.wip.hockey.fragment.SubDivisionFragment;
-
-import java.util.ArrayList;
-import java.util.HashMap;
 
 /**
  * Created by djorda on 08/06/2017.
@@ -26,87 +24,78 @@ import java.util.HashMap;
 public class HandlerFragment {
 
     private FragmentActivity context;
-    private ArrayList mData;
+    private static HandlerFragment handlerFragment = new HandlerFragment();
     private boolean firstCall = true;
-    private BaseFragment fragment;
-    private HashMap<Integer,BaseFragment> listFragments;
 
-    public HandlerFragment(FragmentActivity context) {
-        this.context = context;
-        this.listFragments = new HashMap();
+    private HandlerFragment() {
     }
 
-    public void setFragment(int id,ArrayList data) {
-        mData = data;
+    public static HandlerFragment getInstance(){
+        return handlerFragment;
+    }
 
-        fragment = getFragment(id);
-        setDataFragment();
+    public void setContext(Context context){
+        this.context = (FragmentActivity) context;
+    }
+
+    public Fragment changeToFragment(int id) {
+        BaseFragment fragment = this.getFragment(id);
+        try {
+            checkContext();
+        } catch (ContextNotFoundException e) {
+            e.printStackTrace();
+        }
         FragmentManager fragmentManager = context.getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-
         if (!firstCall){
             fragmentTransaction.replace(R.id.fragment, fragment);
-            fragmentTransaction.addToBackStack("id:" + id);
+            fragmentTransaction.addToBackStack("id: " + fragment.getId());
         }else{
             fragmentTransaction.replace(R.id.fragment, fragment);
             firstCall = false;
         }
         fragmentTransaction.commit();
-    }
-
-    private void setDataFragment() {
-        this.fragment.setContent(mData);
+        return fragment;
     }
 
     public BaseFragment getFragment(int id) {
-        if(listFragments.containsKey(id)){
-            return listFragments.get(id);
-        }
         BaseFragment fragment = null;
         switch (id){
             case R.id.fragment_division_recycler:
                 fragment = new DivisionFragment();
-                Log.d(MainActivity.TAG,"La data es: "+mData);
+                Log.d(MainActivity.TAG,"La data es: ");
                 break;
             case R.id.fragment_sub_division_recycler:
                 fragment = new SubDivisionFragment();
-                Log.d(MainActivity.TAG,"La data es: "+mData);
+                Log.d(MainActivity.TAG,"La data es: ");
                 break;
             case R.id.fragment_category_recycler:
                 fragment = new CategoryFragment();
-                Log.d(MainActivity.TAG,"La data es: "+mData);
+                Log.d(MainActivity.TAG,"La data es: ");
                 break;
             case R.id.fragment_match_recycler:
                 fragment = new MatchFragment();
-                Log.d(MainActivity.TAG,"La data es: "+mData);
+                Log.d(MainActivity.TAG,"La data es: ");
                 break;
             case R.id.fragment_favorite_recycler:
                 fragment = new FavoriteFragment();
-                Log.d(MainActivity.TAG,"La data es: "+mData);
+                Log.d(MainActivity.TAG,"La data es: ");
+                break;
+            case R.id.pager:
+                fragment = new DateFragment();
+                Log.d(MainActivity.TAG,"La data es: pager");
                 break;
             default:
                 fragment = new DivisionFragment();
-                Log.d(MainActivity.TAG,"La data es: "+mData);
+                Log.d(MainActivity.TAG,"La data es: ");
         }
-        Bundle bundle = new Bundle();
-        bundle.putInt("id",id);
-        fragment.setArguments(bundle);
-        listFragments.put(id,fragment);
         return fragment;
     }
 
-    public void onBackPressed() {
-        for (BaseFragment fragment: listFragments.values()) {
-            if(fragment!= null && fragment.isVisible()){
-                this.fragment = fragment;
-            }
-        }
-    }
 
-    public void updateFragment() {
-        FragmentTransaction fragmentTransaction = context.getSupportFragmentManager().beginTransaction();
-        fragmentTransaction.detach(fragment);
-        fragmentTransaction.attach(fragment);
-        fragmentTransaction.commit();
+    private void checkContext() throws ContextNotFoundException {
+        if (context == null){
+            throw new ContextNotFoundException();
+        }
     }
 }

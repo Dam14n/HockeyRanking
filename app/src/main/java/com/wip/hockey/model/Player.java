@@ -1,15 +1,29 @@
 package com.wip.hockey.model;
 
+import java.util.List;
+
 /**
  * Created by djorda on 23/05/2017.
  */
 
-public class Player {
+public class Player implements  IIdentificable{
 
+    private int id;
     private String name;
     private int age;
+    private int teamId;
     private Team team;
-    private Goal[] goals;
+    private List<Goal> goals;
+
+    @Override
+    public int getId() {
+        return id;
+    }
+
+    @Override
+    public void setId(int id) {
+        this.id = id;
+    }
 
     public String getName() {
         return name;
@@ -27,6 +41,14 @@ public class Player {
         this.age = age;
     }
 
+    public int getTeamId() {
+        return teamId;
+    }
+
+    public void setTeamId(int teamId) {
+        this.teamId = teamId;
+    }
+
     public Team getTeam() {
         return team;
     }
@@ -35,11 +57,11 @@ public class Player {
         this.team = team;
     }
 
-    public Goal[] getGoals() {
+    public List<Goal> getGoals() {
         return goals;
     }
 
-    public void setGoals(Goal[] goals) {
+    public void setGoals(List<Goal> goals) {
         this.goals = goals;
     }
 }
