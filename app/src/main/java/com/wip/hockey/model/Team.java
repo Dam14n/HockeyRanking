@@ -35,6 +35,9 @@ public class Team implements IIdentificable {
     @SerializedName("GoalsIds")
     @Expose
     private List<Integer> goalsIds;
+    @SerializedName("LogoId")
+    @Expose
+    private int logoId;
 
     @Override
     public int getId() {
@@ -100,5 +103,13 @@ public class Team implements IIdentificable {
 
     public void setGoalsIds(List<Integer> goalsIds) {
         this.goalsIds = goalsIds;
+    }
+
+    public int getLogoId() {
+        return logoId;
+    }
+
+    public void setLogoId(int logoId) {
+        this.logoId = logoId;
     }
 }
