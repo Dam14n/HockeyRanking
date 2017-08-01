@@ -52,6 +52,11 @@ public class FavoriteFragment extends BaseFragment {
         //recyclerView.setAdapter(adapter);
     }
 
+    @Override
+    public String getTAG() {
+        return null;
+    }
+
     protected int getLayoutResourceId() {
         return R.layout.fragment_list_favorite;
     }

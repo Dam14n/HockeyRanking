@@ -1,90 +1,92 @@
 package com.wip.hockey.adapter;
 
-import android.content.Context;
+import android.databinding.DataBindingUtil;
+import android.support.v7.util.DiffUtil;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import com.wip.hockey.R;
-import com.wip.hockey.app.MainActivity;
-import com.wip.hockey.fragment.ISelected;
-import com.wip.hockey.handler.HandlerFragment;
+import com.wip.hockey.databinding.ListItemDivisionBinding;
+import com.wip.hockey.fragment.ListDivisionFragment;
 import com.wip.hockey.model.Division;
 
 import java.util.List;
 
-/**
- * Created by djorda on 11/05/2017.
- */
-
-public class DivisionAdapter extends RecyclerView.Adapter<DivisionAdapter.MyViewHolder> implements DataListener{
+public class DivisionAdapter extends RecyclerView.Adapter<DivisionAdapter.MyViewHolder> {
 
     private static final String TAG = DivisionAdapter.class.getSimpleName();
-    private List<Division> mData;
-    private LayoutInflater mInflater;
-    private MainActivity context;
+    private final ListDivisionFragment mFragment;
+    private List<Division> divisionList;
 
-    public DivisionAdapter(Context context) {
-        this.context = (MainActivity) context;
-        this.mInflater = LayoutInflater.from(context);
+    public DivisionAdapter(ListDivisionFragment fragment) {
+        mFragment = fragment;
     }
 
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        Log.d(TAG, "onCreateViewHolder");
-        ViewGroup row = (ViewGroup) mInflater.inflate(R.layout.list_item_division,parent,false);
-        return new MyViewHolder(row);
-    }
+        ListItemDivisionBinding binding = DataBindingUtil
+                .inflate(LayoutInflater.from(parent.getContext()), R.layout.list_item_division,
+                        parent, false);
+
+        binding.setHandler(mFragment);
+
+        return new MyViewHolder(binding);
+ }
 
     @Override
-    public void onBindViewHolder(final MyViewHolder holder, int position) {
-        Log.d(TAG, "onBindViewHolder " + position);
-        final Division currentObj = mData.get(position);
-        holder.setData(currentObj,position);
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                context.showProgress(true);
-                ISelected childFragment = (ISelected) HandlerFragment.getInstance().changeToFragment(R.id.fragment_sub_division_recycler);
-                childFragment.setParent(currentObj);
-            }
-        });
+    public void onBindViewHolder(MyViewHolder holder, int position) {
+        holder.binding.setDivision(divisionList.get(position));
+        holder.binding.executePendingBindings();
     }
 
     @Override
     public int getItemCount() {
-        return mData != null ? mData.size() : 0;
+        return divisionList != null ? divisionList.size() : 0;
     }
 
-    @Override
-    public void dataHasChanged(List list) {
-        this.mData = list;
-        this.notifyDataSetChanged();
-    }
 
-    @Override
-    public void updateFinish() {
-        context.showProgress(false);
+    public void setDivisionList(final List<Division> divisionList) {
+        if (this.divisionList == null) {
+            this.divisionList = divisionList;
+            notifyItemRangeInserted(0, divisionList.size());
+        } else {
+            DiffUtil.DiffResult result = DiffUtil.calculateDiff(new DiffUtil.Callback() {
+                @Override
+                public int getOldListSize() {
+                    return DivisionAdapter.this.divisionList.size();
+                }
+
+                @Override
+                public int getNewListSize() {
+                    return divisionList.size();
+                }
+
+                @Override
+                public boolean areItemsTheSame(int oldItemPosition, int newItemPosition) {
+                    return DivisionAdapter.this.divisionList.get(oldItemPosition).getId() ==
+                            divisionList.get(newItemPosition).getId();
+                }
+
+                @Override
+                public boolean areContentsTheSame(int oldItemPosition, int newItemPosition) {
+                    Division division = divisionList.get(newItemPosition);
+                    Division old = divisionList.get(oldItemPosition);
+                    return division.getId() == old.getId();
+                }
+            });
+            this.divisionList = divisionList;
+            result.dispatchUpdatesTo(this);
+        }
     }
 
     class MyViewHolder extends RecyclerView.ViewHolder {
 
-        TextView division;
+        final ListItemDivisionBinding binding;
 
-        public  MyViewHolder(View itemView) {
-            super(itemView);
-
-            division = (TextView) itemView.findViewById(R.id.division);
+        public MyViewHolder(ListItemDivisionBinding binding) {
+            super(binding.getRoot());
+            this.binding = binding;
         }
-
-        public void setData(Division current, int position) {
-            Log.d(TAG, "Division: " + current.getName());
-
-            this.division.setText(current.getName());
-         }
-
     }
 }

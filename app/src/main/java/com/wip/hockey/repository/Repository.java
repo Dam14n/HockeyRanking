@@ -1,213 +1,61 @@
 package com.wip.hockey.repository;
 
-/**
- * Created by djorda on 09/06/2017.
- */
+import android.arch.lifecycle.LiveData;
+import android.arch.lifecycle.MutableLiveData;
+
+import com.wip.hockey.api.Api;
+import com.wip.hockey.model.Division;
+import com.wip.hockey.model.SubDivision;
+
+import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class Repository {
 
-  /*  private ArrayList<Division> divisions;
+    private static Repository instance = new Repository();
+    private Api api = Api.getInstance();
 
-    public Repository() {
-        createDivisions();
+    private Repository() {
     }
 
-    private void createDivisions() {
-        divisions = new ArrayList();
-        String[] names = getDivisionNames();
-
-        for (int i = 0 ; i < names.length ; i++){
-            Division division = new Division();
-            division.setName(names[i]);
-            division.setSubDivision(createSubDivisions(division));
-            divisions.add(division);
-        }
+    public static Repository getInstance(){
+        return instance;
     }
 
-    private ArrayList<SubDivision> createSubDivisions(Division division) {
-        ArrayList<SubDivision> subDivisions = new ArrayList<>();
-        String[] names = getSubDivisionNames(division.getName());
-
-        for (int i = 0 ; i < names.length ; i++){
-            SubDivision subDivision = new SubDivision();
-            Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("GMT"));
-            long time = cal.getTimeInMillis();
-            subDivision.setId(time);
-            subDivision.setName(names[i]);
-            subDivision.setCategories(createCategories(subDivision.getId()));
-            subDivisions.add(subDivision);
-        }
-        return subDivisions;
-    }
-
-    private ArrayList<Category> createCategories(long subDivision) {
-        ArrayList<Category> categories = new ArrayList<>();
-        String[] names = getCategoryNames();
-
-        for (int i = 0 ; i < names.length ; i++){
-            Category category  = new Category();
-            Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("GMT"));
-            long time = cal.getTimeInMillis();
-            category.setId(time);
-            category.setSubDivision(subDivision);
-            category.setName(names[i]);
-            category.setMatch(createMatches());
-            categories.add(category);
-        }
-        return categories;
-    }
-
-    public ArrayList<Match> createMatches(){
-        ArrayList<Match> matches = new ArrayList<>();
-        int[] images = getMatchesImages();
-        String[] names = getMatchesNames();
-
-        for (int i = 0 ; i < images.length ; i+=2){
-            Match match = new Match();
-
-            Team localTeam = new Team();
-            localTeam.setLogo(images[i]);
-            localTeam.setName(names[i]);
-
-            Team enemyTeam = new Team();
-            enemyTeam.setLogo(images[i+1]);
-            enemyTeam.setName(names[i+1]);
-
-            match.setEnemyTeam(enemyTeam);
-            match.setLocalTeam(localTeam);
-
-            matches.add(match);
-        }
-        return matches;
-    }
-
-    private String[] getDivisionNames() {
-        String[] names = {
-                "A",
-                "B",
-                "C",
-                "D"
-        };
-        return names;
-    }
-
-    private String[] getSubDivisionNames(String division) {
-
-        String[] names = {
-                division + "1",
-                division + "2",
-                division + "3"
-        };
-
-        return names;
-    }
-
-
-    private String[] getCategoryNames() {
-
-        String[] names = {
-                "Primera",
-                "Intermedia"
-        };
-
-        return names;
-    }
-
-    private int[] getMatchesImages() {
-
-        int[] images = {
-                R.drawable.regatas,
-                R.drawable.san_luis,
-                R.drawable.alem_quilmes,
-                R.drawable.bacrc
-
-        };
-
-        return images;
-    }
-
-    private String[] getMatchesNames() {
-
-        String[] names = {
-                "REGATAS DE AVELLANEDA",
-                "SAN LUIS",
-                "ALEMAN DE QUILMES",
-                "BACRC"
-        };
-
-        return names;
-    }
-
-    public ArrayList<Division> getDivisions() {
-        return divisions;
-    }
-
-    public ArrayList<SubDivision> getSubDivisions(Division division){
-        for (Division div: divisions ) {
-            if(div==division){
-                return div.getSubDivision();
+    public MutableLiveData<List<Division>> getDivisions(){
+        final MutableLiveData<List<Division>> data = new MutableLiveData<>();
+        api.getDivisions(new Callback<List<Division>>() {
+            @Override
+            public void onResponse(Call<List<Division>> call, Response<List<Division>> response) {
+                data.setValue(response.body());
             }
-        }
-        return new ArrayList();
+
+            @Override
+            public void onFailure(Call<List<Division>> call, Throwable t) {
+                System.out.println(t.getMessage());
+            //    Toast.makeText(getContext(), "Error al buscar datos", Toast.LENGTH_SHORT).show();
+            }
+        });
+        return data;
     }
 
-    public ArrayList<Category> getCategories(SubDivision subDivision){
-        for (Division div: divisions ) {
-            for (SubDivision sub : div.getSubDivision()){
-                if (sub == subDivision) {
-                    return sub.getCategories();
-                }
+    public LiveData<List<SubDivision>> getSubDivisions(Division division) {
+        final MutableLiveData<List<SubDivision>> data = new MutableLiveData<>();
+        api.getSubDivisionsByDivision(new Callback<List<SubDivision>>() {
+            @Override
+            public void onResponse(Call<List<SubDivision>> call, Response<List<SubDivision>> response) {
+                data.setValue(response.body());
             }
-        }
-        return new ArrayList();
-    }
 
-    public ArrayList<Match> getMatches(Category category){
-        for (Division div: divisions ) {
-            for (SubDivision sub : div.getSubDivision()){
-                for (Category cat : sub.getCategories()){
-                    if (cat == category) {
-                        return cat.getMatch();
-                    }
-                }
+            @Override
+            public void onFailure(Call<List<SubDivision>> call, Throwable t) {
+                System.out.println(t.getMessage());
+            //    Toast.makeText(getContext(), "Error al buscar datos", Toast.LENGTH_SHORT).show();
             }
-        }
-        return new ArrayList();
+        },division.getId());
+        return data;
     }
-
-    public Category getCategory(long id) {
-        for (Division div: divisions ) {
-            for (SubDivision sub : div.getSubDivision()){
-                for (Category cat : sub.getCategories()){
-                    if (cat.getId() == id) {
-                        return cat;
-                    }
-                }
-            }
-        }
-        return null;
-    }
-
-    public SubDivision getSubDivision(long id) {
-        for (Division div: divisions ) {
-            for (SubDivision sub : div.getSubDivision()){
-                if (sub.getId() == id) {
-                        return sub;
-                }
-            }
-        }
-        return null;
-    }
-    public ArrayList<Match> getMatches(long id) {
-        for (Division div: divisions ) {
-            for (SubDivision sub : div.getSubDivision()){
-                for (Category cat : sub.getCategories()){
-                    if (cat.getId() == id) {
-                        return cat.getMatch();
-                    }
-                }
-            }
-        }
-        return new ArrayList<>();
-    }*/
 }

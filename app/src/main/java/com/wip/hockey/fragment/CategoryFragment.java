@@ -70,6 +70,11 @@ public class CategoryFragment extends BaseFragment implements ISelected{
 
     }
 
+    @Override
+    public String getTAG() {
+        return null;
+    }
+
     protected int getLayoutResourceId() {
         return R.layout.fragment_list_category;
     }

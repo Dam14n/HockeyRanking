@@ -12,10 +12,10 @@ import com.wip.hockey.app.MainActivity;
 import com.wip.hockey.fragment.BaseFragment;
 import com.wip.hockey.fragment.CategoryFragment;
 import com.wip.hockey.fragment.DateFragment;
-import com.wip.hockey.fragment.DivisionFragment;
+import com.wip.hockey.fragment.ListDivisionFragment;
 import com.wip.hockey.fragment.FavoriteFragment;
 import com.wip.hockey.fragment.MatchFragment;
-import com.wip.hockey.fragment.SubDivisionFragment;
+import com.wip.hockey.fragment.ListSubDivisionFragment;
 
 /**
  * Created by djorda on 08/06/2017.
@@ -48,10 +48,10 @@ public class HandlerFragment {
         FragmentManager fragmentManager = context.getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         if (!firstCall){
-            fragmentTransaction.replace(R.id.fragment, fragment);
+            fragmentTransaction.replace(R.id.fragment, fragment,fragment.getTAG());
             fragmentTransaction.addToBackStack("id: " + fragment.getId());
         }else{
-            fragmentTransaction.replace(R.id.fragment, fragment);
+            fragmentTransaction.replace(R.id.fragment, fragment, fragment.getTAG());
             firstCall = false;
         }
         fragmentTransaction.commit();
@@ -62,11 +62,11 @@ public class HandlerFragment {
         BaseFragment fragment = null;
         switch (id){
             case R.id.fragment_division_recycler:
-                fragment = new DivisionFragment();
+                fragment = new ListDivisionFragment();
                 Log.d(MainActivity.TAG,"La data es: ");
                 break;
             case R.id.fragment_sub_division_recycler:
-                fragment = new SubDivisionFragment();
+                fragment = new ListSubDivisionFragment();
                 Log.d(MainActivity.TAG,"La data es: ");
                 break;
             case R.id.fragment_category_recycler:
@@ -86,7 +86,7 @@ public class HandlerFragment {
                 Log.d(MainActivity.TAG,"La data es: pager");
                 break;
             default:
-                fragment = new DivisionFragment();
+                fragment = new ListDivisionFragment();
                 Log.d(MainActivity.TAG,"La data es: ");
         }
         return fragment;

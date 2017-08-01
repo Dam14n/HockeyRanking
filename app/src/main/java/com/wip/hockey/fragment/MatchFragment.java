@@ -67,6 +67,11 @@ public class MatchFragment extends BaseFragment implements ISelected{
         },this.parent.getId());
     }
 
+    @Override
+    public String getTAG() {
+        return null;
+    }
+
     protected int getLayoutResourceId() {
         return R.layout.fragment_list_match;
     }

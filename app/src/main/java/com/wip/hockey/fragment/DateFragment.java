@@ -68,6 +68,11 @@ public class DateFragment extends BaseFragment implements  ISelected{
         },this.parent.getId());
     }
 
+    @Override
+    public String getTAG() {
+        return null;
+    }
+
     protected int getLayoutResourceId() {
         return R.layout.fragment_dates;
     }
