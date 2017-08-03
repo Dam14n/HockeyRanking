@@ -13,10 +13,6 @@ import com.wip.hockey.model.SubDivision;
 
 import java.util.List;
 
-/**
- * Created by djorda on 11/05/2017.
- */
-
 public class SubDivisionAdapter extends RecyclerView.Adapter<SubDivisionAdapter.MyViewHolder>{
 
     private static final String TAG = DivisionAdapter.class.getSimpleName();

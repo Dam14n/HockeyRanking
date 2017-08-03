@@ -20,7 +20,7 @@ import com.wip.hockey.viewModel.SubDivisionViewModel;
 
 import java.util.List;
 
-public class ListSubDivisionFragment extends BaseFragment implements ISelected {
+public class ListSubDivisionFragment extends BaseFragment implements Selected {
 
     private final String TAG = ListSubDivisionFragment.class.toString();
     private SubDivisionAdapter subDivisionAdapter;
@@ -47,7 +47,7 @@ public class ListSubDivisionFragment extends BaseFragment implements ISelected {
         observeViewModel(subDivisionViewModel);
     }
 
-    private void observeViewModel(SubDivisionViewModel viewModel) {
+    private void observeViewModel(final SubDivisionViewModel viewModel) {
         // Update the list when the data changes
         final MainActivity mainActivity = (MainActivity) this.getContext();
         viewModel.getSubDivisionListObservable().observe(this, new Observer<List<SubDivision>>() {
@@ -56,8 +56,8 @@ public class ListSubDivisionFragment extends BaseFragment implements ISelected {
                 mainActivity.showProgress(true);
                 if (subDivisions != null) {
                     subDivisionAdapter.setSubDivisionList(subDivisions);
-                    mainActivity.showProgress(false);
                 }
+                mainActivity.showProgress(false);
             }
         });
     }
@@ -68,12 +68,12 @@ public class ListSubDivisionFragment extends BaseFragment implements ISelected {
     }
 
     public void onClick(SubDivision subDivision) {
-        ISelected selected = (ISelected) HandlerFragment.getInstance().changeToFragment(R.id.fragment_category_recycler);
-        selected.setParent(subDivision);
+        Selected selected = (Selected) HandlerFragment.getInstance().changeToFragment(R.id.fragment_category_recycler);
+        selected.setSelectedFrom(subDivision);
     }
 
     @Override
-    public void setParent(Object object) {
+    public void setSelectedFrom(Object object) {
         this.parent = (Division) object;
     }
 }

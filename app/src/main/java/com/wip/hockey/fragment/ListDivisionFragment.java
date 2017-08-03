@@ -65,7 +65,7 @@ public class ListDivisionFragment extends BaseFragment{
     }
 
     public void onClick(Division division) {
-        ISelected selected = (ISelected) HandlerFragment.getInstance().changeToFragment(R.id.fragment_sub_division_recycler);
-        selected.setParent(division);
+        Selected selected = (Selected) HandlerFragment.getInstance().changeToFragment(R.id.fragment_sub_division_recycler);
+        selected.setSelectedFrom(division);
     }
 }

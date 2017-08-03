@@ -18,11 +18,9 @@ import com.wip.hockey.model.Category;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
 
 public class FavoriteFragment extends BaseFragment {
-
+/*
     @BindView(R.id.fragment_favorite_recycler)
     RecyclerView recyclerView;
 
@@ -52,13 +50,14 @@ public class FavoriteFragment extends BaseFragment {
         //recyclerView.setAdapter(adapter);
     }
 
-    @Override
-    public String getTAG() {
-        return null;
-    }
+
 
     protected int getLayoutResourceId() {
         return R.layout.fragment_list_favorite;
     }
-
+*/
+@Override
+public String getTAG() {
+    return null;
+}
 }
