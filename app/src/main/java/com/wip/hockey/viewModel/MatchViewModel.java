@@ -1,14 +1,10 @@
 package com.wip.hockey.viewModel;
 
-import android.arch.lifecycle.Lifecycle;
-import android.arch.lifecycle.LifecycleObserver;
-import android.arch.lifecycle.LifecycleOwner;
-import android.arch.lifecycle.LiveData;
-import android.arch.lifecycle.MutableLiveData;
-import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModel;
-import android.support.annotation.Nullable;
+import android.support.annotation.NonNull;
 
+import com.wip.hockey.fragment.Lifecycle;
+import com.wip.hockey.fragment.Match.MatchContract;
 import com.wip.hockey.model.Date;
 import com.wip.hockey.model.Match;
 import com.wip.hockey.model.Team;
@@ -16,31 +12,112 @@ import com.wip.hockey.repository.Repository;
 
 import java.util.List;
 
-public class MatchViewModel extends ViewModel {
+import io.reactivex.Observer;
+import io.reactivex.disposables.Disposable;
 
-    private LiveData<List<Match>> matchLiveData;
-    private MutableLiveData<Date> date = new MutableLiveData<Date>();
+public class MatchViewModel extends ViewModel implements MatchContract.ViewModel {
+
+    private Repository repository;
+    private MatchContract.View viewCallback;
+    private Date date;
 
     public MatchViewModel() {
-        Date date = this.date.getValue() == null ? new Date() : this.date.getValue();
-        matchLiveData = Repository.getInstance().getMatches(date);
+        repository = Repository.getInstance();
+    }
+
+    @Override
+    public void getMatches() {
+        repository.getMatchesByDate(date.getId())
+                .subscribe(new MatchObserver());
+    }
+
+    private void getTeams(List<Match> matches) {
+        for (Match match : matches)
+            repository.getTeamsByMatch(match.getId())
+                    .subscribe(new TeamsMatchObserver(match));
     }
 
     public void setDate(Date date) {
-        this.date.setValue(date);
-        matchLiveData = Repository.getInstance().getMatches(this.date.getValue());
+        this.date = date;
+    }
+
+    @Override
+    public void onViewResumed() {
 
     }
 
-    public LiveData<List<Match>> getMatchListObservable(){
-        return matchLiveData;
+    @Override
+    public void onViewAttached(@NonNull Lifecycle.View viewCallback) {
+        this.viewCallback = (MatchContract.View) viewCallback;
+        getMatches();
     }
 
-    public void updateTeams(){
-        if (matchLiveData.getValue() != null) {
-            for (Match match : matchLiveData.getValue()) {
-                Repository.getInstance().updateTeams(match);
+
+
+    @Override
+    public void onViewDetached() {
+
+    }
+
+    private class MatchObserver implements Observer<List<Match>> {
+        @Override
+        public void onSubscribe(Disposable d) {
+            viewCallback.showMessage("Suscribe");
+        }
+
+        @Override
+        public void onNext(List<Match> matches) {
+            getTeams(matches);
+            viewCallback.showMessage("Next");
+            viewCallback.setMatches(matches);
+            viewCallback.showProgress(false);
+        }
+
+        @Override
+        public void onError(Throwable e) {
+            viewCallback.showMessage("Error");
+            viewCallback.showProgress(false);
+            viewCallback.hideLoading();
+        }
+
+        @Override
+        public void onComplete() {
+            viewCallback.hideLoading();
+        }
+    }
+
+    private class TeamsMatchObserver implements Observer<List<Team>> {
+        private final Match match;
+
+        public TeamsMatchObserver(Match match) {
+            this.match = match;
+        }
+
+        @Override
+        public void onSubscribe(Disposable d) {
+            viewCallback.showMessage("Suscribe");
+        }
+
+        @Override
+        public void onNext(List<Team> teams) {
+            viewCallback.showMessage("updated teams");
+            for (Team team : teams ){
+                if (match.getEnemyTeamId() == team.getId()){
+                    match.setEnemyTeam(team);
+                }else{
+                    match.setLocalTeam(team);
+                }
             }
+        }
+
+        @Override
+        public void onError(Throwable e) {
+            viewCallback.showMessage("Error update teams");
+        }
+
+        @Override
+        public void onComplete() {
+
         }
     }
 }

@@ -1,25 +1,9 @@
 package com.wip.hockey.fragment;
 
-import android.content.Context;
-import android.content.SharedPreferences;
-import android.os.Bundle;
-import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
-import com.wip.hockey.R;
-import com.wip.hockey.model.Category;
-
-import java.lang.reflect.Type;
-import java.util.ArrayList;
+import android.arch.lifecycle.LifecycleFragment;
 
 
-public class FavoriteFragment extends BaseFragment {
+public class FavoriteFragment extends LifecycleFragment implements Tageable {
 /*
     @BindView(R.id.fragment_favorite_recycler)
     RecyclerView recyclerView;

@@ -1,18 +1,13 @@
 package com.wip.hockey.model;
 
 
-import android.arch.lifecycle.LiveData;
-import android.arch.lifecycle.Observer;
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
-import android.support.annotation.Nullable;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 import com.wip.hockey.BR;
-import com.wip.hockey.repository.Repository;
 
-import java.security.PrivateKey;
 import java.util.List;
 
 /**

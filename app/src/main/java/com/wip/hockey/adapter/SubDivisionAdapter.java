@@ -8,7 +8,7 @@ import android.view.ViewGroup;
 
 import com.wip.hockey.R;
 import com.wip.hockey.databinding.ListItemSubDivisionBinding;
-import com.wip.hockey.fragment.ListSubDivisionFragment;
+import com.wip.hockey.fragment.SubDivision.ListSubDivisionFragment;
 import com.wip.hockey.model.SubDivision;
 
 import java.util.List;
