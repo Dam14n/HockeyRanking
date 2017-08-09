@@ -62,7 +62,7 @@ public class MatchViewModel extends ViewModel implements MatchContract.ViewModel
     private class MatchObserver implements Observer<List<Match>> {
         @Override
         public void onSubscribe(Disposable d) {
-            viewCallback.showMessage("Suscribe");
+            viewCallback.showMessage("Subscribe");
         }
 
         @Override
@@ -95,7 +95,7 @@ public class MatchViewModel extends ViewModel implements MatchContract.ViewModel
 
         @Override
         public void onSubscribe(Disposable d) {
-            viewCallback.showMessage("Suscribe");
+            viewCallback.showMessage("Subscribe");
         }
 
         @Override

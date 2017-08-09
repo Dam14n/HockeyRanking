@@ -4,11 +4,8 @@ import android.arch.lifecycle.ViewModel;
 import android.support.annotation.NonNull;
 
 import com.wip.hockey.fragment.Board.BoardContract;
-import com.wip.hockey.fragment.Category.CategoryContract;
 import com.wip.hockey.fragment.Lifecycle;
 import com.wip.hockey.model.Board;
-import com.wip.hockey.model.Category;
-import com.wip.hockey.model.SubDivision;
 import com.wip.hockey.repository.Repository;
 
 import java.util.List;
@@ -53,7 +50,7 @@ public class BoardViewModel extends ViewModel implements BoardContract.ViewModel
 
         @Override
         public void onSubscribe(Disposable d) {
-            viewCallback.showMessage("Suscribe");
+            viewCallback.showMessage("Subscribe");
         }
 
         @Override

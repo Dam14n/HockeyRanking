@@ -1,6 +1,13 @@
 package com.wip.hockey.api;
 
-import com.wip.hockey.model.*;
+import com.wip.hockey.model.Board;
+import com.wip.hockey.model.Category;
+import com.wip.hockey.model.Date;
+import com.wip.hockey.model.Division;
+import com.wip.hockey.model.Match;
+import com.wip.hockey.model.Position;
+import com.wip.hockey.model.SubDivision;
+import com.wip.hockey.model.Team;
 
 import java.util.List;
 

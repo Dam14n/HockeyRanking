@@ -2,7 +2,6 @@ package com.wip.hockey.fragment.Category;
 
 import com.wip.hockey.fragment.Lifecycle;
 import com.wip.hockey.model.Category;
-import com.wip.hockey.model.Division;
 import com.wip.hockey.model.SubDivision;
 
 import java.util.List;

@@ -6,10 +6,6 @@ import com.google.gson.annotations.SerializedName;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by djorda on 23/05/2017.
- */
-
 public class Division implements IIdentificable{
 
     @SerializedName("Name")
@@ -17,7 +13,7 @@ public class Division implements IIdentificable{
     private String name;
     @SerializedName("SubDivisionsIds")
     @Expose
-    private List<Integer> subDivisionsIds = new ArrayList<Integer>();
+    private List<Integer> subDivisionsIds = new ArrayList();
     @SerializedName("Id")
     @Expose
     private int id;

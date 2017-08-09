@@ -5,10 +5,6 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
-/**
- * Created by djorda on 23/05/2017.
- */
-
 public class Date implements IIdentificable {
 
     @SerializedName("Id")

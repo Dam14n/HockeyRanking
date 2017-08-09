@@ -53,7 +53,7 @@ public class SubDivisionViewModel extends ViewModel implements SubDivisionContra
     private class SubDivisionObserver implements Observer<List<SubDivision>>{
         @Override
         public void onSubscribe(Disposable d) {
-            viewCallback.showMessage("Suscribe");
+            viewCallback.showMessage("Subscribe");
         }
 
         @Override

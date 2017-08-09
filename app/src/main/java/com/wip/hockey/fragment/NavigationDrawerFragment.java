@@ -30,7 +30,7 @@ public class NavigationDrawerFragment extends Fragment{
     }
 
     private void setUpRecyclerView(View view) {
-        RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.drawerList);
+        RecyclerView recyclerView = view.findViewById(R.id.drawerList);
 
         NavigationDrawAdapter adapter = new NavigationDrawAdapter(getActivity(), NavigationDrawerItem.getData());
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));

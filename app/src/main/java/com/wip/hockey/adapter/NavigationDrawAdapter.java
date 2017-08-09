@@ -44,26 +44,22 @@ public class NavigationDrawAdapter extends RecyclerView.Adapter<NavigationDrawAd
         NavigationDrawerItem current = mDataList.get(position);
         holder.imgIcon.setImageResource(current.getImageId());
         holder.title.setText(current.getTitle());
-        holder.itemView.setOnClickListener(new View.OnClickListener(){
-
-            @Override
-            public void onClick(View v) {
-                switch (holder.title.getText().toString()){
-                    case "Inicio":
-                        HandlerFragment.getInstance().changeToFragment(R.id.fragment_division_recycler);
-                        break;
-                    case "Favoritos":
-                        HandlerFragment.getInstance().changeToFragment(R.id.fragment_favorite_recycler);
-                        break;
-                    case "Borrar Favoritos":
-                        MainActivity.favoriteManager.removeAll();
-                        Toast.makeText(context,"Se han removido todos los favoritos!!",Toast.LENGTH_SHORT).show();
-                        break;
-                    case "Posiciones":
-                        HandlerFragment.getInstance().changeToFragment(R.id.fragment_board_recycler);
-                    default:
-                        break;
-                }
+        holder.itemView.setOnClickListener(v -> {
+            switch (holder.title.getText().toString()){
+                case "Inicio":
+                    HandlerFragment.getInstance().changeToFragment(R.id.fragment_division_recycler);
+                    break;
+                case "Favoritos":
+                    HandlerFragment.getInstance().changeToFragment(R.id.fragment_favorite_recycler);
+                    break;
+                case "Borrar Favoritos":
+                    MainActivity.favoriteManager.removeAll();
+                    Toast.makeText(context,"Se han removido todos los favoritos!!",Toast.LENGTH_SHORT).show();
+                    break;
+                case "Posiciones":
+                    HandlerFragment.getInstance().changeToFragment(R.id.fragment_board_recycler);
+                default:
+                    break;
             }
         });
     }
@@ -80,8 +76,8 @@ public class NavigationDrawAdapter extends RecyclerView.Adapter<NavigationDrawAd
 
         public MyViewHolder(View itemView) {
             super(itemView);
-            title = (TextView) itemView.findViewById(R.id.title);
-            imgIcon = (ImageView) itemView.findViewById(R.id.imgIcon);
+            title = itemView.findViewById(R.id.title);
+            imgIcon = itemView.findViewById(R.id.imgIcon);
         }
     }
 }

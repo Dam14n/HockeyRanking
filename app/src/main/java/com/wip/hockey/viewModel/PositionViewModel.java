@@ -6,7 +6,6 @@ import android.support.annotation.NonNull;
 import com.wip.hockey.fragment.Lifecycle;
 import com.wip.hockey.fragment.Position.PositionContract;
 import com.wip.hockey.model.Board;
-import com.wip.hockey.model.Match;
 import com.wip.hockey.model.Position;
 import com.wip.hockey.model.Team;
 import com.wip.hockey.repository.Repository;
@@ -58,7 +57,7 @@ public class PositionViewModel extends ViewModel implements PositionContract.Vie
 
         @Override
         public void onSubscribe(Disposable d) {
-            viewCallback.showMessage("Suscribe");
+            viewCallback.showMessage("Subscribe");
         }
 
         @Override

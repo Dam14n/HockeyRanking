@@ -24,7 +24,7 @@ public class Position extends BaseObservable implements IIdentificable {
     private int points;
     @SerializedName("PlayedMatches")
     @Expose
-    private int playerdMatches;
+    private int playedMatches;
     @SerializedName("WinMatches")
     @Expose
     private int winMatches;
@@ -78,12 +78,12 @@ public class Position extends BaseObservable implements IIdentificable {
         this.points = points;
     }
 
-    public int getPlayerdMatches() {
-        return playerdMatches;
+    public int getPlayedMatches() {
+        return playedMatches;
     }
 
-    public void setPlayerdMatches(int playerdMatches) {
-        this.playerdMatches = playerdMatches;
+    public void setPlayedMatches(int playedMatches) {
+        this.playedMatches = playedMatches;
     }
 
     public int getWinMatches() {

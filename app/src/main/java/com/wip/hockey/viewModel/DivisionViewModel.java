@@ -47,7 +47,7 @@ public class DivisionViewModel extends ViewModel implements DivisionContract.Vie
     private class DivisionsObserver implements io.reactivex.Observer<List<Division>> {
         @Override
         public void onSubscribe(Disposable d) {
-            viewCallback.showMessage("Suscribe");
+            viewCallback.showMessage("Subscribe");
         }
 
         @Override

@@ -1,17 +1,12 @@
 package com.wip.hockey.viewModel;
 
-import android.arch.lifecycle.LiveData;
-import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.ViewModel;
 import android.support.annotation.NonNull;
-import android.support.v4.view.ViewPager;
 
-import com.wip.hockey.fragment.Category.CategoryContract;
 import com.wip.hockey.fragment.Date.DateContract;
 import com.wip.hockey.fragment.Lifecycle;
 import com.wip.hockey.model.Category;
 import com.wip.hockey.model.Date;
-import com.wip.hockey.model.SubDivision;
 import com.wip.hockey.repository.Repository;
 
 import java.util.List;
@@ -60,7 +55,7 @@ public class DateViewModel extends ViewModel implements DateContract.ViewModel{
 
         @Override
         public void onSubscribe(Disposable d) {
-            viewCallback.showMessage("Suscribe");
+            viewCallback.showMessage("Subscribe");
         }
 
         @Override

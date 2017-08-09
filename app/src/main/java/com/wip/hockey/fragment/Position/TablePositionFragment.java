@@ -7,12 +7,10 @@ import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TableRow;
 import android.widget.Toast;
 
 import com.wip.hockey.R;
 import com.wip.hockey.databinding.FragmentTablePositionBinding;
-import com.wip.hockey.databinding.ListItemDivisionBinding;
 import com.wip.hockey.databinding.TableRowPositionBinding;
 import com.wip.hockey.fragment.BaseFragment;
 import com.wip.hockey.fragment.Lifecycle;
@@ -22,6 +20,7 @@ import com.wip.hockey.model.Board;
 import com.wip.hockey.model.Position;
 import com.wip.hockey.viewModel.PositionViewModel;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class TablePositionFragment extends BaseFragment implements Tageable,Selected,PositionContract.View{
@@ -30,7 +29,7 @@ public class TablePositionFragment extends BaseFragment implements Tageable,Sele
     private FragmentTablePositionBinding binding;
     private PositionContract.ViewModel positionViewModel;
     private Board board;
-    private ViewGroup mContainer;
+    private List<View> tableRows = new ArrayList();
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -42,7 +41,6 @@ public class TablePositionFragment extends BaseFragment implements Tageable,Sele
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_table_position, container, false);
-        this.mContainer = container;
         setupRefreshLayout();
 
         return binding.getRoot();
@@ -77,13 +75,25 @@ public class TablePositionFragment extends BaseFragment implements Tageable,Sele
 
     @Override
     public void setPositions(List<Position> positions) {
-        for (Position position : positions) {
-            TableRowPositionBinding tableRowPositionBinding = DataBindingUtil.inflate(getLayoutInflater() , R.layout.table_row_position, (ViewGroup) this.binding.getRoot(), false);
-            tableRowPositionBinding.setPosition(position);
-            binding.fragmentTablePositions.addView(tableRowPositionBinding.getRoot());
+        this.cleanTable();
+        this.addPositionsToTable(positions);
+    }
+
+    private void cleanTable() {
+        for (View view : this.tableRows ) {
+            binding.fragmentTablePositions.removeView(view);
         }
     }
 
+    private void addPositionsToTable(List<Position> positions){
+        for (Position position : positions) {
+            TableRowPositionBinding tableRowPositionBinding = DataBindingUtil.inflate(getLayoutInflater() , R.layout.table_row_position, (ViewGroup) this.binding.getRoot(), false);
+            tableRowPositionBinding.setPosition(position);
+            this.tableRows.add(tableRowPositionBinding.getRoot());
+            binding.fragmentTablePositions.addView(tableRowPositionBinding.getRoot());
+        }
+    }
+    
     @Override
     public void setSelectedFrom(Object object) {
         this.board = (Board) object;

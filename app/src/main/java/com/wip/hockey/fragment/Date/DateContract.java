@@ -1,11 +1,8 @@
 package com.wip.hockey.fragment.Date;
 
-import android.support.v4.view.ViewPager;
-
 import com.wip.hockey.fragment.Lifecycle;
 import com.wip.hockey.model.Category;
 import com.wip.hockey.model.Date;
-import com.wip.hockey.model.SubDivision;
 
 import java.util.List;
 

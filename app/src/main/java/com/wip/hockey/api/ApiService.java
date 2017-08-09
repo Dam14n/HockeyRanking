@@ -21,7 +21,7 @@ public class ApiService implements IApiService {
     private static IApiService apiService;
 
     public ApiService(Retrofit retrofit) {
-        this.apiService = retrofit.create(IApiService.class);
+        apiService = retrofit.create(IApiService.class);
     }
 
     @Override

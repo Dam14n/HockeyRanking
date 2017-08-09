@@ -1,10 +1,5 @@
 package com.wip.hockey.model;
 
-
-/**
- * Created by djorda on 23/05/2017.
- */
-
 public class Goal implements IIdentificable{
 
     private int id;

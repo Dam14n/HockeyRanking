@@ -10,7 +10,6 @@ import android.widget.ProgressBar;
 import com.wip.hockey.R;
 import com.wip.hockey.fragment.NavigationDrawerFragment;
 import com.wip.hockey.handler.HandlerFragment;
-import com.wip.hockey.repository.Repository;
 
 public class MainActivity extends AppCompatActivity {
 

@@ -11,21 +11,15 @@ import android.widget.Toast;
 
 import com.wip.hockey.R;
 import com.wip.hockey.adapter.BoardAdapter;
-import com.wip.hockey.adapter.CategoryAdapter;
 import com.wip.hockey.app.MainActivity;
 import com.wip.hockey.databinding.FragmentListBoardBinding;
-import com.wip.hockey.databinding.FragmentListCategoryBinding;
 import com.wip.hockey.fragment.BaseFragment;
-import com.wip.hockey.fragment.Category.CategoryContract;
 import com.wip.hockey.fragment.Lifecycle;
 import com.wip.hockey.fragment.Selected;
 import com.wip.hockey.fragment.Tageable;
 import com.wip.hockey.handler.HandlerFragment;
 import com.wip.hockey.model.Board;
-import com.wip.hockey.model.Category;
-import com.wip.hockey.model.SubDivision;
 import com.wip.hockey.viewModel.BoardViewModel;
-import com.wip.hockey.viewModel.CategoryViewModel;
 
 import java.util.List;
 
