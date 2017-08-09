@@ -10,10 +10,6 @@ import com.wip.hockey.BR;
 
 import java.util.List;
 
-/**
- * Created by djorda on 15/05/2017.
- */
-
 public class Match extends BaseObservable implements  IIdentificable{
 
     @SerializedName("Id")

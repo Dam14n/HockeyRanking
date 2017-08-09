@@ -50,17 +50,7 @@ public class NavigationDrawAdapter extends RecyclerView.Adapter<NavigationDrawAd
             public void onClick(View v) {
                 switch (holder.title.getText().toString()){
                     case "Inicio":
-         /*               ApiService serviceApi = ApiService.getInstance();
-                        serviceApi.getDivisions(new Callback<List<Division>>() {
-                            @Override
-                            public void onResponse(Call<List<Division>> call, Response<List<Division>> response) {
-                                HandlerFragment.getInstance().changeToFragment(R.id.fragment_division_recycler);
-                            }
-                            @Override
-                            public void onFailure(Call<List<Division>> call, Throwable t) {
-                                System.out.println(t.getMessage());
-                            }
-                        });*/
+                        HandlerFragment.getInstance().changeToFragment(R.id.fragment_division_recycler);
                         break;
                     case "Favoritos":
                         HandlerFragment.getInstance().changeToFragment(R.id.fragment_favorite_recycler);
@@ -69,6 +59,8 @@ public class NavigationDrawAdapter extends RecyclerView.Adapter<NavigationDrawAd
                         MainActivity.favoriteManager.removeAll();
                         Toast.makeText(context,"Se han removido todos los favoritos!!",Toast.LENGTH_SHORT).show();
                         break;
+                    case "Posiciones":
+                        HandlerFragment.getInstance().changeToFragment(R.id.fragment_board_recycler);
                     default:
                         break;
                 }

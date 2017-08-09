@@ -15,10 +15,6 @@ import com.wip.hockey.R;
 import com.wip.hockey.adapter.NavigationDrawAdapter;
 import com.wip.hockey.model.NavigationDrawerItem;
 
-/**
- * Created by djorda on 12/05/2017.
- */
-
 public class NavigationDrawerFragment extends Fragment{
 
     private ActionBarDrawerToggle mDrawerToggle;
@@ -64,12 +60,7 @@ public class NavigationDrawerFragment extends Fragment{
 
         mDrawerLayout.addDrawerListener(mDrawerToggle);
 
-        mDrawerLayout.post(new Runnable() {
-            @Override
-            public void run() {
-                mDrawerToggle.syncState();
-            }
-        });
+        mDrawerLayout.post(() -> mDrawerToggle.syncState());
     }
 
 }

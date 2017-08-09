@@ -17,7 +17,6 @@ public class MainActivity extends AppCompatActivity {
     public static final String TAG = MainActivity.class.getSimpleName();
     private  HandlerFragment handlerFragment;
     public static FavoriteManager favoriteManager;
-    public static Repository repository;
     private Toolbar toolbar;
     private ProgressBar progressBar;
 
@@ -40,13 +39,13 @@ public class MainActivity extends AppCompatActivity {
     private void setUpFragment() {
         handlerFragment = HandlerFragment.getInstance();
         handlerFragment.setContext(this);
-        progressBar = (ProgressBar) findViewById(R.id.loading);
+        progressBar = findViewById(R.id.loading);
         showProgress(true);
         handlerFragment.changeToFragment(R.id.fragment_division_recycler);
     }
 
     private void setUpToolbar(){
-        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar = findViewById(R.id.toolbar);
         toolbar.setTitle("Hockey");
         toolbar.setSubtitle("Pasion");
         toolbar.inflateMenu(R.menu.menu_main);
@@ -54,7 +53,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void setUpDrawer(){
         NavigationDrawerFragment drawerFragment = (NavigationDrawerFragment) getSupportFragmentManager().findFragmentById(R.id.nav_drwr_fragment);
-        DrawerLayout drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+        DrawerLayout drawerLayout = findViewById(R.id.drawer_layout);
         drawerFragment.setUpDrawer(R.id.nav_drwr_fragment,drawerLayout,toolbar);
     }
 
