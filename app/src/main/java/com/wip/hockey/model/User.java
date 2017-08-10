@@ -2,10 +2,6 @@ package com.wip.hockey.model;
 
 import java.util.List;
 
-/**
- * Created by djorda on 08/07/2017.
- */
-
 public class User implements IIdentificable {
 
     private int id;

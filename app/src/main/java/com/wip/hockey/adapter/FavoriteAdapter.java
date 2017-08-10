@@ -16,10 +16,6 @@ import com.wip.hockey.model.Category;
 
 import java.util.List;
 
-/**
- * Created by djorda on 11/05/2017.
- */
-
 public class FavoriteAdapter extends RecyclerView.Adapter<FavoriteAdapter.MyViewHolder> {
 
     private static final String TAG = FavoriteAdapter.class.getSimpleName();
@@ -56,11 +52,8 @@ public class FavoriteAdapter extends RecyclerView.Adapter<FavoriteAdapter.MyView
                 MainActivity.handlerFragment.updateFragment();
             }
         });*/
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //MainActivity.handlerFragment.changeToFragment(R.id.fragment_match_recycler,MainActivity.repository.getMatches(currentObj.getId()));
-            }
+        holder.itemView.setOnClickListener(v -> {
+            //MainActivity.handlerFragment.changeToFragment(R.id.fragment_match_recycler,MainActivity.repository.getMatches(currentObj.getId()));
         });
     }
 
@@ -77,8 +70,8 @@ public class FavoriteAdapter extends RecyclerView.Adapter<FavoriteAdapter.MyView
         public  MyViewHolder(View itemView) {
             super(itemView);
 
-            category = (TextView) itemView.findViewById(R.id.category_favorite);
-            star = (ImageView) itemView.findViewById(R.id.favorite);
+            category = itemView.findViewById(R.id.category_favorite);
+            star = itemView.findViewById(R.id.favorite);
         }
 
         public void setData(Category current, int position) {

@@ -1,9 +1,11 @@
 package com.wip.hockey.api;
 
+import com.wip.hockey.model.Board;
 import com.wip.hockey.model.Category;
 import com.wip.hockey.model.Date;
 import com.wip.hockey.model.Division;
 import com.wip.hockey.model.Match;
+import com.wip.hockey.model.Position;
 import com.wip.hockey.model.SubDivision;
 import com.wip.hockey.model.Team;
 
@@ -19,7 +21,7 @@ public class ApiService implements IApiService {
     private static IApiService apiService;
 
     public ApiService(Retrofit retrofit) {
-        this.apiService = retrofit.create(IApiService.class);
+        apiService = retrofit.create(IApiService.class);
     }
 
     @Override
@@ -101,7 +103,9 @@ public class ApiService implements IApiService {
 
     @Override
     public Observable<Team> getTeam(int id) {
-        return null;
+        return apiService.getTeam(id)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
     }
 
     @Override
@@ -112,6 +116,34 @@ public class ApiService implements IApiService {
     @Override
     public Observable<List<Team>> getTeamsByMatch(int matchId) {
         return apiService.getTeamsByMatch(matchId)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
+
+    @Override
+    public Observable<List<Position>> getPositions() {
+        return apiService.getPositions()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
+
+    @Override
+    public Observable<List<Position>> getPositionsByBoard(int boardId) {
+        return apiService.getPositionsByBoard(boardId)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
+
+    @Override
+    public Observable<List<Board>> getBoards() {
+        return apiService.getBoards()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
+
+    @Override
+    public Observable<List<Board>> getBoardsByCategory(int categoryId) {
+        return apiService.getBoardsByCategory(categoryId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
     }

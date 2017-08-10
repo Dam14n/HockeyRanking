@@ -3,30 +3,28 @@ package com.wip.hockey.viewModel;
 import android.arch.lifecycle.ViewModel;
 import android.support.annotation.NonNull;
 
-import com.wip.hockey.fragment.Division.DivisionContract;
+import com.wip.hockey.fragment.Board.BoardContract;
 import com.wip.hockey.fragment.Lifecycle;
-import com.wip.hockey.model.Division;
+import com.wip.hockey.model.Board;
+import com.wip.hockey.model.Category;
 import com.wip.hockey.repository.Repository;
 
 import java.util.List;
 
+import io.reactivex.Observer;
 import io.reactivex.disposables.Disposable;
 
-
-public class DivisionViewModel extends ViewModel implements DivisionContract.ViewModel {
+public class BoardViewModel extends ViewModel implements BoardContract.ViewModel{
 
     private Repository repository;
-    private DivisionContract.View viewCallback;
+    private BoardContract.View viewCallback;
+    private Category category;
 
-    public DivisionViewModel() {
+
+    public BoardViewModel() {
         repository = Repository.getInstance();
     }
 
-    @Override
-    public void getDivisions(){
-        repository.getDivisions()
-                .subscribe(new DivisionsObserver());
-    }
 
     @Override
     public void onViewResumed() {
@@ -35,8 +33,8 @@ public class DivisionViewModel extends ViewModel implements DivisionContract.Vie
 
     @Override
     public void onViewAttached(@NonNull Lifecycle.View viewCallback) {
-        this.viewCallback = (DivisionContract.View) viewCallback;
-        getDivisions();
+        this.viewCallback = (BoardContract.View) viewCallback;
+        getBoards();
     }
 
     @Override
@@ -44,16 +42,28 @@ public class DivisionViewModel extends ViewModel implements DivisionContract.Vie
 
     }
 
-    private class DivisionsObserver implements io.reactivex.Observer<List<Division>> {
+    @Override
+    public void getBoards() {
+        repository.getBoardsByCategory(this.category.getId())
+                .subscribe(new BoardObserver());
+    }
+
+    @Override
+    public void setCategory(Category category) {
+        this.category = category;
+    }
+
+    private class BoardObserver implements Observer<List<Board>> {
+
         @Override
         public void onSubscribe(Disposable d) {
             viewCallback.showMessage("Subscribe");
         }
 
         @Override
-        public void onNext(List<Division> divisions) {
+        public void onNext(List<Board> boards) {
             viewCallback.showMessage("Next");
-            viewCallback.setDivisions(divisions);
+            viewCallback.setBoards(boards);
             viewCallback.showProgress(false);
         }
 

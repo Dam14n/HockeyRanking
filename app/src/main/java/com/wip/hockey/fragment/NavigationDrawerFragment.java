@@ -15,10 +15,6 @@ import com.wip.hockey.R;
 import com.wip.hockey.adapter.NavigationDrawAdapter;
 import com.wip.hockey.model.NavigationDrawerItem;
 
-/**
- * Created by djorda on 12/05/2017.
- */
-
 public class NavigationDrawerFragment extends Fragment{
 
     private ActionBarDrawerToggle mDrawerToggle;
@@ -34,7 +30,7 @@ public class NavigationDrawerFragment extends Fragment{
     }
 
     private void setUpRecyclerView(View view) {
-        RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.drawerList);
+        RecyclerView recyclerView = view.findViewById(R.id.drawerList);
 
         NavigationDrawAdapter adapter = new NavigationDrawAdapter(getActivity(), NavigationDrawerItem.getData());
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
@@ -64,12 +60,7 @@ public class NavigationDrawerFragment extends Fragment{
 
         mDrawerLayout.addDrawerListener(mDrawerToggle);
 
-        mDrawerLayout.post(new Runnable() {
-            @Override
-            public void run() {
-                mDrawerToggle.syncState();
-            }
-        });
+        mDrawerLayout.post(() -> mDrawerToggle.syncState());
     }
 
 }

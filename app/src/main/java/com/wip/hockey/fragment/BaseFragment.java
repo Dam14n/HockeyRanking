@@ -6,6 +6,8 @@ import com.wip.hockey.app.MainActivity;
 
 public abstract class BaseFragment extends LifecycleFragment implements Lifecycle.View{
 
+    private ViewType type;
+
     protected abstract Lifecycle.ViewModel getViewModel();
 
     @Override
@@ -33,4 +35,13 @@ public abstract class BaseFragment extends LifecycleFragment implements Lifecycl
         }
     }
 
+    @Override
+    public ViewType getType(){
+        return this.type;
+    };
+
+    @Override
+    public void setType(ViewType type){
+        this.type = type;
+    };
 }

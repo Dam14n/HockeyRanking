@@ -3,11 +3,8 @@ package com.wip.hockey.adapter;
 import android.arch.lifecycle.LifecycleFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentStatePagerAdapter;
-import android.support.v4.view.ViewPager;
 
 import com.wip.hockey.R;
-import com.wip.hockey.app.MainActivity;
-import com.wip.hockey.databinding.FragmentListDateBinding;
 import com.wip.hockey.fragment.Date.ListDateFragment;
 import com.wip.hockey.fragment.Selected;
 import com.wip.hockey.handler.HandlerFragment;

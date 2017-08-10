@@ -17,6 +17,7 @@ import com.wip.hockey.fragment.BaseFragment;
 import com.wip.hockey.fragment.Lifecycle;
 import com.wip.hockey.fragment.Selected;
 import com.wip.hockey.fragment.Tageable;
+import com.wip.hockey.fragment.ViewType;
 import com.wip.hockey.handler.HandlerFragment;
 import com.wip.hockey.model.Category;
 import com.wip.hockey.model.SubDivision;
@@ -57,10 +58,14 @@ public class ListCategoryFragment extends BaseFragment implements Selected,Tagea
     }
 
     public void onClick(Category category) {
-        final MainActivity mainActivity = (MainActivity) this.getContext();
-        mainActivity.showProgress(true);
-        Selected selected = (Selected) HandlerFragment.getInstance().changeToFragment(R.id.fragment_pager_date);
-        selected.setSelectedFrom(category);
+        showProgress(true);
+        if (this.getType() == ViewType.POSITIONS_VIEW) {
+            Selected selected = (Selected) HandlerFragment.getInstance().changeToFragment(R.id.fragment_pager_date);
+            selected.setSelectedFrom(category);
+        }else{
+            Selected selected = (Selected) HandlerFragment.getInstance().changeToFragment(R.id.fragment_board_recycler);
+            selected.setSelectedFrom(category);
+        }
     }
 
     private void setupRefreshLayout() {
@@ -93,4 +98,5 @@ public class ListCategoryFragment extends BaseFragment implements Selected,Tagea
     public void setCategories(List<Category> categories) {
         categoryAdapter.setCategoryList(categories);
     }
+
 }

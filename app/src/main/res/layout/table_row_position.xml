@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+    <data>
+        <variable name="position" type="com.wip.hockey.model.Position"/>
+    </data>
+    <TableRow
+        android:id="@+id/table_row_position"
+        android:background="#ECEFF1"
+        android:padding="5dp"
+        android:layout_width="fill_parent"
+        android:layout_height="?android:attr/listPreferredItemHeight"
+        android:focusable="true">
+        <TextView
+            android:id="@+id/row_number_position"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="@{Integer.toString(position.rank)}" />
+        <TextView
+            android:id="@+id/row_team_name"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="@{position.team.name}" />
+        <TextView
+            android:id="@+id/row_points"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.1"
+            android:gravity="center"
+            android:text="@{Integer.toString(position.points)}" />
+        <TextView
+            android:id="@+id/row_match_played"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.1"
+            android:gravity="center"
+            android:text="@{Integer.toString(position.playedMatches)}" />
+        <TextView
+            android:id="@+id/row_match_win"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.1"
+            android:gravity="center"
+            android:text="@{Integer.toString(position.winMatches)}" />
+        <TextView
+            android:id="@+id/row_match_lose"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.1"
+            android:gravity="center"
+            android:text="@{Integer.toString(position.loseMatches)}" />
+        <TextView
+            android:id="@+id/row_match_tie"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.1"
+            android:gravity="center"
+            android:text="@{Integer.toString(position.tieMatches)}" />
+        <TextView
+            android:id="@+id/row_goals_favor"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.1"
+            android:gravity="center"
+            android:text="@{Integer.toString(position.favorGoals)}" />
+        <TextView
+            android:id="@+id/row_goals_against"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.1"
+            android:gravity="center"
+            android:text="@{Integer.toString(position.againstGoals)}" />
+        <TextView
+            android:id="@+id/row_goals_difference"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.1"
+            android:gravity="center"
+            android:text="@{Integer.toString(position.differenceGoals)}" />
+    </TableRow>
+</layout>

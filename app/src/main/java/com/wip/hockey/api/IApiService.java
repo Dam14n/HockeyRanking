@@ -1,9 +1,11 @@
 package com.wip.hockey.api;
 
+import com.wip.hockey.model.Board;
 import com.wip.hockey.model.Category;
 import com.wip.hockey.model.Date;
 import com.wip.hockey.model.Division;
 import com.wip.hockey.model.Match;
+import com.wip.hockey.model.Position;
 import com.wip.hockey.model.SubDivision;
 import com.wip.hockey.model.Team;
 
@@ -62,4 +64,16 @@ public interface IApiService {
 
     @GET("matches/{matchId}/teams")
     Observable<List<Team>> getTeamsByMatch(@Path("matchId") int matchId);
+
+    @GET("positions")
+    Observable<List<Position>> getPositions();
+
+    @GET("boards/{boardId}/positions")
+    Observable<List<Position>> getPositionsByBoard(@Path("boardId") int boardId);
+
+    @GET("boards")
+    Observable<List<Board>> getBoards();
+
+    @GET("categories/{categoryId}/boards")
+    Observable<List<Board>> getBoardsByCategory(@Path("categoryId") int categoryId);
 }

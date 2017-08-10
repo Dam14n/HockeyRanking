@@ -1,10 +1,12 @@
 package com.wip.hockey.repository;
 
 import com.wip.hockey.api.ApiService;
+import com.wip.hockey.model.Board;
 import com.wip.hockey.model.Category;
 import com.wip.hockey.model.Date;
 import com.wip.hockey.model.Division;
 import com.wip.hockey.model.Match;
+import com.wip.hockey.model.Position;
 import com.wip.hockey.model.SubDivision;
 import com.wip.hockey.model.Team;
 import com.wip.hockey.networking.mock.RetrofitFactory;
@@ -52,5 +54,26 @@ public class Repository {
 
     public Observable<List<Team>> getTeamsByMatch(int matchId){
         return apiService.getTeamsByMatch(matchId);
+    }
+
+    public Observable<List<Position>> getPositions(){
+        return apiService.getPositions();
+    }
+
+    public Observable<List<Position>> getPositionsByBoard(int boardId){
+        return apiService.getPositionsByBoard(boardId);
+    }
+
+    public Observable<List<Board>> getBoards(){
+        return apiService.getBoards();
+    }
+
+    public Observable<List<Board>> getBoardsByCategory(int categoryId){
+        return apiService.getBoardsByCategory(categoryId);
+    }
+
+
+    public Observable<Team> getTeam(int id){
+        return apiService.getTeam(id);
     }
 }

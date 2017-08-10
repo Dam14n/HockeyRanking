@@ -11,6 +11,8 @@ import android.widget.Toast;
 
 import com.wip.hockey.R;
 import com.wip.hockey.app.MainActivity;
+import com.wip.hockey.fragment.Lifecycle;
+import com.wip.hockey.fragment.ViewType;
 import com.wip.hockey.handler.HandlerFragment;
 import com.wip.hockey.model.NavigationDrawerItem;
 
@@ -44,34 +46,24 @@ public class NavigationDrawAdapter extends RecyclerView.Adapter<NavigationDrawAd
         NavigationDrawerItem current = mDataList.get(position);
         holder.imgIcon.setImageResource(current.getImageId());
         holder.title.setText(current.getTitle());
-        holder.itemView.setOnClickListener(new View.OnClickListener(){
-
-            @Override
-            public void onClick(View v) {
-                switch (holder.title.getText().toString()){
-                    case "Inicio":
-         /*               ApiService serviceApi = ApiService.getInstance();
-                        serviceApi.getDivisions(new Callback<List<Division>>() {
-                            @Override
-                            public void onResponse(Call<List<Division>> call, Response<List<Division>> response) {
-                                HandlerFragment.getInstance().changeToFragment(R.id.fragment_division_recycler);
-                            }
-                            @Override
-                            public void onFailure(Call<List<Division>> call, Throwable t) {
-                                System.out.println(t.getMessage());
-                            }
-                        });*/
-                        break;
-                    case "Favoritos":
-                        HandlerFragment.getInstance().changeToFragment(R.id.fragment_favorite_recycler);
-                        break;
-                    case "Borrar Favoritos":
-                        MainActivity.favoriteManager.removeAll();
-                        Toast.makeText(context,"Se han removido todos los favoritos!!",Toast.LENGTH_SHORT).show();
-                        break;
-                    default:
-                        break;
-                }
+        holder.itemView.setOnClickListener(v -> {
+            switch (holder.title.getText().toString()){
+                case "Inicio":
+                    Lifecycle.View startView = (Lifecycle.View) HandlerFragment.getInstance().changeToFragment(R.id.fragment_division_recycler);
+                    startView.setType(ViewType.POSITIONS_VIEW);
+                    break;
+                case "Favoritos":
+                    HandlerFragment.getInstance().changeToFragment(R.id.fragment_favorite_recycler);
+                    break;
+                case "Borrar Favoritos":
+                    MainActivity.favoriteManager.removeAll();
+                    Toast.makeText(context,"Se han removido todos los favoritos!!",Toast.LENGTH_SHORT).show();
+                    break;
+                case "Posiciones":
+                    Lifecycle.View positionsView = (Lifecycle.View) HandlerFragment.getInstance().changeToFragment(R.id.fragment_division_recycler);
+                    positionsView.setType(ViewType.TABLE_VIEW);
+                default:
+                    break;
             }
         });
     }
@@ -88,8 +80,8 @@ public class NavigationDrawAdapter extends RecyclerView.Adapter<NavigationDrawAd
 
         public MyViewHolder(View itemView) {
             super(itemView);
-            title = (TextView) itemView.findViewById(R.id.title);
-            imgIcon = (ImageView) itemView.findViewById(R.id.imgIcon);
+            title = itemView.findViewById(R.id.title);
+            imgIcon = itemView.findViewById(R.id.imgIcon);
         }
     }
 }

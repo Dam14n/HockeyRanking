@@ -11,10 +11,6 @@ import com.wip.hockey.model.Category;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 
-/**
- * Created by djorda on 09/06/2017.
- */
-
 public class FavoriteManager {
 
 

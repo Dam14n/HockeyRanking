@@ -5,7 +5,7 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
-public class Category implements  IIdentificable{
+public class Board implements  IIdentificable{
 
     @SerializedName("Id")
     @Expose
@@ -13,12 +13,9 @@ public class Category implements  IIdentificable{
     @SerializedName("Name")
     @Expose
     private String name;
-    @SerializedName("SubDivisionId")
+    @SerializedName("PositionsIds")
     @Expose
-    private int subDivisionId;
-    @SerializedName("DatesIds")
-    @Expose
-    private List<Integer> datesIds;
+    private List<Integer> positionsIds;
 
     @Override
     public int getId() {
@@ -38,19 +35,11 @@ public class Category implements  IIdentificable{
         this.name = name;
     }
 
-    public int getSubDivisionId() {
-        return subDivisionId;
+    public List<Integer> getPositionsIds() {
+        return positionsIds;
     }
 
-    public void setSubDivisionId(int subDivisionId) {
-        this.subDivisionId = subDivisionId;
-    }
-
-    public List<Integer> getDatesIds() {
-        return datesIds;
-    }
-
-    public void setDatesIds(List<Integer> datesIds) {
-        this.datesIds = datesIds;
+    public void setPositionsIds(List<Integer> positionsIds) {
+        this.positionsIds = positionsIds;
     }
 }
