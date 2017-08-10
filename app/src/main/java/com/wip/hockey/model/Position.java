@@ -12,6 +12,9 @@ public class Position extends BaseObservable implements IIdentificable {
     @SerializedName("Id")
     @Expose
     private int id;
+    @SerializedName("Rank")
+    @Expose
+    private int rank;
     @SerializedName("TeamId")
     @Expose
     private int teamId;
@@ -142,5 +145,13 @@ public class Position extends BaseObservable implements IIdentificable {
     public void setTeam(Team team) {
         this.team = team;
         notifyPropertyChanged(BR.team);
+    }
+
+    public int getRank() {
+        return rank;
+    }
+
+    public void setRank(int rank) {
+        this.rank = rank;
     }
 }

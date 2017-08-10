@@ -83,6 +83,7 @@ public class TablePositionFragment extends BaseFragment implements Tageable,Sele
         for (View view : this.tableRows ) {
             binding.fragmentTablePositions.removeView(view);
         }
+        this.tableRows.clear();
     }
 
     private void addPositionsToTable(List<Position> positions){
