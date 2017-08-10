@@ -2,6 +2,7 @@ package com.wip.hockey.fragment.Board;
 
 import com.wip.hockey.fragment.Lifecycle;
 import com.wip.hockey.model.Board;
+import com.wip.hockey.model.Category;
 
 import java.util.List;
 
@@ -16,5 +17,6 @@ public interface BoardContract {
 
     interface ViewModel extends Lifecycle.ViewModel{
         void getBoards();
+        void setCategory(Category category);
     }
 }

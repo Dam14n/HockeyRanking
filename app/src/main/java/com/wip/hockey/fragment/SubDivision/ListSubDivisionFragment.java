@@ -64,6 +64,8 @@ public class ListSubDivisionFragment extends BaseFragment implements Selected, T
         showProgress(true);
         Selected selected = (Selected) HandlerFragment.getInstance().changeToFragment(R.id.fragment_category_recycler);
         selected.setSelectedFrom(subDivision);
+        Lifecycle.View view = (Lifecycle.View) selected;
+        view.setType(this.getType());
     }
 
     @Override

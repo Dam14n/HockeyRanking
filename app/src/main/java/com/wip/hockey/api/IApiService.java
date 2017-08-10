@@ -73,4 +73,7 @@ public interface IApiService {
 
     @GET("boards")
     Observable<List<Board>> getBoards();
+
+    @GET("categories/{categoryId}/boards")
+    Observable<List<Board>> getBoardsByCategory(@Path("categoryId") int categoryId);
 }

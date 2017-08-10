@@ -62,6 +62,8 @@ public class ListDivisionFragment extends BaseFragment implements Tageable,Divis
         showProgress(true);
         Selected selected = (Selected) HandlerFragment.getInstance().changeToFragment(R.id.fragment_sub_division_recycler);
         selected.setSelectedFrom(division);
+        Lifecycle.View view = (Lifecycle.View) selected;
+        view.setType(this.getType());
     }
 
     @Override

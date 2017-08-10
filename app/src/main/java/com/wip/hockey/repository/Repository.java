@@ -68,6 +68,11 @@ public class Repository {
         return apiService.getBoards();
     }
 
+    public Observable<List<Board>> getBoardsByCategory(int categoryId){
+        return apiService.getBoardsByCategory(categoryId);
+    }
+
+
     public Observable<Team> getTeam(int id){
         return apiService.getTeam(id);
     }

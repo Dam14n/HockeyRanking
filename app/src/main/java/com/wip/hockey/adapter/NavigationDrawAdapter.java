@@ -11,6 +11,8 @@ import android.widget.Toast;
 
 import com.wip.hockey.R;
 import com.wip.hockey.app.MainActivity;
+import com.wip.hockey.fragment.Lifecycle;
+import com.wip.hockey.fragment.ViewType;
 import com.wip.hockey.handler.HandlerFragment;
 import com.wip.hockey.model.NavigationDrawerItem;
 
@@ -47,7 +49,8 @@ public class NavigationDrawAdapter extends RecyclerView.Adapter<NavigationDrawAd
         holder.itemView.setOnClickListener(v -> {
             switch (holder.title.getText().toString()){
                 case "Inicio":
-                    HandlerFragment.getInstance().changeToFragment(R.id.fragment_division_recycler);
+                    Lifecycle.View startView = (Lifecycle.View) HandlerFragment.getInstance().changeToFragment(R.id.fragment_division_recycler);
+                    startView.setType(ViewType.POSITIONS_VIEW);
                     break;
                 case "Favoritos":
                     HandlerFragment.getInstance().changeToFragment(R.id.fragment_favorite_recycler);
@@ -57,7 +60,8 @@ public class NavigationDrawAdapter extends RecyclerView.Adapter<NavigationDrawAd
                     Toast.makeText(context,"Se han removido todos los favoritos!!",Toast.LENGTH_SHORT).show();
                     break;
                 case "Posiciones":
-                    HandlerFragment.getInstance().changeToFragment(R.id.fragment_board_recycler);
+                    Lifecycle.View positionsView = (Lifecycle.View) HandlerFragment.getInstance().changeToFragment(R.id.fragment_division_recycler);
+                    positionsView.setType(ViewType.TABLE_VIEW);
                 default:
                     break;
             }

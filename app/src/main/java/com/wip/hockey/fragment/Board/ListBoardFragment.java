@@ -19,22 +19,25 @@ import com.wip.hockey.fragment.Selected;
 import com.wip.hockey.fragment.Tageable;
 import com.wip.hockey.handler.HandlerFragment;
 import com.wip.hockey.model.Board;
+import com.wip.hockey.model.Category;
 import com.wip.hockey.viewModel.BoardViewModel;
 
 import java.util.List;
 
-public class ListBoardFragment extends BaseFragment implements Tageable,BoardContract.View{
+public class ListBoardFragment extends BaseFragment implements Selected,Tageable,BoardContract.View{
 
     private final String TAG = ListBoardFragment.class.toString();
     private BoardAdapter boardAdapter;
     private FragmentListBoardBinding binding;
     private BoardContract.ViewModel boardViewModel;
+    private Category category;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         boardViewModel = ViewModelProviders.of(this).get(BoardViewModel.class);
+        boardViewModel.setCategory(this.category);
     }
 
     @Override
@@ -54,8 +57,7 @@ public class ListBoardFragment extends BaseFragment implements Tageable,BoardCon
     }
 
     public void onClick(Board board) {
-        final MainActivity mainActivity = (MainActivity) this.getContext();
-        mainActivity.showProgress(true);
+        showProgress(true);
         Selected selected = (Selected) HandlerFragment.getInstance().changeToFragment(R.id.fragment_table_positions);
         selected.setSelectedFrom(board);
     }
@@ -86,4 +88,8 @@ public class ListBoardFragment extends BaseFragment implements Tageable,BoardCon
         this.boardAdapter.setBoardList(boards);
     }
 
+    @Override
+    public void setSelectedFrom(Object object) {
+        this.category = (Category) object;
+    }
 }

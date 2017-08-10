@@ -6,6 +6,7 @@ import android.support.annotation.NonNull;
 import com.wip.hockey.fragment.Board.BoardContract;
 import com.wip.hockey.fragment.Lifecycle;
 import com.wip.hockey.model.Board;
+import com.wip.hockey.model.Category;
 import com.wip.hockey.repository.Repository;
 
 import java.util.List;
@@ -17,6 +18,7 @@ public class BoardViewModel extends ViewModel implements BoardContract.ViewModel
 
     private Repository repository;
     private BoardContract.View viewCallback;
+    private Category category;
 
 
     public BoardViewModel() {
@@ -42,8 +44,13 @@ public class BoardViewModel extends ViewModel implements BoardContract.ViewModel
 
     @Override
     public void getBoards() {
-        repository.getBoards()
+        repository.getBoardsByCategory(this.category.getId())
                 .subscribe(new BoardObserver());
+    }
+
+    @Override
+    public void setCategory(Category category) {
+        this.category = category;
     }
 
     private class BoardObserver implements Observer<List<Board>> {

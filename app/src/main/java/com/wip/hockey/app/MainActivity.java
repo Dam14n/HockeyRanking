@@ -8,7 +8,9 @@ import android.view.View;
 import android.widget.ProgressBar;
 
 import com.wip.hockey.R;
+import com.wip.hockey.fragment.Lifecycle;
 import com.wip.hockey.fragment.NavigationDrawerFragment;
+import com.wip.hockey.fragment.ViewType;
 import com.wip.hockey.handler.HandlerFragment;
 
 public class MainActivity extends AppCompatActivity {
@@ -40,7 +42,8 @@ public class MainActivity extends AppCompatActivity {
         handlerFragment.setContext(this);
         progressBar = findViewById(R.id.loading);
         showProgress(true);
-        handlerFragment.changeToFragment(R.id.fragment_division_recycler);
+        Lifecycle.View view = (Lifecycle.View) handlerFragment.changeToFragment(R.id.fragment_division_recycler);
+        view.setType(ViewType.POSITIONS_VIEW);
     }
 
     private void setUpToolbar(){
@@ -54,12 +57,6 @@ public class MainActivity extends AppCompatActivity {
         NavigationDrawerFragment drawerFragment = (NavigationDrawerFragment) getSupportFragmentManager().findFragmentById(R.id.nav_drwr_fragment);
         DrawerLayout drawerLayout = findViewById(R.id.drawer_layout);
         drawerFragment.setUpDrawer(R.id.nav_drwr_fragment,drawerLayout,toolbar);
-    }
-
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-        //handlerFragment.onBackPressed();
     }
 
     public void showProgress(boolean isVisible){

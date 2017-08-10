@@ -140,4 +140,11 @@ public class ApiService implements IApiService {
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
     }
+
+    @Override
+    public Observable<List<Board>> getBoardsByCategory(int categoryId) {
+        return apiService.getBoardsByCategory(categoryId)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
 }
