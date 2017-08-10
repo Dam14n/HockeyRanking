@@ -5,10 +5,6 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
-/**
- * Created by djorda on 15/05/2017.
- */
-
 public class Team implements IIdentificable {
 
     @SerializedName("Id")
@@ -17,12 +13,6 @@ public class Team implements IIdentificable {
     @SerializedName("Name")
     @Expose
     private String name;
-    @SerializedName("Location")
-    @Expose
-    private String location;
-    @SerializedName("Logo")
-    @Expose
-    private int logo;
     @SerializedName("PlayersIds")
     @Expose
     private List<Integer> playersIds;
@@ -55,22 +45,6 @@ public class Team implements IIdentificable {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public String getLocation() {
-        return location;
-    }
-
-    public void setLocation(String location) {
-        this.location = location;
-    }
-
-    public int getLogo() {
-        return logo;
-    }
-
-    public void setLogo(int logo) {
-        this.logo = logo;
     }
 
     public List<Integer> getPlayersIds() {

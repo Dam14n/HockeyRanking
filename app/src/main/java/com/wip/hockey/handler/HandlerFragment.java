@@ -10,16 +10,13 @@ import android.util.Log;
 import com.wip.hockey.R;
 import com.wip.hockey.app.MainActivity;
 import com.wip.hockey.fragment.BaseFragment;
-import com.wip.hockey.fragment.CategoryFragment;
-import com.wip.hockey.fragment.DateFragment;
-import com.wip.hockey.fragment.DivisionFragment;
+import com.wip.hockey.fragment.ListDateFragment;
 import com.wip.hockey.fragment.FavoriteFragment;
-import com.wip.hockey.fragment.MatchFragment;
-import com.wip.hockey.fragment.SubDivisionFragment;
+import com.wip.hockey.fragment.ListCategoryFragment;
+import com.wip.hockey.fragment.ListDivisionFragment;
+import com.wip.hockey.fragment.ListSubDivisionFragment;
+import com.wip.hockey.fragment.ListMatchFragment;
 
-/**
- * Created by djorda on 08/06/2017.
- */
 
 public class HandlerFragment {
 
@@ -48,10 +45,10 @@ public class HandlerFragment {
         FragmentManager fragmentManager = context.getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         if (!firstCall){
-            fragmentTransaction.replace(R.id.fragment, fragment);
-            fragmentTransaction.addToBackStack("id: " + fragment.getId());
+            fragmentTransaction.replace(R.id.fragment, fragment,fragment.getTAG());
+            fragmentTransaction.addToBackStack("id: " + fragment.getTAG());
         }else{
-            fragmentTransaction.replace(R.id.fragment, fragment);
+            fragmentTransaction.replace(R.id.fragment, fragment, fragment.getTAG());
             firstCall = false;
         }
         fragmentTransaction.commit();
@@ -62,31 +59,31 @@ public class HandlerFragment {
         BaseFragment fragment = null;
         switch (id){
             case R.id.fragment_division_recycler:
-                fragment = new DivisionFragment();
+                fragment = new ListDivisionFragment();
                 Log.d(MainActivity.TAG,"La data es: ");
                 break;
             case R.id.fragment_sub_division_recycler:
-                fragment = new SubDivisionFragment();
+                fragment = new ListSubDivisionFragment();
                 Log.d(MainActivity.TAG,"La data es: ");
                 break;
             case R.id.fragment_category_recycler:
-                fragment = new CategoryFragment();
+                fragment = new ListCategoryFragment();
                 Log.d(MainActivity.TAG,"La data es: ");
                 break;
             case R.id.fragment_match_recycler:
-                fragment = new MatchFragment();
+                fragment = new ListMatchFragment();
                 Log.d(MainActivity.TAG,"La data es: ");
                 break;
             case R.id.fragment_favorite_recycler:
                 fragment = new FavoriteFragment();
                 Log.d(MainActivity.TAG,"La data es: ");
                 break;
-            case R.id.pager:
-                fragment = new DateFragment();
+            case R.id.fragment_pager_date:
+                fragment = new ListDateFragment();
                 Log.d(MainActivity.TAG,"La data es: pager");
                 break;
             default:
-                fragment = new DivisionFragment();
+                fragment = new ListDivisionFragment();
                 Log.d(MainActivity.TAG,"La data es: ");
         }
         return fragment;

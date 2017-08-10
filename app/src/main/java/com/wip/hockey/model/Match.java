@@ -1,16 +1,25 @@
 package com.wip.hockey.model;
 
 
+import android.arch.lifecycle.LiveData;
+import android.arch.lifecycle.Observer;
+import android.databinding.BaseObservable;
+import android.databinding.Bindable;
+import android.support.annotation.Nullable;
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+import com.wip.hockey.BR;
+import com.wip.hockey.repository.Repository;
 
+import java.security.PrivateKey;
 import java.util.List;
 
 /**
  * Created by djorda on 15/05/2017.
  */
 
-public class Match implements  IIdentificable{
+public class Match extends BaseObservable implements  IIdentificable{
 
     @SerializedName("Id")
     @Expose
@@ -21,9 +30,11 @@ public class Match implements  IIdentificable{
     @SerializedName("LocalTeamId")
     @Expose
     private int localTeamId;
+    private Team localTeam;
     @SerializedName("EnemyTeamId")
     @Expose
     private int enemyTeamId;
+    private Team enemyTeam;
     @SerializedName("LocalGoalsIds")
     @Expose
     private List<Integer> localGoalsIds;
@@ -79,5 +90,25 @@ public class Match implements  IIdentificable{
 
     public void setEnemyGoalsIds(List<Integer> enemyGoalsIds) {
         this.enemyGoalsIds = enemyGoalsIds;
+    }
+
+    @Bindable
+    public Team getLocalTeam() {
+        return this.localTeam;
+    }
+
+    public void setLocalTeam(Team localTeam) {
+        this.localTeam = localTeam;
+        notifyPropertyChanged(BR.localTeam);
+    }
+
+    @Bindable
+    public Team getEnemyTeam() {
+        return enemyTeam;
+    }
+
+    public void setEnemyTeam(Team enemyTeam) {
+        this.enemyTeam = enemyTeam;
+        notifyPropertyChanged(BR.enemyTeam);
     }
 }
