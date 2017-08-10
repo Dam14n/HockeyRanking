@@ -1,5 +1,6 @@
 package com.wip.hockey.handler;
 
+import android.arch.lifecycle.LifecycleFragment;
 import android.content.Context;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -9,13 +10,13 @@ import android.util.Log;
 
 import com.wip.hockey.R;
 import com.wip.hockey.app.MainActivity;
-import com.wip.hockey.fragment.BaseFragment;
-import com.wip.hockey.fragment.ListDateFragment;
+import com.wip.hockey.fragment.Division.ListDivisionFragment;
 import com.wip.hockey.fragment.FavoriteFragment;
-import com.wip.hockey.fragment.ListCategoryFragment;
-import com.wip.hockey.fragment.ListDivisionFragment;
-import com.wip.hockey.fragment.ListSubDivisionFragment;
-import com.wip.hockey.fragment.ListMatchFragment;
+import com.wip.hockey.fragment.Category.ListCategoryFragment;
+import com.wip.hockey.fragment.Date.ListDateFragment;
+import com.wip.hockey.fragment.Match.ListMatchFragment;
+import com.wip.hockey.fragment.SubDivision.ListSubDivisionFragment;
+import com.wip.hockey.fragment.Tageable;
 
 
 public class HandlerFragment {
@@ -36,7 +37,7 @@ public class HandlerFragment {
     }
 
     public Fragment changeToFragment(int id) {
-        BaseFragment fragment = this.getFragment(id);
+        Tageable fragment = this.getFragment(id);
         try {
             checkContext();
         } catch (ContextNotFoundException e) {
@@ -45,18 +46,18 @@ public class HandlerFragment {
         FragmentManager fragmentManager = context.getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         if (!firstCall){
-            fragmentTransaction.replace(R.id.fragment, fragment,fragment.getTAG());
+            fragmentTransaction.replace(R.id.fragment, (LifecycleFragment) fragment,fragment.getTAG());
             fragmentTransaction.addToBackStack("id: " + fragment.getTAG());
         }else{
-            fragmentTransaction.replace(R.id.fragment, fragment, fragment.getTAG());
+            fragmentTransaction.replace(R.id.fragment, (LifecycleFragment) fragment, fragment.getTAG());
             firstCall = false;
         }
         fragmentTransaction.commit();
-        return fragment;
+        return (LifecycleFragment) fragment;
     }
 
-    public BaseFragment getFragment(int id) {
-        BaseFragment fragment = null;
+    public Tageable getFragment(int id) {
+        Tageable fragment = null;
         switch (id){
             case R.id.fragment_division_recycler:
                 fragment = new ListDivisionFragment();

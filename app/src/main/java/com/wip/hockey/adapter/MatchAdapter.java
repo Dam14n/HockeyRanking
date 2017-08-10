@@ -8,7 +8,7 @@ import android.view.ViewGroup;
 
 import com.wip.hockey.R;
 import com.wip.hockey.databinding.ListItemMatchBinding;
-import com.wip.hockey.fragment.ListMatchFragment;
+import com.wip.hockey.fragment.Match.ListMatchFragment;
 import com.wip.hockey.model.Match;
 import com.wip.hockey.model.Team;
 

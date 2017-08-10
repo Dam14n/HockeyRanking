@@ -1,31 +1,80 @@
 package com.wip.hockey.viewModel;
 
-import android.arch.lifecycle.LiveData;
-import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.ViewModel;
+import android.support.annotation.NonNull;
 
+import com.wip.hockey.fragment.Category.CategoryContract;
+import com.wip.hockey.fragment.Lifecycle;
 import com.wip.hockey.model.Category;
 import com.wip.hockey.model.SubDivision;
 import com.wip.hockey.repository.Repository;
 
 import java.util.List;
 
-public class CategoryViewModel extends ViewModel {
+import io.reactivex.Observer;
+import io.reactivex.disposables.Disposable;
 
-    private LiveData<List<Category>> subDivisionLiveData;
-    private MutableLiveData<SubDivision> subDivision = new MutableLiveData<SubDivision>();
+public class CategoryViewModel extends ViewModel implements CategoryContract.ViewModel{
+
+    private Repository repository;
+    private CategoryContract.View viewCallback;
+    private SubDivision subDivision;
+
 
     public CategoryViewModel() {
-        SubDivision subDivision = this.subDivision.getValue() == null ? new SubDivision() : this.subDivision.getValue();
-        subDivisionLiveData = Repository.getInstance().getCategories(subDivision);
+        repository = Repository.getInstance();
+    }
+
+    @Override
+    public void getCategories() {
+        repository.getCategoriesBySubDivision(subDivision.getId())
+                .subscribe(new CategoryObserver());
     }
 
     public void setSubDivision(SubDivision subDivision) {
-        this.subDivision.setValue(subDivision);
-        subDivisionLiveData = Repository.getInstance().getCategories(this.subDivision.getValue());
+        this.subDivision = subDivision;
     }
 
-    public LiveData<List<Category>> getCategoryListObservable(){
-        return subDivisionLiveData;
+    @Override
+    public void onViewResumed() {
+
+    }
+
+    @Override
+    public void onViewAttached(@NonNull Lifecycle.View viewCallback) {
+        this.viewCallback = (CategoryContract.View) viewCallback;
+        getCategories();
+    }
+
+    @Override
+    public void onViewDetached() {
+
+    }
+
+    private class CategoryObserver implements Observer<List<Category>> {
+
+        @Override
+        public void onSubscribe(Disposable d) {
+            viewCallback.showMessage("Suscribe");
+        }
+
+        @Override
+        public void onNext(List<Category> categories) {
+            viewCallback.showMessage("Next");
+            viewCallback.setCategories(categories);
+            viewCallback.showProgress(false);
+        }
+
+        @Override
+        public void onError(Throwable e) {
+            viewCallback.showMessage("Error");
+            viewCallback.showProgress(false);
+            viewCallback.hideLoading();
+        }
+
+        @Override
+        public void onComplete() {
+            viewCallback.hideLoading();
+        }
     }
 }

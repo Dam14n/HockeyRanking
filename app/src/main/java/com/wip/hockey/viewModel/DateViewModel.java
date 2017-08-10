@@ -3,29 +3,83 @@ package com.wip.hockey.viewModel;
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.ViewModel;
+import android.support.annotation.NonNull;
+import android.support.v4.view.ViewPager;
 
+import com.wip.hockey.fragment.Category.CategoryContract;
+import com.wip.hockey.fragment.Date.DateContract;
+import com.wip.hockey.fragment.Lifecycle;
 import com.wip.hockey.model.Category;
 import com.wip.hockey.model.Date;
+import com.wip.hockey.model.SubDivision;
 import com.wip.hockey.repository.Repository;
 
 import java.util.List;
 
-public class DateViewModel extends ViewModel {
+import io.reactivex.Observer;
+import io.reactivex.disposables.Disposable;
 
-    private LiveData<List<Date>> dateLiveData;
-    private MutableLiveData<Category> category = new MutableLiveData<Category>();
+public class DateViewModel extends ViewModel implements DateContract.ViewModel{
+
+    private Repository repository;
+    private DateContract.View viewCallback;
+    private Category category;
 
     public DateViewModel() {
-        Category category = this.category.getValue() == null ? new Category() : this.category.getValue();
-        dateLiveData = Repository.getInstance().getDates(category);
+        repository = Repository.getInstance();
     }
 
+    @Override
+    public void getDates() {
+        repository.getDatesByCategory(category.getId())
+                .subscribe(new DateObserver());
+    }
+
+    @Override
     public void setCategory(Category category) {
-        this.category.setValue(category);
-        dateLiveData = Repository.getInstance().getDates(this.category.getValue());
+        this.category = category;
     }
 
-    public LiveData<List<Date>> getDateListObservable(){
-        return dateLiveData;
+    @Override
+    public void onViewResumed() {
+
+    }
+
+    @Override
+    public void onViewAttached(@NonNull Lifecycle.View viewCallback) {
+        this.viewCallback = (DateContract.View) viewCallback;
+        getDates();
+    }
+
+    @Override
+    public void onViewDetached() {
+
+    }
+
+    private class DateObserver implements Observer<List<Date>>{
+
+        @Override
+        public void onSubscribe(Disposable d) {
+            viewCallback.showMessage("Suscribe");
+        }
+
+        @Override
+        public void onNext(List<Date> dates) {
+            viewCallback.showMessage("Next");
+            viewCallback.setDates(dates);
+            viewCallback.showProgress(false);
+        }
+
+        @Override
+        public void onError(Throwable e) {
+            viewCallback.showMessage("Error");
+            viewCallback.showProgress(false);
+            viewCallback.hideLoading();
+        }
+
+        @Override
+        public void onComplete() {
+
+        }
     }
 }
