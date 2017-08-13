@@ -9,6 +9,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class RetrofitFactory {
 
+    private static final String BASE_URL2 = "http://hockeywebservice.zapto.org/webapi/api/";
     private static final String BASE_URL1 = "http://192.168.0.145/webapi/api/";
     private static final String BASE_URL = "http://10.0.2.2/webapi/api/";
 
@@ -22,7 +23,7 @@ public class RetrofitFactory {
                 .build();
 
         return new Retrofit.Builder()
-                .baseUrl(BASE_URL)
+                .baseUrl(BASE_URL2)
                 .client(client)
                 .addConverterFactory(GsonConverterFactory.create())
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
