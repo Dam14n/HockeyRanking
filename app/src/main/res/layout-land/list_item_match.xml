@@ -22,8 +22,7 @@
                 android:layout_width="60dp"
                 android:layout_height="60dp"
                 android:layout_margin="7dp"
-                android:contentDescription="Thumbnail"
-                android:src="@drawable/regatas"/>
+                app:imgRes="@{match.localTeam.image}"/>
 
             <RelativeLayout
                 android:layout_width="0dp"
@@ -54,7 +53,7 @@
                         android:id="@+id/local_team_goals"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="0" />
+                        android:text="@{Integer.toString(match.localGoalsIds.size())}"/>
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -65,7 +64,7 @@
                         android:id="@+id/enemy_team_goals"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="0" />
+                        android:text="@{Integer.toString(match.enemyGoalsIds.size())}"/>
 
                 </LinearLayout>
 
@@ -86,8 +85,7 @@
                 android:layout_width="60dp"
                 android:layout_height="60dp"
                 android:layout_margin="7dp"
-                android:contentDescription="Thumbnail"
-                android:src="@drawable/san_luis" />
+                app:imgRes="@{match.enemyTeam.image}" />
 
         </LinearLayout>
     </android.support.v7.widget.CardView>

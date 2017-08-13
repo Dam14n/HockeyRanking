@@ -5,6 +5,7 @@ import com.wip.hockey.model.Board;
 import com.wip.hockey.model.Category;
 import com.wip.hockey.model.Date;
 import com.wip.hockey.model.Division;
+import com.wip.hockey.model.Logo;
 import com.wip.hockey.model.Match;
 import com.wip.hockey.model.Position;
 import com.wip.hockey.model.SubDivision;
@@ -72,8 +73,11 @@ public class Repository {
         return apiService.getBoardsByCategory(categoryId);
     }
 
-
     public Observable<Team> getTeam(int id){
         return apiService.getTeam(id);
+    }
+
+    public Observable<Logo> getLogo(int id){
+        return apiService.getLogo(id);
     }
 }

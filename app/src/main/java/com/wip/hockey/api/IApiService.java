@@ -4,6 +4,7 @@ import com.wip.hockey.model.Board;
 import com.wip.hockey.model.Category;
 import com.wip.hockey.model.Date;
 import com.wip.hockey.model.Division;
+import com.wip.hockey.model.Logo;
 import com.wip.hockey.model.Match;
 import com.wip.hockey.model.Position;
 import com.wip.hockey.model.SubDivision;
@@ -76,4 +77,7 @@ public interface IApiService {
 
     @GET("categories/{categoryId}/boards")
     Observable<List<Board>> getBoardsByCategory(@Path("categoryId") int categoryId);
+
+    @GET("logos/{id}")
+    Observable<Logo> getLogo(@Path("id") int id);
 }
