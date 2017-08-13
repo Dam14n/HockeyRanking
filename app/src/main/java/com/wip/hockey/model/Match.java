@@ -3,6 +3,9 @@ package com.wip.hockey.model;
 
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
+import android.databinding.BindingAdapter;
+import android.graphics.Bitmap;
+import android.widget.ImageView;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
@@ -67,20 +70,24 @@ public class Match extends BaseObservable implements  IIdentificable{
         this.enemyTeamId = enemyTeamId;
     }
 
+    @Bindable
     public List<Integer> getLocalGoalsIds() {
         return localGoalsIds;
     }
 
     public void setLocalGoalsIds(List<Integer> localGoalsIds) {
         this.localGoalsIds = localGoalsIds;
+        this.notifyPropertyChanged(BR.localGoalsIds);
     }
 
+    @Bindable
     public List<Integer> getEnemyGoalsIds() {
         return enemyGoalsIds;
     }
 
     public void setEnemyGoalsIds(List<Integer> enemyGoalsIds) {
         this.enemyGoalsIds = enemyGoalsIds;
+        this.notifyPropertyChanged(BR.enemyGoalsIds);
     }
 
     @Bindable
@@ -102,4 +109,11 @@ public class Match extends BaseObservable implements  IIdentificable{
         this.enemyTeam = enemyTeam;
         notifyPropertyChanged(BR.enemyTeam);
     }
+
+    @BindingAdapter({"bind:imgRes"})
+    public static void loadImage(ImageView view, Bitmap image) {
+        if (image != null)
+            view.setImageBitmap(image);
+    }
+
 }

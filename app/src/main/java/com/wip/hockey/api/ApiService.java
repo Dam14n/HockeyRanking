@@ -4,6 +4,7 @@ import com.wip.hockey.model.Board;
 import com.wip.hockey.model.Category;
 import com.wip.hockey.model.Date;
 import com.wip.hockey.model.Division;
+import com.wip.hockey.model.Logo;
 import com.wip.hockey.model.Match;
 import com.wip.hockey.model.Position;
 import com.wip.hockey.model.SubDivision;
@@ -144,6 +145,13 @@ public class ApiService implements IApiService {
     @Override
     public Observable<List<Board>> getBoardsByCategory(int categoryId) {
         return apiService.getBoardsByCategory(categoryId)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
+
+    @Override
+    public Observable<Logo> getLogo(int id) {
+        return apiService.getLogo(id)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
     }

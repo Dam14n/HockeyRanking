@@ -6,6 +6,7 @@ import android.support.annotation.NonNull;
 import com.wip.hockey.fragment.Lifecycle;
 import com.wip.hockey.fragment.Match.MatchContract;
 import com.wip.hockey.model.Date;
+import com.wip.hockey.model.Logo;
 import com.wip.hockey.model.Match;
 import com.wip.hockey.model.Team;
 import com.wip.hockey.repository.Repository;
@@ -35,6 +36,11 @@ public class MatchViewModel extends ViewModel implements MatchContract.ViewModel
         for (Match match : matches)
             repository.getTeamsByMatch(match.getId())
                     .subscribe(new TeamsMatchObserver(match));
+    }
+
+    private void getLogo(Team team) {
+            repository.getLogo(team.getLogoId())
+                    .subscribe(new LogoTeamObserver(team));
     }
 
     public void setDate(Date date) {
@@ -107,7 +113,39 @@ public class MatchViewModel extends ViewModel implements MatchContract.ViewModel
                 }else{
                     match.setLocalTeam(team);
                 }
+                getLogo(team);
             }
+        }
+
+        @Override
+        public void onError(Throwable e) {
+            viewCallback.showMessage("Error update teams");
+        }
+
+        @Override
+        public void onComplete() {
+
+        }
+    }
+
+    private class LogoTeamObserver implements Observer<Logo> {
+
+        private final Team team;
+
+        public LogoTeamObserver(Team team) {
+            this.team = team;
+        }
+
+        @Override
+        public void onSubscribe(Disposable d) {
+            viewCallback.showMessage("Subscribe");
+        }
+
+        @Override
+        public void onNext(Logo logo) {
+            viewCallback.showMessage("updated teams");
+            this.team.setLogo(logo);
+
         }
 
         @Override
