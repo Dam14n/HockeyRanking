@@ -23,7 +23,7 @@ public class RetrofitFactory {
                 .build();
 
         return new Retrofit.Builder()
-                .baseUrl(BASE_URL2)
+                .baseUrl(BASE_URL)
                 .client(client)
                 .addConverterFactory(GsonConverterFactory.create())
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
