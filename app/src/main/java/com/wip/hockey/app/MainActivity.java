@@ -1,5 +1,6 @@
 package com.wip.hockey.app;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -18,6 +19,9 @@ import com.wip.hockey.fragment.Lifecycle;
 import com.wip.hockey.fragment.NavigationDrawerFragment;
 import com.wip.hockey.fragment.ViewType;
 import com.wip.hockey.handler.HandlerFragment;
+import com.wip.hockey.model.User;
+
+import java.io.Serializable;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -36,6 +40,9 @@ public class MainActivity extends AppCompatActivity {
         setUpDrawer();
         setUpFragment();
         setUpFavorite();
+        Intent intent = this.getIntent();
+        User user = (User) intent.getSerializableExtra("USER");
+        Log.d(TAG, "User Id: "+ user.getId());
         //This line must be removed when Database will be determined
         MainActivity.favoriteManager.removeAll();
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
