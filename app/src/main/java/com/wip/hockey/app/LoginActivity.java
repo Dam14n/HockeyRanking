@@ -92,7 +92,6 @@ public class LoginActivity extends LifecycleActivity implements
     @Override
     public void onStart() {
         super.onStart();
-        //FirebaseUser currentUser = mAuth.getCurrentUser();
         updateUI(createUser());
     }
 
@@ -138,9 +137,6 @@ public class LoginActivity extends LifecycleActivity implements
                     if (task.isSuccessful()) {
                         Log.d(TAG, "signInWithCredential:success");
                         User user = createUser();
-                        Intent intent = new Intent(LoginActivity.this,MainActivity.class);
-                        intent.putExtra("USER",user);
-                        startActivity(intent);
                         updateUI(user);
                     } else {
                         Log.w(TAG, "signInWithCredential:failure", task.getException());
@@ -176,6 +172,9 @@ public class LoginActivity extends LifecycleActivity implements
 
             binding.signInButton.setVisibility(View.GONE);
             binding.signOutAndDisconnect.setVisibility(View.VISIBLE);
+            Intent intent = new Intent(LoginActivity.this,MainActivity.class);
+            intent.putExtra("USER",user);
+            startActivity(intent);
         } else {
             binding.status.setText(R.string.signed_out);
             binding.detail.setText(null);
