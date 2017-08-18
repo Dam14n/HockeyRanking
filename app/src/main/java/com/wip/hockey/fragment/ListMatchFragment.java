@@ -1,4 +1,4 @@
-package com.wip.hockey.fragment.Match;
+package com.wip.hockey.fragment;
 
 import android.arch.lifecycle.ViewModelProviders;
 import android.databinding.DataBindingUtil;
@@ -10,32 +10,37 @@ import android.view.ViewGroup;
 
 import com.wip.hockey.R;
 import com.wip.hockey.adapter.MatchAdapter;
+import com.wip.hockey.app.Constants;
 import com.wip.hockey.databinding.FragmentListMatchBinding;
-import com.wip.hockey.fragment.BaseFragment;
-import com.wip.hockey.fragment.Lifecycle;
-import com.wip.hockey.fragment.Selected;
-import com.wip.hockey.fragment.Tageable;
-import com.wip.hockey.model.Date;
 import com.wip.hockey.model.Match;
 import com.wip.hockey.viewModel.MatchViewModel;
 
 import java.util.List;
 
+import io.reactivex.Observer;
+import io.reactivex.disposables.Disposable;
+
 public class ListMatchFragment extends BaseFragment
-        implements Selected, Tageable,MatchContract.View {
+        implements Tageable{
 
     private final String TAG = ListMatchFragment.class.toString();
     private MatchAdapter matchAdapter;
     private FragmentListMatchBinding binding;
-    private Date date;
-    private MatchContract.ViewModel matchViewModel;
+    private MatchViewModel matchViewModel;
+    private MatchObserver observer;
 
     @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
         matchViewModel = ViewModelProviders.of(this).get(MatchViewModel.class);
-        matchViewModel.setDate(this.date);
+        matchViewModel.setDateId(this.getArguments().getInt(Constants.PARENT_ID));
+
+        setupRefreshLayout();
+        subscribeUi(matchViewModel);
+    }
+
+    private void subscribeUi(MatchViewModel matchViewModel) {
+        matchViewModel.getMatches().subscribe(observer);
     }
 
     @Override
@@ -45,7 +50,9 @@ public class ListMatchFragment extends BaseFragment
         matchAdapter = new MatchAdapter(this);
 
         binding.fragmentMatchRecycler.setAdapter(matchAdapter);
-        setupRefreshLayout();
+
+        this.observer = new MatchObserver();
+
         return binding.getRoot();
     }
 
@@ -54,35 +61,44 @@ public class ListMatchFragment extends BaseFragment
         return TAG;
     }
 
-    @Override
-    public void setSelectedFrom(Object object) {
-        this.date = (Date) object;
-    }
-
-    @Override
-    protected Lifecycle.ViewModel getViewModel() {
-        return matchViewModel;
-    }
-
     private void setupRefreshLayout() {
-        binding.swipeRefresh.setOnRefreshListener(() -> matchViewModel.getMatches());
+        binding.swipeRefresh.setOnRefreshListener(() -> matchViewModel.getMatches().subscribe(observer));
     }
 
-    @Override
-    public void showMessage(String message) {
-        /*if (this.isVisible())
-            Toast.makeText(getContext(),message,Toast.LENGTH_SHORT).show();*/
-    }
-
-    @Override
     public void hideLoading() {
         if (binding.swipeRefresh != null) {
             binding.swipeRefresh.setRefreshing(false);
         }
     }
 
-    @Override
     public void setMatches(List<Match> matches) {
         matchAdapter.setMatchList(matches);
+    }
+
+    private class MatchObserver implements Observer<List<Match>> {
+        @Override
+        public void onSubscribe(Disposable d) {
+            showMessage("Subscribe");
+        }
+
+        @Override
+        public void onNext(List<Match> matches) {
+            matchViewModel.getTeams(matches);
+            showMessage("Next");
+            setMatches(matches);
+            showProgress(false);
+        }
+
+        @Override
+        public void onError(Throwable e) {
+            showMessage("Error");
+            showProgress(false);
+            hideLoading();
+        }
+
+        @Override
+        public void onComplete() {
+            hideLoading();
+        }
     }
 }

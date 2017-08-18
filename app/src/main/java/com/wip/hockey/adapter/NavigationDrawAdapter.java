@@ -1,6 +1,7 @@
 package com.wip.hockey.adapter;
 
 import android.content.Context;
+import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,8 +11,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.wip.hockey.R;
+import com.wip.hockey.app.Constants;
 import com.wip.hockey.app.MainActivity;
-import com.wip.hockey.fragment.Lifecycle;
+import com.wip.hockey.fragment.BaseFragment;
 import com.wip.hockey.fragment.ViewType;
 import com.wip.hockey.handler.HandlerFragment;
 import com.wip.hockey.model.NavigationDrawerItem;
@@ -49,8 +51,10 @@ public class NavigationDrawAdapter extends RecyclerView.Adapter<NavigationDrawAd
         holder.itemView.setOnClickListener(v -> {
             switch (holder.title.getText().toString()){
                 case "Inicio":
-                    Lifecycle.View startView = (Lifecycle.View) HandlerFragment.getInstance().changeToFragment(R.id.fragment_division_recycler);
-                    startView.setType(ViewType.POSITIONS_VIEW);
+                    BaseFragment divisionFragment = (BaseFragment) HandlerFragment.getInstance().changeToFragment(R.id.fragment_division_recycler);
+                    Bundle bundle = new Bundle();
+                    bundle.putSerializable(Constants.OPERATION_TYPE, ViewType.POSITIONS_VIEW);
+                    divisionFragment.setArguments(bundle);
                     break;
                 case "Favoritos":
                     HandlerFragment.getInstance().changeToFragment(R.id.fragment_favorite_recycler);
@@ -60,8 +64,10 @@ public class NavigationDrawAdapter extends RecyclerView.Adapter<NavigationDrawAd
                     Toast.makeText(context,"Se han removido todos los favoritos!!",Toast.LENGTH_SHORT).show();
                     break;
                 case "Posiciones":
-                    Lifecycle.View positionsView = (Lifecycle.View) HandlerFragment.getInstance().changeToFragment(R.id.fragment_division_recycler);
-                    positionsView.setType(ViewType.TABLE_VIEW);
+                    BaseFragment tableFragment = (BaseFragment) HandlerFragment.getInstance().changeToFragment(R.id.fragment_division_recycler);
+                    Bundle tableBundle = new Bundle();
+                    tableBundle.putSerializable(Constants.OPERATION_TYPE, ViewType.TABLE_VIEW);
+                    tableFragment.setArguments(tableBundle);
                 default:
                     break;
             }

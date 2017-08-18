@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <data>
         <variable name="subDivision" type="com.wip.hockey.model.SubDivision"/>
-        <variable name="handler" type="com.wip.hockey.fragment.SubDivision.ListSubDivisionFragment"/>
+        <variable name="handler" type="com.wip.hockey.fragment.ListSubDivisionFragment"/>
     </data>
     <android.support.v7.widget.CardView
         android:layout_width="match_parent"

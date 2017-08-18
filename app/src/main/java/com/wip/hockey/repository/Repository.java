@@ -15,7 +15,6 @@ import com.wip.hockey.networking.mock.RetrofitFactory;
 import java.util.List;
 
 import io.reactivex.Observable;
-import io.reactivex.ObservableSource;
 import retrofit2.Retrofit;
 
 public class Repository {
@@ -32,16 +31,16 @@ public class Repository {
         return instance;
     }
 
-    public ObservableSource<List<Division>> getDivisions(){
+    public Observable<List<Division>> getDivisions(){
         return apiService.getDivisions();
     }
 
 
-    public ObservableSource<List<SubDivision>> getSubDivisionsByDivision(int divisionId){
+    public Observable<List<SubDivision>> getSubDivisionsByDivision(int divisionId){
         return apiService.getSubDivisionsByDivision(divisionId);
     }
 
-    public ObservableSource<List<Category>> getCategoriesBySubDivision(int subDivisionId){
+    public Observable<List<Category>> getCategoriesBySubDivision(int subDivisionId){
         return apiService.getCategoriesBySubDivision(subDivisionId);
     }
 

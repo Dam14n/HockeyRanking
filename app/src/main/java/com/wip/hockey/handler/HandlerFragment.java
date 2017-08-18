@@ -10,14 +10,14 @@ import android.util.Log;
 
 import com.wip.hockey.R;
 import com.wip.hockey.app.MainActivity;
-import com.wip.hockey.fragment.Board.ListBoardFragment;
-import com.wip.hockey.fragment.Category.ListCategoryFragment;
-import com.wip.hockey.fragment.Date.ListDateFragment;
-import com.wip.hockey.fragment.Division.ListDivisionFragment;
 import com.wip.hockey.fragment.FavoriteFragment;
-import com.wip.hockey.fragment.Match.ListMatchFragment;
-import com.wip.hockey.fragment.Position.TablePositionFragment;
-import com.wip.hockey.fragment.SubDivision.ListSubDivisionFragment;
+import com.wip.hockey.fragment.ListBoardFragment;
+import com.wip.hockey.fragment.ListCategoryFragment;
+import com.wip.hockey.fragment.ListDateFragment;
+import com.wip.hockey.fragment.ListDivisionFragment;
+import com.wip.hockey.fragment.ListMatchFragment;
+import com.wip.hockey.fragment.ListSubDivisionFragment;
+import com.wip.hockey.fragment.TablePositionFragment;
 import com.wip.hockey.fragment.Tageable;
 
 
@@ -45,13 +45,14 @@ public class HandlerFragment {
         } catch (ContextNotFoundException e) {
             e.printStackTrace();
         }
+
         FragmentManager fragmentManager = context.getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         if (!firstCall){
             fragmentTransaction.replace(R.id.fragment, (LifecycleFragment) fragment,fragment.getTAG());
-            fragmentTransaction.addToBackStack("id: " + fragment.getTAG());
+            fragmentTransaction.addToBackStack(null);
         }else{
-            fragmentTransaction.replace(R.id.fragment, (LifecycleFragment) fragment, fragment.getTAG());
+            fragmentTransaction.add(R.id.fragment, (LifecycleFragment) fragment, fragment.getTAG());
             firstCall = false;
         }
         fragmentTransaction.commit();
