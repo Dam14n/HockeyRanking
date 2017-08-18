@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Hockey Ranking</string>
+    <string name="app_name">Hockey Pasion</string>
     <string name="delete">Delete</string>
     <string name="search">Search</string>
     <string name="settings">Settings</string>
@@ -10,6 +10,11 @@
     <string name="deleteImage">deleteImage</string>
     <string name="addImage">addImage</string>
 
+
+
+    <string name="firebase_status_fmt">Firebase User: %s</string>
+    <string name="firebase_user_management">Firebase User Management</string>
+    <string name="google_status_fmt">Google User: %s</string>
     <string name="drawer_open">Open</string>
     <string name="drawer_close">Close</string>
     <string name="ic_keyboard_arrow_right">arrow right</string>
@@ -19,4 +24,11 @@
     <string name="ic_laptop">computer</string>
     <string name="ic_folder">folder</string>
     <string name="banner_ad_unit_id">ca-app-pub-7652174985399137/2444420236</string>
+    <string name="desc_firebase_lockup">Firebase logo and name</string>
+    <string name="google_title_text">Google Sign In</string>
+    <string name="signed_out">Signed Out</string>
+    <string name="sign_out">Sign Out</string>
+    <string name="disconnect">Disconnect</string>
+    <string name="loading">Loading...</string>
+    <string name="login_activity">Login Activity</string>
 </resources>
