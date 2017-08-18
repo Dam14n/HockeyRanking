@@ -1,24 +1,18 @@
 package com.wip.hockey.viewModel;
 
 import android.arch.lifecycle.ViewModel;
-import android.support.annotation.NonNull;
 
-import com.wip.hockey.fragment.Board.BoardContract;
-import com.wip.hockey.fragment.Lifecycle;
 import com.wip.hockey.model.Board;
-import com.wip.hockey.model.Category;
 import com.wip.hockey.repository.Repository;
 
 import java.util.List;
 
-import io.reactivex.Observer;
-import io.reactivex.disposables.Disposable;
+import io.reactivex.Observable;
 
-public class BoardViewModel extends ViewModel implements BoardContract.ViewModel{
+public class BoardViewModel extends ViewModel{
 
     private Repository repository;
-    private BoardContract.View viewCallback;
-    private Category category;
+    private int categoryId;
 
 
     public BoardViewModel() {
@@ -26,57 +20,11 @@ public class BoardViewModel extends ViewModel implements BoardContract.ViewModel
     }
 
 
-    @Override
-    public void onViewResumed() {
-
+    public Observable<List<Board>> getBoards() {
+        return repository.getBoardsByCategory(this.categoryId);
     }
 
-    @Override
-    public void onViewAttached(@NonNull Lifecycle.View viewCallback) {
-        this.viewCallback = (BoardContract.View) viewCallback;
-        getBoards();
-    }
-
-    @Override
-    public void onViewDetached() {
-
-    }
-
-    @Override
-    public void getBoards() {
-        repository.getBoardsByCategory(this.category.getId())
-                .subscribe(new BoardObserver());
-    }
-
-    @Override
-    public void setCategory(Category category) {
-        this.category = category;
-    }
-
-    private class BoardObserver implements Observer<List<Board>> {
-
-        @Override
-        public void onSubscribe(Disposable d) {
-            viewCallback.showMessage("Subscribe");
-        }
-
-        @Override
-        public void onNext(List<Board> boards) {
-            viewCallback.showMessage("Next");
-            viewCallback.setBoards(boards);
-            viewCallback.showProgress(false);
-        }
-
-        @Override
-        public void onError(Throwable e) {
-            viewCallback.showMessage("Error");
-            viewCallback.showProgress(false);
-            viewCallback.hideLoading();
-        }
-
-        @Override
-        public void onComplete() {
-            viewCallback.hideLoading();
-        }
+    public void setCategoryId(int categoryId) {
+        this.categoryId = categoryId;
     }
 }

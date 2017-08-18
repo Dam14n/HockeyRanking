@@ -1,57 +1,97 @@
 package com.wip.hockey.app;
 
+import android.arch.lifecycle.LifecycleActivity;
 import android.content.Intent;
+import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
-import android.widget.ProgressBar;
 
 import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.MobileAds;
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.wip.hockey.R;
-import com.wip.hockey.fragment.Lifecycle;
+import com.wip.hockey.databinding.ActivityMainBinding;
+import com.wip.hockey.fragment.BaseFragment;
 import com.wip.hockey.fragment.NavigationDrawerFragment;
 import com.wip.hockey.fragment.ViewType;
 import com.wip.hockey.handler.HandlerFragment;
 import com.wip.hockey.model.User;
 
-import java.io.Serializable;
-
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends LifecycleActivity {
 
     public static final String TAG = MainActivity.class.getSimpleName();
-    private  HandlerFragment handlerFragment;
+    private HandlerFragment handlerFragment;
     public static FavoriteManager favoriteManager;
-    private Toolbar toolbar;
-    private ProgressBar progressBar;
     private FirebaseAnalytics mFirebaseAnalytics;
+    private ActivityMainBinding binding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
+        if (savedInstanceState == null){
+            setUpFragment();
+        }else{
+            handlerFragment = HandlerFragment.getInstance();
+            handlerFragment.setContext(this);
+        }
+
         setUpToolbar();
         setUpDrawer();
-        setUpFragment();
+
         setUpFavorite();
+
         Intent intent = this.getIntent();
         User user = (User) intent.getSerializableExtra("USER");
         Log.d(TAG, "User Id: "+ user.getId());
+
         //This line must be removed when Database will be determined
         MainActivity.favoriteManager.removeAll();
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
+
+        createAdBanner();
+    }
+
+    private void setUpFavorite() {
+        favoriteManager = new FavoriteManager(this);
+    }
+
+    private void setUpFragment() {
+        handlerFragment = HandlerFragment.getInstance();
+        handlerFragment.setContext(this);
+        showProgress(true);
+        BaseFragment fragment = (BaseFragment) handlerFragment.changeToFragment(R.id.fragment_division_recycler);
+        Bundle bundle = new Bundle();
+        bundle.putSerializable(Constants.OPERATION_TYPE,ViewType.POSITIONS_VIEW);
+        fragment.setArguments(bundle);
+    }
+
+    private void setUpToolbar(){
+        binding.toolbar.baseToolbar.setTitle("Hockey");
+        binding.toolbar.baseToolbar.setSubtitle("Pasion");
+        binding.toolbar.baseToolbar.inflateMenu(R.menu.menu_main);
+    }
+
+    private void setUpDrawer(){
+        NavigationDrawerFragment drawerFragment = (NavigationDrawerFragment) getSupportFragmentManager().findFragmentById(R.id.nav_drwr_fragment);
+        DrawerLayout drawerLayout = findViewById(R.id.drawer_layout);
+        drawerFragment.setUpDrawer(R.id.nav_drwr_fragment,drawerLayout,binding.toolbar.baseToolbar);
+    }
+
+    public void showProgress(boolean isVisible){
+        binding.loading.setVisibility(isVisible ? View.VISIBLE : View.GONE);
+    }
+
+    public void createAdBanner(){
         MobileAds.initialize(getApplicationContext(),
                 "ca-app-pub-7652174985399137~2420714987");
-        AdView mAdView = findViewById(R.id.adView);
         AdRequest adRequest = new AdRequest.Builder().build();
-        mAdView.loadAd(adRequest);
-        mAdView.setAdListener(new AdListener() {
+        binding.adView.loadAd(adRequest);
+        binding.adView.setAdListener(new AdListener() {
             @Override
             public void onAdLoaded() {
                 // Code to be executed when an ad finishes loading.
@@ -85,36 +125,5 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
-
-    private void setUpFavorite() {
-        favoriteManager = new FavoriteManager(this);
-    }
-
-    private void setUpFragment() {
-        handlerFragment = HandlerFragment.getInstance();
-        handlerFragment.setContext(this);
-        progressBar = findViewById(R.id.loading);
-        showProgress(true);
-        Lifecycle.View view = (Lifecycle.View) handlerFragment.changeToFragment(R.id.fragment_division_recycler);
-        view.setType(ViewType.POSITIONS_VIEW);
-    }
-
-    private void setUpToolbar(){
-        toolbar = findViewById(R.id.toolbar);
-        toolbar.setTitle("Hockey");
-        toolbar.setSubtitle("Pasion");
-        toolbar.inflateMenu(R.menu.menu_main);
-    }
-
-    private void setUpDrawer(){
-        NavigationDrawerFragment drawerFragment = (NavigationDrawerFragment) getSupportFragmentManager().findFragmentById(R.id.nav_drwr_fragment);
-        DrawerLayout drawerLayout = findViewById(R.id.drawer_layout);
-        drawerFragment.setUpDrawer(R.id.nav_drwr_fragment,drawerLayout,toolbar);
-    }
-
-    public void showProgress(boolean isVisible){
-        progressBar.setVisibility(isVisible ? View.VISIBLE : View.GONE);
-    }
-
 }
 

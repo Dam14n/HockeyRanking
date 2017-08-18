@@ -1,7 +1,5 @@
 package com.wip.hockey.model;
 
-import android.net.Uri;
-
 import java.io.Serializable;
 import java.util.List;
 

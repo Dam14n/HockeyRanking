@@ -1,4 +1,4 @@
-package com.wip.hockey.fragment.Position;
+package com.wip.hockey.fragment;
 
 import android.arch.lifecycle.ViewModelProviders;
 import android.databinding.DataBindingUtil;
@@ -9,44 +9,51 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.wip.hockey.R;
+import com.wip.hockey.app.Constants;
 import com.wip.hockey.databinding.FragmentTablePositionBinding;
 import com.wip.hockey.databinding.TableRowPositionBinding;
-import com.wip.hockey.fragment.BaseFragment;
-import com.wip.hockey.fragment.Lifecycle;
-import com.wip.hockey.fragment.Selected;
-import com.wip.hockey.fragment.Tageable;
-import com.wip.hockey.model.Board;
 import com.wip.hockey.model.Position;
 import com.wip.hockey.viewModel.PositionViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class TablePositionFragment extends BaseFragment implements Tageable,Selected,PositionContract.View{
+import io.reactivex.Observer;
+import io.reactivex.disposables.Disposable;
+
+public class TablePositionFragment extends BaseFragment implements Tageable{
 
     private final String TAG = TablePositionFragment.class.toString();
     private FragmentTablePositionBinding binding;
-    private PositionContract.ViewModel positionViewModel;
-    private Board board;
+    private PositionViewModel positionViewModel;
     private List<View> tableRows = new ArrayList();
+    private PositionObserver observer;
 
     @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
         positionViewModel = ViewModelProviders.of(this).get(PositionViewModel.class);
-        positionViewModel.setBoard(this.board);
+        positionViewModel.setBoardId(this.getArguments().getInt(Constants.PARENT_ID));
+
+        setupRefreshLayout();
+        subscribeUi(positionViewModel);
     }
+
+    private void subscribeUi(PositionViewModel positionViewModel) {
+        positionViewModel.getPositions().subscribe(observer);
+    }
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_table_position, container, false);
-        setupRefreshLayout();
 
+        this.observer = new PositionObserver();
         return binding.getRoot();
     }
 
     private void setupRefreshLayout() {
-        binding.swipeRefresh.setOnRefreshListener(() -> positionViewModel.getPositions());
+        binding.swipeRefresh.setOnRefreshListener(() -> positionViewModel.getPositions().subscribe(observer));
     }
 
     @Override
@@ -54,25 +61,17 @@ public class TablePositionFragment extends BaseFragment implements Tageable,Sele
         return TAG;
     }
 
-    @Override
-    protected Lifecycle.ViewModel getViewModel() {
-        return this.positionViewModel;
-    }
-
-    @Override
     public void showMessage(String message) {
        // if (this.isVisible())
            // Toast.makeText(getContext(),message,Toast.LENGTH_SHORT).show();
     }
 
-    @Override
     public void hideLoading() {
         if (binding.swipeRefresh != null) {
             binding.swipeRefresh.setRefreshing(false);
         }
     }
 
-    @Override
     public void setPositions(List<Position> positions) {
         this.cleanTable();
         this.addPositionsToTable(positions);
@@ -93,9 +92,32 @@ public class TablePositionFragment extends BaseFragment implements Tageable,Sele
             binding.fragmentTablePositions.addView(tableRowPositionBinding.getRoot());
         }
     }
-    
-    @Override
-    public void setSelectedFrom(Object object) {
-        this.board = (Board) object;
+
+    private class PositionObserver implements Observer<List<Position>> {
+
+        @Override
+        public void onSubscribe(Disposable d) {
+            showMessage("Subscribe");
+        }
+
+        @Override
+        public void onNext(List<Position> positions) {
+            positionViewModel.getTeam(positions);
+            showMessage("Next");
+            setPositions(positions);
+            showProgress(false);
+        }
+
+        @Override
+        public void onError(Throwable e) {
+            showMessage("Error");
+            showProgress(false);
+            hideLoading();
+        }
+
+        @Override
+        public void onComplete() {
+            hideLoading();
+        }
     }
 }

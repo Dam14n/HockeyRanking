@@ -4,28 +4,11 @@ import android.arch.lifecycle.LifecycleFragment;
 
 import com.wip.hockey.app.MainActivity;
 
-public abstract class BaseFragment extends LifecycleFragment implements Lifecycle.View{
+public abstract class BaseFragment extends LifecycleFragment {
 
-    private ViewType type;
-
-    protected abstract Lifecycle.ViewModel getViewModel();
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        getViewModel().onViewResumed();
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
-        getViewModel().onViewAttached(this);
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-        getViewModel().onViewDetached();
+    public void showMessage(String message) {
+        /*if (this.isVisible())
+            Toast.makeText(getContext(),message,Toast.LENGTH_SHORT).show();*/
     }
 
     public void showProgress(boolean isVisible) {
@@ -34,14 +17,4 @@ public abstract class BaseFragment extends LifecycleFragment implements Lifecycl
             mainActivity.showProgress(isVisible);
         }
     }
-
-    @Override
-    public ViewType getType(){
-        return this.type;
-    };
-
-    @Override
-    public void setType(ViewType type){
-        this.type = type;
-    };
 }
