@@ -22,6 +22,7 @@ import com.wip.hockey.R;
 import com.wip.hockey.databinding.ActivityMainBinding;
 import com.wip.hockey.fragment.BaseFragment;
 import com.wip.hockey.fragment.NavigationDrawerFragment;
+import com.wip.hockey.fragment.CloseAppDialogFragment;
 import com.wip.hockey.fragment.ViewType;
 import com.wip.hockey.handler.HandlerFragment;
 import com.wip.hockey.model.User;
@@ -162,6 +163,16 @@ public class MainActivity extends LifecycleActivity implements Toolbar.OnMenuIte
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
+        }
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (handlerFragment.isBackEmpty()){
+            CloseAppDialogFragment closeAppDialogFragment = new CloseAppDialogFragment();
+            closeAppDialogFragment.show(getSupportFragmentManager(),Constants.EXIT);
+        }else {
+            super.onBackPressed();
         }
     }
 }

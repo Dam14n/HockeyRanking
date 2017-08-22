@@ -108,4 +108,9 @@ public class HandlerFragment {
             throw new ContextNotFoundException();
         }
     }
+
+    public boolean isBackEmpty() {
+        FragmentManager fragmentManager = context.getSupportFragmentManager();
+        return fragmentManager.getBackStackEntryCount() == 0 ? true : false;
+    }
 }
