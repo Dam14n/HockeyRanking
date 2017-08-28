@@ -1,11 +1,18 @@
 package com.wip.hockey.model;
 
+import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.Ignore;
+import android.arch.persistence.room.PrimaryKey;
+
 import java.io.Serializable;
 import java.util.List;
 
+@Entity
 public class User implements IIdentificable, Serializable{
 
+    @PrimaryKey(autoGenerate = true)
     private int id;
+    @Ignore
     private List<Favorite> favorites;
     private String uid;
     private String providerId;

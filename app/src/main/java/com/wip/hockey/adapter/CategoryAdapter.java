@@ -1,26 +1,41 @@
 package com.wip.hockey.adapter;
 
+import android.arch.lifecycle.ViewModelProviders;
 import android.databinding.DataBindingUtil;
 import android.support.v7.util.DiffUtil;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 
 import com.wip.hockey.R;
 import com.wip.hockey.databinding.ListItemCategoryBinding;
 import com.wip.hockey.fragment.ListCategoryFragment;
+import com.wip.hockey.fragment.ViewType;
 import com.wip.hockey.model.Category;
+import com.wip.hockey.model.Favorite;
+import com.wip.hockey.model.User;
+import com.wip.hockey.viewModel.FavoriteViewModel;
 
 import java.util.List;
+
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
 
 public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.MyViewHolder> {
 
     private static final String TAG = CategoryAdapter.class.getSimpleName();
     private final ListCategoryFragment mFragment;
+    private final User user;
+    private final ViewType type;
     private List<Category> categoryList;
+    private FavoriteViewModel favoriteViewModel;
 
-    public CategoryAdapter(ListCategoryFragment fragment) {
+    public CategoryAdapter(ListCategoryFragment fragment, User user, ViewType type) {
         mFragment = fragment;
+        this.user = user;
+        this.type = type;
     }
 
     @Override
@@ -28,7 +43,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.MyView
         ListItemCategoryBinding binding = DataBindingUtil
                 .inflate(LayoutInflater.from(parent.getContext()), R.layout.list_item_category,
                         parent, false);
-
+        favoriteViewModel = ViewModelProviders.of(mFragment).get(FavoriteViewModel.class);
         binding.setHandler(mFragment);
 
         return new CategoryAdapter.MyViewHolder(binding);
@@ -37,6 +52,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.MyView
     @Override
     public void onBindViewHolder(CategoryAdapter.MyViewHolder holder, int position) {
         holder.binding.setCategory(categoryList.get(position));
+        holder.checkFavorite();
         holder.binding.executePendingBindings();
     }
 
@@ -80,13 +96,47 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.MyView
         }
     }
 
-    class MyViewHolder extends RecyclerView.ViewHolder {
+    class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
 
         final ListItemCategoryBinding binding;
+        private Favorite favorite;
 
         public MyViewHolder(ListItemCategoryBinding binding) {
             super(binding.getRoot());
             this.binding = binding;
+            binding.favorite.setOnClickListener(this);
+        }
+
+        public void checkFavorite(){
+            favoriteViewModel.getFavoriteByCategoryIdAndType(binding.getCategory().getId(),type)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(favorite -> {
+                        binding.favorite.setImageResource(R.drawable.button_pressed);
+                        this.favorite = favorite;
+                    },throwable -> Log.d(TAG, "No soy favorito."));
+        }
+
+        @Override
+        public void onClick(View view) {
+            if (favorite != null){
+                binding.favorite.setImageResource(R.drawable.button_normal);
+                favoriteViewModel.deleteFavorite(favorite)
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(() -> {},throwable -> {});
+                this.favorite = null;
+            }else {
+                binding.favorite.setImageResource(R.drawable.button_pressed);
+                this.favorite = new Favorite();
+                this.favorite.setCategoryId(binding.getCategory().getId());
+                this.favorite.setUserId(user.getId());
+                this.favorite.setFavoriteType(type);
+                favoriteViewModel.addFavorite(favorite)
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe( () -> {});
+            }
         }
     }
 }

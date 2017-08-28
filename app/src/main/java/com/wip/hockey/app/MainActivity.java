@@ -1,6 +1,7 @@
 package com.wip.hockey.app;
 
 import android.arch.lifecycle.LifecycleActivity;
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
@@ -21,12 +22,18 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.wip.hockey.R;
 import com.wip.hockey.databinding.ActivityMainBinding;
 import com.wip.hockey.fragment.BaseFragment;
-import com.wip.hockey.fragment.NavigationDrawerFragment;
 import com.wip.hockey.fragment.CloseAppDialogFragment;
+import com.wip.hockey.fragment.NavigationDrawerFragment;
 import com.wip.hockey.fragment.ViewType;
 import com.wip.hockey.handler.HandlerFragment;
 import com.wip.hockey.model.User;
 import com.wip.hockey.networking.mock.Google.GoogleFactory;
+import com.wip.hockey.room.RoomFactory;
+import com.wip.hockey.room.database.AppDataBase;
+import com.wip.hockey.viewModel.MainActivityViewModel;
+
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
 
 public class MainActivity extends LifecycleActivity implements Toolbar.OnMenuItemClickListener {
 
@@ -36,12 +43,19 @@ public class MainActivity extends LifecycleActivity implements Toolbar.OnMenuIte
     private FirebaseAnalytics mFirebaseAnalytics;
     private ActivityMainBinding binding;
     private GoogleApiClient mGoogleApiClient;
+    private AppDataBase db;
+    private MainActivityViewModel mViewModel;
+    private User user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        mViewModel = ViewModelProviders.of(this).get(MainActivityViewModel.class);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
+
+        user = (User)  this.getIntent().getSerializableExtra(Constants.USER);
+
         if (savedInstanceState == null){
             setUpFragment();
         }else{
@@ -54,21 +68,27 @@ public class MainActivity extends LifecycleActivity implements Toolbar.OnMenuIte
         setUpToolbar();
         setUpDrawer();
 
-        setUpFavorite();
-
-        Intent intent = this.getIntent();
-        User user = (User) intent.getSerializableExtra(Constants.USER);
-        Log.d(TAG, "User Id: "+ user.getId());
-
-        //This line must be removed when Database will be determined
-        MainActivity.favoriteManager.removeAll();
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
 
         createAdBanner();
+
+        db = RoomFactory.getAdapter(this);
+
+        mViewModel.findById(user.getUid())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(userDb -> {
+                    if (userDb == null){
+                        insertUser(user);
+                    }
+                });
     }
 
-    private void setUpFavorite() {
-        favoriteManager = new FavoriteManager(this);
+    public void insertUser(User user){
+        mViewModel.updateUserName(user)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(() -> {}, throwable -> {});
     }
 
     private void setUpFragment() {
@@ -77,7 +97,8 @@ public class MainActivity extends LifecycleActivity implements Toolbar.OnMenuIte
         showProgress(true);
         BaseFragment fragment = (BaseFragment) handlerFragment.changeToFragment(R.id.fragment_division_recycler);
         Bundle bundle = new Bundle();
-        bundle.putSerializable(Constants.OPERATION_TYPE,ViewType.POSITIONS_VIEW);
+        bundle.putSerializable(Constants.OPERATION_TYPE,ViewType.FIXTURE_VIEW);
+        bundle.putSerializable(Constants.USER,this.user);
         fragment.setArguments(bundle);
     }
 
@@ -90,6 +111,9 @@ public class MainActivity extends LifecycleActivity implements Toolbar.OnMenuIte
 
     private void setUpDrawer(){
         NavigationDrawerFragment drawerFragment = (NavigationDrawerFragment) getSupportFragmentManager().findFragmentById(R.id.nav_drwr_fragment);
+        Bundle bundle = new Bundle();
+        bundle.putSerializable(Constants.USER,this.user);
+        drawerFragment.setArguments(bundle);
         DrawerLayout drawerLayout = findViewById(R.id.drawer_layout);
         drawerFragment.setUpDrawer(R.id.nav_drwr_fragment,drawerLayout,binding.toolbar.baseToolbar);
     }

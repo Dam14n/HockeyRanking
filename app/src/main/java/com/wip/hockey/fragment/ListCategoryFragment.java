@@ -14,6 +14,7 @@ import com.wip.hockey.app.Constants;
 import com.wip.hockey.databinding.FragmentListCategoryBinding;
 import com.wip.hockey.handler.HandlerFragment;
 import com.wip.hockey.model.Category;
+import com.wip.hockey.model.User;
 import com.wip.hockey.viewModel.CategoryViewModel;
 
 import java.util.List;
@@ -29,6 +30,7 @@ public class ListCategoryFragment extends BaseFragment implements Tageable{
     private CategoryViewModel categoryViewModel;
     private ViewType type;
     private CategoryObserver observer;
+    private User user;
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
@@ -36,8 +38,7 @@ public class ListCategoryFragment extends BaseFragment implements Tageable{
 
         categoryViewModel = ViewModelProviders.of(this).get(CategoryViewModel.class);
         categoryViewModel.setSubDivisionId(this.getArguments().getInt(Constants.PARENT_ID));
-        this.type = (ViewType) this.getArguments().getSerializable(Constants.OPERATION_TYPE);
-        
+
         setupRefreshLayout();
         subscribeUi(categoryViewModel);
     }
@@ -50,7 +51,10 @@ public class ListCategoryFragment extends BaseFragment implements Tageable{
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_list_category, container, false);
 
-        categoryAdapter = new CategoryAdapter(this);
+        this.type = (ViewType) this.getArguments().getSerializable(Constants.OPERATION_TYPE);
+        this.user = (User) this.getArguments().getSerializable(Constants.USER);
+
+        categoryAdapter = new CategoryAdapter(this,this.user,this.type);
         binding.fragmentCategoryRecycler.setAdapter(categoryAdapter);
 
         this.observer = new CategoryObserver();
@@ -65,7 +69,7 @@ public class ListCategoryFragment extends BaseFragment implements Tageable{
     public void onClick(Category category) {
         showProgress(true);
         BaseFragment fragment;
-        if (this.type == ViewType.POSITIONS_VIEW) {
+        if (this.type == ViewType.FIXTURE_VIEW) {
             fragment = (BaseFragment) HandlerFragment.getInstance().changeToFragment(R.id.fragment_pager_date);
         }else{
             fragment = (BaseFragment) HandlerFragment.getInstance().changeToFragment(R.id.fragment_board_recycler);

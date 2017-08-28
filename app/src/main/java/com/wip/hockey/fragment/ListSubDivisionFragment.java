@@ -14,6 +14,7 @@ import com.wip.hockey.app.Constants;
 import com.wip.hockey.databinding.FragmentListSubDivisionBinding;
 import com.wip.hockey.handler.HandlerFragment;
 import com.wip.hockey.model.SubDivision;
+import com.wip.hockey.model.User;
 import com.wip.hockey.viewModel.SubDivisionViewModel;
 
 import java.util.List;
@@ -29,13 +30,17 @@ public class ListSubDivisionFragment extends BaseFragment implements Tageable {
     private SubDivisionViewModel subDivisionViewModel;
     private ViewType type;
     private SubDivisionObserver observer;
+    private User user;
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+
         subDivisionViewModel = ViewModelProviders.of(this).get(SubDivisionViewModel.class);
         subDivisionViewModel.setDivisionId(this.getArguments().getInt(Constants.PARENT_ID));
+
         this.type = (ViewType) this.getArguments().getSerializable(Constants.OPERATION_TYPE);
+        this.user = (User) this.getArguments().getSerializable(Constants.USER);
 
         setupRefreshLayout();
         subscribeUi(subDivisionViewModel);
@@ -71,6 +76,7 @@ public class ListSubDivisionFragment extends BaseFragment implements Tageable {
         BaseFragment fragment = (BaseFragment) HandlerFragment.getInstance().changeToFragment(R.id.fragment_category_recycler);
         Bundle bundle = new Bundle();
         bundle.putInt(Constants.PARENT_ID,subDivision.getId());
+        bundle.putSerializable(Constants.USER,this.user);
         bundle.putSerializable(Constants.OPERATION_TYPE,this.type);
         fragment.setArguments(bundle);
     }

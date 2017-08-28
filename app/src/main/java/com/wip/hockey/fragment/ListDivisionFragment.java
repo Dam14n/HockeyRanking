@@ -14,6 +14,7 @@ import com.wip.hockey.app.Constants;
 import com.wip.hockey.databinding.FragmentListDivisionBinding;
 import com.wip.hockey.handler.HandlerFragment;
 import com.wip.hockey.model.Division;
+import com.wip.hockey.model.User;
 import com.wip.hockey.viewModel.DivisionViewModel;
 
 import java.util.List;
@@ -28,6 +29,7 @@ public class ListDivisionFragment extends BaseFragment implements Tageable {
     private DivisionViewModel divisionViewModel;
     private ViewType type;
     private DivisionsObserver observer;
+    private User user;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -37,7 +39,7 @@ public class ListDivisionFragment extends BaseFragment implements Tageable {
         binding.fragmentDivisionRecycler.setAdapter(divisionAdapter);
 
         this.type = (ViewType)this.getArguments().getSerializable(Constants.OPERATION_TYPE);
-
+        this.user = (User) this.getArguments().getSerializable(Constants.USER);
         this.observer = new DivisionsObserver();
 
         return binding.getRoot();
@@ -71,6 +73,7 @@ public class ListDivisionFragment extends BaseFragment implements Tageable {
         Bundle bundle = new Bundle();
         bundle.putInt(Constants.PARENT_ID,division.getId());
         bundle.putSerializable(Constants.OPERATION_TYPE,this.type);
+        bundle.putSerializable(Constants.USER,this.user);
         fragment.setArguments(bundle);
     }
 

@@ -80,7 +80,9 @@ public class ApiService implements IApiService {
 
     @Override
     public Observable<Category> getCategory(int categoryId) {
-        return null;
+        return apiService.getCategory(categoryId)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
     }
 
     @Override

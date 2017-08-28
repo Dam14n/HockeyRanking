@@ -1,11 +1,11 @@
 package com.wip.hockey.fragment;
 
+import android.databinding.DataBindingUtil;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
+import android.support.annotation.Nullable;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,28 +13,31 @@ import android.view.ViewGroup;
 
 import com.wip.hockey.R;
 import com.wip.hockey.adapter.NavigationDrawAdapter;
+import com.wip.hockey.app.Constants;
+import com.wip.hockey.databinding.FragmentNavigationDrawerBinding;
 import com.wip.hockey.model.NavigationDrawerItem;
+import com.wip.hockey.model.User;
 
-public class NavigationDrawerFragment extends Fragment{
+public class NavigationDrawerFragment extends BaseFragment{
 
     private ActionBarDrawerToggle mDrawerToggle;
     private DrawerLayout mDrawerLayout;
+    private FragmentNavigationDrawerBinding binding;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
-        View view = inflater.inflate(R.layout.fragment_navigation_drawer,container,false);
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_navigation_drawer, container, false);
         
-        setUpRecyclerView(view);
-        
-        return view;
+        return binding.getRoot();
     }
 
-    private void setUpRecyclerView(View view) {
-        RecyclerView recyclerView = view.findViewById(R.id.drawerList);
-
-        NavigationDrawAdapter adapter = new NavigationDrawAdapter(getActivity(), NavigationDrawerItem.getData());
-        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        recyclerView.setAdapter(adapter);
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        User user = (User) this.getArguments().getSerializable(Constants.USER);
+        NavigationDrawAdapter adapter = new NavigationDrawAdapter(getActivity(), NavigationDrawerItem.getData(),user);
+        binding.drawerList.setLayoutManager(new LinearLayoutManager(getActivity()));
+        binding.drawerList.setAdapter(adapter);
     }
 
     public void setUpDrawer(int fragmentId, DrawerLayout drawerLayout, Toolbar toolbar){

@@ -10,11 +10,11 @@ import android.util.Log;
 
 import com.wip.hockey.R;
 import com.wip.hockey.app.MainActivity;
-import com.wip.hockey.fragment.FavoriteFragment;
 import com.wip.hockey.fragment.ListBoardFragment;
 import com.wip.hockey.fragment.ListCategoryFragment;
 import com.wip.hockey.fragment.ListDateFragment;
 import com.wip.hockey.fragment.ListDivisionFragment;
+import com.wip.hockey.fragment.ListFavoriteFragment;
 import com.wip.hockey.fragment.ListMatchFragment;
 import com.wip.hockey.fragment.ListSubDivisionFragment;
 import com.wip.hockey.fragment.TablePositionFragment;
@@ -79,8 +79,8 @@ public class HandlerFragment {
                 fragment = new ListMatchFragment();
                 Log.d(MainActivity.TAG,"La data es: ");
                 break;
-            case R.id.fragment_favorite_recycler:
-                fragment = new FavoriteFragment();
+            case R.id.fragment_favorite_fixture_recycler:
+                fragment = new ListFavoriteFragment();
                 Log.d(MainActivity.TAG,"La data es: ");
                 break;
             case R.id.fragment_pager_date:

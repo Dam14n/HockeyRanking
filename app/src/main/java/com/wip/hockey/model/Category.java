@@ -19,7 +19,7 @@ public class Category implements  IIdentificable{
     @SerializedName("DatesIds")
     @Expose
     private List<Integer> datesIds;
-
+    private Favorite favorite;
     @Override
     public int getId() {
         return id;
@@ -52,5 +52,13 @@ public class Category implements  IIdentificable{
 
     public void setDatesIds(List<Integer> datesIds) {
         this.datesIds = datesIds;
+    }
+
+    public Favorite getFavorite() {
+        return favorite;
+    }
+
+    public void setFavorite(Favorite favorite) {
+        this.favorite = favorite;
     }
 }

@@ -2,7 +2,8 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <data>
-        <variable name="favorite" type="com.wip.hockey.model.Favorite"/>
+        <variable name="category" type="com.wip.hockey.model.Category"/>
+        <variable name="handler" type="com.wip.hockey.fragment.ListFavoriteFragment"/>
     </data>
     <android.support.v7.widget.CardView
         android:layout_width="match_parent"
@@ -10,17 +11,18 @@
         android:layout_marginLeft="5dp"
         android:layout_marginRight="5dp"
         android:layout_marginTop="5dp"
-        app:cardCornerRadius="5dp">
+        app:cardCornerRadius="5dp"
+        android:onClick="@{() ->  handler.onClick(category)}">
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
             <TextView
-                android:id="@+id/category_favorite"
+                android:id="@+id/category"
                 android:layout_width="wrap_content"
                 android:layout_height="60dp"
-                android:text="@{favorite.id}"
+                android:text="@{category.name}"
                 android:textSize="45dp"
                 android:gravity="center"
                 android:layout_alignParentTop="true"
@@ -33,7 +35,7 @@
                 android:background="#00ffffff"
                 android:src="@drawable/star"
                 android:layout_alignParentRight="true"
-                android:layout_alignBottom="@+id/category_favorite" />
+                android:layout_alignBottom="@+id/category" />
         </RelativeLayout>
 
     </android.support.v7.widget.CardView>

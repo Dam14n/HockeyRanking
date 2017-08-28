@@ -1,16 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-    <RelativeLayout
+    <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
-
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/fragment_favorite_recycler"
+        android:layout_height="match_parent">
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:layoutManager="LinearLayoutManager"/>
+            android:orientation="vertical">
 
-    </RelativeLayout>
+            <TextView
+                android:id="@+id/title_fixture"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/fixtures"
+                android:gravity="center"/>
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/fragment_favorite_fixture_recycler"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/title_fixture"
+                app:layoutManager="LinearLayoutManager" >
+
+            </android.support.v7.widget.RecyclerView>
+
+            <TextView
+                android:id="@+id/title_positions"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="@string/positions"
+                android:layout_below="@+id/fragment_favorite_fixture_recycler" />
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/fragment_favorite_positions_recycler"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/title_positions"
+                app:layoutManager="LinearLayoutManager" />
+
+        </RelativeLayout>
+    </android.support.v4.widget.NestedScrollView>
 </layout>

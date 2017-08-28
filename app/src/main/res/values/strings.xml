@@ -34,4 +34,6 @@
     <string name="sign_out_dialog_fragment">Are you sure to sign out?</string>
     <string name="accept">Accept</string>
     <string name="cancel">Cancel</string>
+    <string name="fixtures">Fixtures</string>
+    <string name="positions">Positions</string>
 </resources>

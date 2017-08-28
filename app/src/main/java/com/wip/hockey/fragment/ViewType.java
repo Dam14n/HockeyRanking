@@ -5,6 +5,6 @@ package com.wip.hockey.fragment;
  */
 
 public enum ViewType {
-    POSITIONS_VIEW,
-    TABLE_VIEW
+    FIXTURE_VIEW,
+    POSITIONS_VIEW
 }

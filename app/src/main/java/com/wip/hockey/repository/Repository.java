@@ -56,16 +56,8 @@ public class Repository {
         return apiService.getTeamsByMatch(matchId);
     }
 
-    public Observable<List<Position>> getPositions(){
-        return apiService.getPositions();
-    }
-
     public Observable<List<Position>> getPositionsByBoard(int boardId){
         return apiService.getPositionsByBoard(boardId);
-    }
-
-    public Observable<List<Board>> getBoards(){
-        return apiService.getBoards();
     }
 
     public Observable<List<Board>> getBoardsByCategory(int categoryId){
@@ -78,5 +70,9 @@ public class Repository {
 
     public Observable<Logo> getLogo(int id){
         return apiService.getLogo(id);
+    }
+
+    public Observable<Category> getCategory(int categoryId){
+        return apiService.getCategory(categoryId);
     }
 }
