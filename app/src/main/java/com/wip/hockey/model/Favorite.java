@@ -23,6 +23,7 @@ public class Favorite implements IIdentificable {
     @Ignore
     private List<Category> categories;
     private ViewType favoriteType;
+    private String subDivisionName;
 
     @Override
     public int getId() {
@@ -64,6 +65,14 @@ public class Favorite implements IIdentificable {
 
     public ViewType getFavoriteType() {
         return favoriteType;
+    }
+
+    public String getSubDivisionName() {
+        return subDivisionName;
+    }
+
+    public void setSubDivisionName(String subDivisionName) {
+        this.subDivisionName = subDivisionName;
     }
 }
 

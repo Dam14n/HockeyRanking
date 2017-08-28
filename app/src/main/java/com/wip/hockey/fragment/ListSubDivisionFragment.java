@@ -78,6 +78,7 @@ public class ListSubDivisionFragment extends BaseFragment implements Tageable {
         bundle.putInt(Constants.PARENT_ID,subDivision.getId());
         bundle.putSerializable(Constants.USER,this.user);
         bundle.putSerializable(Constants.OPERATION_TYPE,this.type);
+        bundle.putString(Constants.SUBDIVISION_NAME,subDivision.getName());
         fragment.setArguments(bundle);
     }
 

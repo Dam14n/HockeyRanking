@@ -31,6 +31,7 @@ public class ListCategoryFragment extends BaseFragment implements Tageable{
     private ViewType type;
     private CategoryObserver observer;
     private User user;
+    private String subDivisionName;
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
@@ -53,8 +54,9 @@ public class ListCategoryFragment extends BaseFragment implements Tageable{
 
         this.type = (ViewType) this.getArguments().getSerializable(Constants.OPERATION_TYPE);
         this.user = (User) this.getArguments().getSerializable(Constants.USER);
+        this.subDivisionName = this.getArguments().getString(Constants.SUBDIVISION_NAME);
 
-        categoryAdapter = new CategoryAdapter(this,this.user,this.type);
+        categoryAdapter = new CategoryAdapter(this,this.user,this.type,this.subDivisionName);
         binding.fragmentCategoryRecycler.setAdapter(categoryAdapter);
 
         this.observer = new CategoryObserver();

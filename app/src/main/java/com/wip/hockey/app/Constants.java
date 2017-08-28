@@ -6,4 +6,5 @@ public interface Constants {
     String OPERATION_TYPE = "operation_type";
     String USER = "user";
     String EXIT = "exit";
+    String SUBDIVISION_NAME = "subDivision_name";
 }
