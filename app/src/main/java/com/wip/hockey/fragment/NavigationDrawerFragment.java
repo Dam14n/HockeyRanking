@@ -35,7 +35,7 @@ public class NavigationDrawerFragment extends BaseFragment{
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         User user = (User) this.getArguments().getSerializable(Constants.USER);
-        NavigationDrawAdapter adapter = new NavigationDrawAdapter(getActivity(), NavigationDrawerItem.getData(),user);
+        NavigationDrawAdapter adapter = new NavigationDrawAdapter(NavigationDrawerItem.getData(),user);
         binding.drawerList.setLayoutManager(new LinearLayoutManager(getActivity()));
         binding.drawerList.setAdapter(adapter);
     }
