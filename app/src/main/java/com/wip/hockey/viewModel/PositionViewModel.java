@@ -16,6 +16,7 @@ public class PositionViewModel extends ViewModel{
 
     private Repository repository;
     private int boardId;
+    private int categoryId;
 
     public PositionViewModel() {
         repository = Repository.getInstance();
@@ -23,12 +24,14 @@ public class PositionViewModel extends ViewModel{
 
 
     public Observable<List<Position>> getPositions() {
-        return repository.getPositionsByBoard(this.boardId);
+        return  repository.getPositionsByCategory(categoryId);
     }
 
     public void setBoardId(int boardId) {
         this.boardId = boardId;
     }
+
+    public void setCategoryId(int categoryId){ this.categoryId = categoryId; }
 
     public void getTeam(List<Position> positions) {
         for (Position position : positions)

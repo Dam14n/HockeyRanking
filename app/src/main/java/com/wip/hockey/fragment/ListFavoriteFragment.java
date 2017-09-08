@@ -92,7 +92,7 @@ public class ListFavoriteFragment extends BaseFragment implements Tageable {
             fragment = (BaseFragment) HandlerFragment.getInstance().changeToFragment(R.id.fragment_pager_date);
             bundle.putSerializable(Constants.OPERATION_TYPE,ViewType.FIXTURE_VIEW);
         }else{
-            fragment = (BaseFragment) HandlerFragment.getInstance().changeToFragment(R.id.fragment_board_recycler);
+            fragment = (BaseFragment) HandlerFragment.getInstance().changeToFragment(R.id.fragment_table_positions);
             bundle.putSerializable(Constants.OPERATION_TYPE,ViewType.POSITIONS_VIEW);
         }
         bundle.putInt(Constants.PARENT_ID,category.getId());

@@ -72,6 +72,9 @@ public interface IApiService {
     @GET("boards/{boardId}/positions")
     Observable<List<Position>> getPositionsByBoard(@Path("boardId") int boardId);
 
+    @GET("categories/{categoryId}/positions")
+    Observable<List<Position>> getPositionsByCategory(@Path("categoryId") int categoryId);
+
     @GET("boards")
     Observable<List<Board>> getBoards();
 
@@ -80,4 +83,6 @@ public interface IApiService {
 
     @GET("logos/{id}")
     Observable<Logo> getLogo(@Path("id") int id);
+
+
 }

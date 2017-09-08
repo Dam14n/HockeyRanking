@@ -60,6 +60,10 @@ public class Repository {
         return apiService.getPositionsByBoard(boardId);
     }
 
+    public Observable<List<Position>> getPositionsByCategory(int categoryId){
+        return apiService.getPositionsByCategory(categoryId);
+    }
+
     public Observable<List<Board>> getBoardsByCategory(int categoryId){
         return apiService.getBoardsByCategory(categoryId);
     }

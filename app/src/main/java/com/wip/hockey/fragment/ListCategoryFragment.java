@@ -74,7 +74,7 @@ public class ListCategoryFragment extends BaseFragment implements Tageable{
         if (this.type == ViewType.FIXTURE_VIEW) {
             fragment = (BaseFragment) HandlerFragment.getInstance().changeToFragment(R.id.fragment_pager_date);
         }else{
-            fragment = (BaseFragment) HandlerFragment.getInstance().changeToFragment(R.id.fragment_board_recycler);
+            fragment = (BaseFragment) HandlerFragment.getInstance().changeToFragment(R.id.fragment_table_positions);
         }
         Bundle bundle = new Bundle();
         bundle.putSerializable(Constants.OPERATION_TYPE,this.type);

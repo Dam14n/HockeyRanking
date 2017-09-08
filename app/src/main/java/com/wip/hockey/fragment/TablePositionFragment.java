@@ -33,7 +33,7 @@ public class TablePositionFragment extends BaseFragment implements Tageable{
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         positionViewModel = ViewModelProviders.of(this).get(PositionViewModel.class);
-        positionViewModel.setBoardId(this.getArguments().getInt(Constants.PARENT_ID));
+        positionViewModel.setCategoryId(this.getArguments().getInt(Constants.PARENT_ID));
 
         setupRefreshLayout();
         subscribeUi(positionViewModel);
