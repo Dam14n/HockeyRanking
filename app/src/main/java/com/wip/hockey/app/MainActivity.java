@@ -5,14 +5,13 @@ import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
-import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.MobileAds;
 import com.google.android.gms.auth.api.Auth;
@@ -32,10 +31,16 @@ import com.wip.hockey.room.RoomFactory;
 import com.wip.hockey.room.database.AppDataBase;
 import com.wip.hockey.viewModel.MainActivityViewModel;
 
+import javax.inject.Inject;
+
+import dagger.android.AndroidInjection;
+import dagger.android.AndroidInjector;
+import dagger.android.DispatchingAndroidInjector;
+import dagger.android.support.HasSupportFragmentInjector;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
-public class MainActivity extends LifecycleActivity implements Toolbar.OnMenuItemClickListener {
+public class MainActivity extends LifecycleActivity implements Toolbar.OnMenuItemClickListener, HasSupportFragmentInjector{
 
     public static final String TAG = MainActivity.class.getSimpleName();
     private HandlerFragment handlerFragment;
@@ -47,8 +52,12 @@ public class MainActivity extends LifecycleActivity implements Toolbar.OnMenuIte
     private MainActivityViewModel mViewModel;
     private User user;
 
+    @Inject
+    DispatchingAndroidInjector<Fragment> dispatchingAndroidInjector;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        AndroidInjection.inject(this);
         super.onCreate(savedInstanceState);
 
         mViewModel = ViewModelProviders.of(this).get(MainActivityViewModel.class);
@@ -144,39 +153,6 @@ public class MainActivity extends LifecycleActivity implements Toolbar.OnMenuIte
                 "ca-app-pub-7652174985399137~2420714987");
         AdRequest adRequest = new AdRequest.Builder().build();
         binding.adView.loadAd(adRequest);
-        binding.adView.setAdListener(new AdListener() {
-            @Override
-            public void onAdLoaded() {
-                // Code to be executed when an ad finishes loading.
-                Log.i("Ads", "onAdLoaded");
-            }
-
-            @Override
-            public void onAdFailedToLoad(int errorCode) {
-                // Code to be executed when an ad request fails.
-                Log.i("Ads", "onAdFailedToLoad");
-            }
-
-            @Override
-            public void onAdOpened() {
-                // Code to be executed when an ad opens an overlay that
-                // covers the screen.
-                Log.i("Ads", "onAdOpened");
-            }
-
-            @Override
-            public void onAdLeftApplication() {
-                // Code to be executed when the user has left the app.
-                Log.i("Ads", "onAdLeftApplication");
-            }
-
-            @Override
-            public void onAdClosed() {
-                // Code to be executed when when the user is about to return
-                // to the app after tapping on an ad.
-                Log.i("Ads", "onAdClosed");
-            }
-        });
     }
 
     @Override
@@ -198,6 +174,11 @@ public class MainActivity extends LifecycleActivity implements Toolbar.OnMenuIte
         }else {
             super.onBackPressed();
         }
+    }
+
+    @Override
+    public AndroidInjector<Fragment> supportFragmentInjector() {
+        return dispatchingAndroidInjector;
     }
 }
 

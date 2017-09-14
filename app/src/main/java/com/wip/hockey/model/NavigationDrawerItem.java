@@ -59,11 +59,9 @@ public class NavigationDrawerItem {
     private static String[] getTitles(){
 
         return  new String[]{
-                "Inicio",
-                "Fixture",
-                "Posiciones",
-                "Favoritos",
-                "Borrar Favoritos"
+                "Fixtures",
+                "Positions",
+                "Favorites"
         };
     }
 }

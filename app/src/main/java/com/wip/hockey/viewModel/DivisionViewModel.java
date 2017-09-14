@@ -1,25 +1,43 @@
 package com.wip.hockey.viewModel;
 
+import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.ViewModel;
 
 import com.wip.hockey.model.Division;
-import com.wip.hockey.repository.Repository;
+import com.wip.hockey.networking.mock.Status;
+import com.wip.hockey.repository.DivisionRepository;
 
 import java.util.List;
 
-import io.reactivex.Observable;
+import javax.inject.Inject;
 
 
 public class DivisionViewModel extends ViewModel{
 
-    private Repository repository;
+    DivisionRepository divisionRepository;
 
-    public DivisionViewModel() {
-        repository = Repository.getInstance();
+    private LiveData<List<Division>> divisions;
+    @Inject
+    public DivisionViewModel(DivisionRepository repository) {
+        this.divisionRepository = repository;
     }
 
-    public Observable<List<Division>> getDivisions(){
-        return repository.getDivisions();
+    public void init(){
+        if (this.divisions != null){
+            return;
+        }
+        divisions = divisionRepository.getDivisions();
     }
 
+    public LiveData<List<Division>> getDivisions(){
+        return divisions;
+    }
+
+    public void updateDivisions() {
+        divisionRepository.updateDivisions();
+    }
+
+    public LiveData<Status> getUpdateStatus() {
+        return divisionRepository.getUpdateStatus();
+    }
 }

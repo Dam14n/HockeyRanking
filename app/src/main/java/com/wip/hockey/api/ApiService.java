@@ -12,9 +12,7 @@ import com.wip.hockey.model.Team;
 
 import java.util.List;
 
-import io.reactivex.Observable;
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.schedulers.Schedulers;
+import retrofit2.Call;
 import retrofit2.Retrofit;
 
 public class ApiService implements IApiService {
@@ -26,135 +24,112 @@ public class ApiService implements IApiService {
     }
 
     @Override
-    public Observable<List<Division>> getDivisions() {
-        return apiService.getDivisions()
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread());
+    public Call<List<Division>> getDivisions() {
+        return apiService.getDivisions();
     }
 
     @Override
-    public Observable<Division> getDivision(int divisionId) {
+    public Call<Division> getDivision(int divisionId) {
         return null;
     }
 
     @Override
-    public Observable<List<SubDivision>> getSubDivisionsByDivision(int divisionId) {
-        return apiService.getSubDivisionsByDivision(divisionId)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread());
+    public Call<List<SubDivision>> getSubDivisionsByDivision(int divisionId) {
+        return apiService.getSubDivisionsByDivision(divisionId);
     }
 
     @Override
-    public Observable<SubDivision> getSubDivisionByDivision(int divisionId, int subDivisionId) {
+    public Call<SubDivision> getSubDivisionByDivision(int divisionId, int subDivisionId) {
         return null;
     }
 
     @Override
-    public Observable<List<SubDivision>> getSubDivisions() {
-        return apiService.getSubDivisions()
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread());
+    public Call<List<SubDivision>> getSubDivisions() {
+        return apiService.getSubDivisions();
     }
 
     @Override
-    public Observable<SubDivision> getSubDivision(int subdivisionId) {
+    public Call<SubDivision> getSubDivision(int subdivisionId) {
         return null;
     }
 
     @Override
-    public Observable<List<Category>> getCategoriesBySubDivision(int subDivisionId) {
-        return apiService.getCategoriesBySubDivision(subDivisionId)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread());
+    public Call<List<Category>> getCategoriesBySubDivision(int subDivisionId) {
+        return apiService.getCategoriesBySubDivision(subDivisionId);
     }
 
     @Override
-    public Observable<Category> getCategoryBySubDivision(int subDivisionId, int categoryId) {
+    public Call<Category> getCategoryBySubDivision(int subDivisionId, int categoryId) {
         return null;
     }
 
     @Override
-    public Observable<List<Category>> getCategories() {
+    public Call<List<Category>> getCategories() {
         return null;
     }
 
     @Override
-    public Observable<Category> getCategory(int categoryId) {
-        return apiService.getCategory(categoryId)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread());
+    public Call<Category> getCategory(int categoryId) {
+        return apiService.getCategory(categoryId);
     }
 
     @Override
-    public Observable<List<Date>> getDatesByCategory(int categoryId) {
-        return apiService.getDatesByCategory(categoryId)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread());
+    public Call<List<Date>> getDatesByCategory(int categoryId) {
+        return apiService.getDatesByCategory(categoryId);
     }
 
     @Override
-    public Observable<List<Match>> getMatchesByDate(int dateId) {
-        return apiService.getMatchesByDate(dateId)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread());
+    public Call<List<Match>> getMatchesByDate(int dateId) {
+        return apiService.getMatchesByDate(dateId);
     }
 
     @Override
-    public Observable<List<Team>> getTeams() {
+    public Call<List<Team>> getTeams() {
         return null;
     }
 
     @Override
-    public Observable<Team> getTeam(int id) {
-        return apiService.getTeam(id)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread());
+    public Call<Team> getTeam(int id) {
+        return apiService.getTeam(id);
     }
 
     @Override
-    public Observable<Team> getTeamByMatch(int matchId, int id) {
+    public Call<Team> getTeamByMatch(int matchId, int id) {
         return null;
     }
 
     @Override
-    public Observable<List<Team>> getTeamsByMatch(int matchId) {
-        return apiService.getTeamsByMatch(matchId)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread());
+    public Call<List<Team>> getTeamsByMatch(int matchId) {
+        return apiService.getTeamsByMatch(matchId);
     }
 
     @Override
-    public Observable<List<Position>> getPositions() {
-        return apiService.getPositions()
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread());
+    public Call<List<Position>> getPositions() {
+        return apiService.getPositions();
     }
 
     @Override
-    public Observable<List<Position>> getPositionsByBoard(int boardId) {
-        return apiService.getPositionsByBoard(boardId)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread());
+    public Call<List<Position>> getPositionsByBoard(int boardId) {
+        return apiService.getPositionsByBoard(boardId);
     }
 
     @Override
-    public Observable<List<Board>> getBoards() {
-        return apiService.getBoards()
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread());
+    public Call<List<Position>> getPositionsByCategory(int categoryId) {
+        return apiService.getPositionsByCategory(categoryId);
     }
 
     @Override
-    public Observable<List<Board>> getBoardsByCategory(int categoryId) {
-        return apiService.getBoardsByCategory(categoryId)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread());
+    public Call<List<Board>> getBoards() {
+        return apiService.getBoards();
     }
 
     @Override
-    public Observable<Logo> getLogo(int id) {
-        return apiService.getLogo(id)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread());
+    public Call<List<Board>> getBoardsByCategory(int categoryId) {
+        return apiService.getBoardsByCategory(categoryId);
+    }
+
+    @Override
+    public Call<Logo> getLogo(int id) {
+        return apiService.getLogo(id);
     }
 }

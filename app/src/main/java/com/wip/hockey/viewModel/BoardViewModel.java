@@ -3,25 +3,25 @@ package com.wip.hockey.viewModel;
 import android.arch.lifecycle.ViewModel;
 
 import com.wip.hockey.model.Board;
-import com.wip.hockey.repository.Repository;
+import com.wip.hockey.repository.WebService;
 
 import java.util.List;
 
-import io.reactivex.Observable;
+import retrofit2.Call;
 
 public class BoardViewModel extends ViewModel{
 
-    private Repository repository;
+    private WebService webService;
     private int categoryId;
 
 
     public BoardViewModel() {
-        repository = Repository.getInstance();
+        //webService = WebService.getInstance();
     }
 
 
-    public Observable<List<Board>> getBoards() {
-        return repository.getBoardsByCategory(this.categoryId);
+    public Call<List<Board>> getBoards() {
+        return webService.getBoardsByCategory(this.categoryId);
     }
 
     public void setCategoryId(int categoryId) {

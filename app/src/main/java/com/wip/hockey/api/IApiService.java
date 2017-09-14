@@ -12,72 +12,77 @@ import com.wip.hockey.model.Team;
 
 import java.util.List;
 
-import io.reactivex.Observable;
+import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Path;
 
 public interface IApiService {
 
     @GET("divisions")
-    Observable<List<Division>> getDivisions();
+    Call<List<Division>> getDivisions();
 
     @GET("divisions/{id}")
-    Observable<Division> getDivision(@Path("id") int divisionId);
+    Call<Division> getDivision(@Path("id") int divisionId);
 
     @GET("divisions/{divisionId}/subdivisions")
-    Observable<List<SubDivision>> getSubDivisionsByDivision(@Path("divisionId") int divisionId);
+    Call<List<SubDivision>> getSubDivisionsByDivision(@Path("divisionId") int divisionId);
 
     @GET("divisions/{divisionId}/subdivisions/{id}")
-    Observable<SubDivision> getSubDivisionByDivision(@Path("divisionId") int divisionId, @Path("id") int subDivisionId);
+    Call<SubDivision> getSubDivisionByDivision(@Path("divisionId") int divisionId, @Path("id") int subDivisionId);
 
     @GET("subdivisions")
-    Observable<List<SubDivision>> getSubDivisions();
+    Call<List<SubDivision>> getSubDivisions();
 
     @GET("subdivisions/{id}")
-    Observable<SubDivision> getSubDivision(@Path("id") int subdivisionId);
+    Call<SubDivision> getSubDivision(@Path("id") int subdivisionId);
 
     @GET("subdivisions/{subDivisionId}/categories")
-    Observable<List<Category>> getCategoriesBySubDivision(@Path("subDivisionId") int subDivisionId);
+    Call<List<Category>> getCategoriesBySubDivision(@Path("subDivisionId") int subDivisionId);
 
     @GET("subdivisions/{subDivisionId}/categories/{categoryId}")
-    Observable<Category> getCategoryBySubDivision(@Path("subDivisionId") int subDivisionId, @Path("id") int categoryId);
+    Call<Category> getCategoryBySubDivision(@Path("subDivisionId") int subDivisionId, @Path("id") int categoryId);
 
     @GET("categories")
-    Observable<List<Category>> getCategories();
+    Call<List<Category>> getCategories();
 
     @GET("categories/{id}")
-    Observable<Category> getCategory(@Path("id") int categoryId);
+    Call<Category> getCategory(@Path("id") int categoryId);
 
     @GET("categories/{categoryId}/dates")
-    Observable<List<Date>> getDatesByCategory(@Path("categoryId") int categoryId);
+    Call<List<Date>> getDatesByCategory(@Path("categoryId") int categoryId);
 
     @GET("dates/{dateId}/matches")
-    Observable<List<Match>> getMatchesByDate(@Path("dateId") int dateId);
+    Call<List<Match>> getMatchesByDate(@Path("dateId") int dateId);
 
     @GET("teams")
-    Observable<List<Team>> getTeams();
+    Call<List<Team>> getTeams();
 
     @GET("teams/{id}")
-    Observable<Team> getTeam(@Path("id") int id);
+    Call<Team> getTeam(@Path("id") int id);
 
     @GET("matches/{matchId}/teams/{id}")
-    Observable<Team> getTeamByMatch(@Path("matchId") int matchId, @Path("id") int id);
+    Call<Team> getTeamByMatch(@Path("matchId") int matchId, @Path("id") int id);
 
     @GET("matches/{matchId}/teams")
-    Observable<List<Team>> getTeamsByMatch(@Path("matchId") int matchId);
+    Call<List<Team>> getTeamsByMatch(@Path("matchId") int matchId);
 
     @GET("positions")
-    Observable<List<Position>> getPositions();
+    Call<List<Position>> getPositions();
 
     @GET("boards/{boardId}/positions")
-    Observable<List<Position>> getPositionsByBoard(@Path("boardId") int boardId);
+    Call<List<Position>> getPositionsByBoard(@Path("boardId") int boardId);
+
+    @GET("categories/{categoryId}/positions")
+    Call<List<Position>> getPositionsByCategory(@Path("categoryId") int categoryId);
 
     @GET("boards")
-    Observable<List<Board>> getBoards();
+    Call<List<Board>> getBoards();
 
     @GET("categories/{categoryId}/boards")
-    Observable<List<Board>> getBoardsByCategory(@Path("categoryId") int categoryId);
+    Call<List<Board>> getBoardsByCategory(@Path("categoryId") int categoryId);
 
     @GET("logos/{id}")
-    Observable<Logo> getLogo(@Path("id") int id);
+    Call<Logo> getLogo(@Path("id") int id);
+
+
 }

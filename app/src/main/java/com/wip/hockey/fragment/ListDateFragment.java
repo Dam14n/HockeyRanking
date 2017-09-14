@@ -1,6 +1,7 @@
 package com.wip.hockey.fragment;
 
 import android.arch.lifecycle.ViewModelProviders;
+import android.content.Context;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -13,12 +14,15 @@ import com.wip.hockey.adapter.DateAdapter;
 import com.wip.hockey.app.Constants;
 import com.wip.hockey.databinding.FragmentListDateBinding;
 import com.wip.hockey.model.Date;
+import com.wip.hockey.networking.mock.Status;
 import com.wip.hockey.viewModel.DateViewModel;
+import com.wip.hockey.viewModel.factory.DateViewModelFactory;
 
 import java.util.List;
 
-import io.reactivex.Observer;
-import io.reactivex.disposables.Disposable;
+import javax.inject.Inject;
+
+import dagger.android.support.AndroidSupportInjection;
 
 public class ListDateFragment extends BaseFragment
         implements Tageable {
@@ -28,21 +32,34 @@ public class ListDateFragment extends BaseFragment
     private FragmentListDateBinding binding;
     private DateViewModel dateViewModel;
     private ViewType type;
-    private DateObserver observer;
+
+    @Inject
+    DateViewModelFactory dateViewModelFactory;
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        dateViewModel = ViewModelProviders.of(this).get(DateViewModel.class);
-        dateViewModel.setCategoryId(this.getArguments().getInt(Constants.PARENT_ID));
+        dateViewModel = ViewModelProviders.of(this,dateViewModelFactory).get(DateViewModel.class);
         this.type = (ViewType) this.getArguments().getSerializable(Constants.OPERATION_TYPE);
-
-        subscribeUi(dateViewModel);
+        dateViewModel.getUpdateStatus().observe(this, status -> {
+            if (status == Status.ERROR || status == Status.SUCCESS){
+                //TODO
+            }
+        });
+        dateViewModel.init(this.getArguments().getInt(Constants.PARENT_ID));
+        dateViewModel.getDates().observe(this, dates -> {
+            dateAdapter.setDateList(dates);
+            binding.fragmentPagerDate.setCurrentItem(getActualDate(dates),false);
+        });
     }
 
-    private void subscribeUi(DateViewModel dateViewModel) {
-        dateViewModel.getDates().subscribe(observer);
+    private int getActualDate(List<Date> dates) {
+        for (Date date:dates) {
+            if (date.isCurrentDate())
+                return dates.indexOf(date);
+        }
+        return dates.size();
     }
 
     @Override
@@ -52,8 +69,6 @@ public class ListDateFragment extends BaseFragment
         binding.fragmentPagerDate.setAdapter(dateAdapter);
         binding.fragmentPagerDate.addOnPageChangeListener(dateAdapter);
 
-        this.observer = new DateObserver();
-
         return binding.getRoot();
     }
 
@@ -62,41 +77,13 @@ public class ListDateFragment extends BaseFragment
         return TAG;
     }
 
-
-    @Override
-    public void showMessage(String message) {
-       // Toast.makeText(getContext(),message,Toast.LENGTH_SHORT).show();
-    }
-
     public void setTitle(String title){
         binding.toolbarDate.toolbarTitle.setText(title);
     }
 
-
-    private class DateObserver implements Observer<List<Date>> {
-
-        @Override
-        public void onSubscribe(Disposable d) {
-            showMessage("Subscribe");
-        }
-
-        @Override
-        public void onNext(List<Date> dates) {
-            showMessage("Next");
-            dateAdapter.setDateList(dates);
-            binding.fragmentPagerDate.setCurrentItem(dates.size(),false);
-            showProgress(false);
-        }
-
-        @Override
-        public void onError(Throwable e) {
-            showMessage("Error");
-            showProgress(false);
-        }
-
-        @Override
-        public void onComplete() {
-
-        }
+    @Override
+    public void onAttach(Context context) {
+        AndroidSupportInjection.inject(this);
+        super.onAttach(context);
     }
 }

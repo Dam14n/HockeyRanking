@@ -1,6 +1,7 @@
 package com.wip.hockey.fragment;
 
 import android.arch.lifecycle.ViewModelProviders;
+import android.content.Context;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -15,12 +16,13 @@ import com.wip.hockey.databinding.FragmentListCategoryBinding;
 import com.wip.hockey.handler.HandlerFragment;
 import com.wip.hockey.model.Category;
 import com.wip.hockey.model.User;
+import com.wip.hockey.networking.mock.Status;
 import com.wip.hockey.viewModel.CategoryViewModel;
+import com.wip.hockey.viewModel.factory.CategoryViewModelFactory;
 
-import java.util.List;
+import javax.inject.Inject;
 
-import io.reactivex.Observer;
-import io.reactivex.disposables.Disposable;
+import dagger.android.support.AndroidSupportInjection;
 
 public class ListCategoryFragment extends BaseFragment implements Tageable{
 
@@ -29,22 +31,29 @@ public class ListCategoryFragment extends BaseFragment implements Tageable{
     private FragmentListCategoryBinding binding;
     private CategoryViewModel categoryViewModel;
     private ViewType type;
-    private CategoryObserver observer;
     private User user;
+    private String subDivisionName;
+
+    @Inject
+    CategoryViewModelFactory categoryViewModelFactory;
+
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        categoryViewModel = ViewModelProviders.of(this).get(CategoryViewModel.class);
-        categoryViewModel.setSubDivisionId(this.getArguments().getInt(Constants.PARENT_ID));
-
+        categoryViewModel = ViewModelProviders.of(this, categoryViewModelFactory).get(CategoryViewModel.class);
+        categoryViewModel.getUpdateStatus().observe(this, status -> {
+            if (status == Status.ERROR || status == Status.SUCCESS){
+                hideLoading();
+                showProgress(false);
+            }
+        });
+        categoryViewModel.init(this.getArguments().getInt(Constants.PARENT_ID));
+        categoryViewModel.getCategories().observe(this, categories -> {
+            categoryAdapter.setCategoryList(categories);
+        });
         setupRefreshLayout();
-        subscribeUi(categoryViewModel);
-    }
-
-    private void subscribeUi(CategoryViewModel categoryViewModel) {
-        categoryViewModel.getCategories().subscribe(observer);
     }
 
     @Override
@@ -53,12 +62,12 @@ public class ListCategoryFragment extends BaseFragment implements Tageable{
 
         this.type = (ViewType) this.getArguments().getSerializable(Constants.OPERATION_TYPE);
         this.user = (User) this.getArguments().getSerializable(Constants.USER);
+        this.subDivisionName = this.getArguments().getString(Constants.SUBDIVISION_NAME);
 
-        categoryAdapter = new CategoryAdapter(this,this.user,this.type);
+        categoryAdapter = new CategoryAdapter(this,this.user,this.type,this.subDivisionName);
         binding.fragmentCategoryRecycler.setAdapter(categoryAdapter);
 
-        this.observer = new CategoryObserver();
-        return binding.getRoot();
+       return binding.getRoot();
     }
 
     @Override
@@ -72,7 +81,7 @@ public class ListCategoryFragment extends BaseFragment implements Tageable{
         if (this.type == ViewType.FIXTURE_VIEW) {
             fragment = (BaseFragment) HandlerFragment.getInstance().changeToFragment(R.id.fragment_pager_date);
         }else{
-            fragment = (BaseFragment) HandlerFragment.getInstance().changeToFragment(R.id.fragment_board_recycler);
+            fragment = (BaseFragment) HandlerFragment.getInstance().changeToFragment(R.id.fragment_table_positions);
         }
         Bundle bundle = new Bundle();
         bundle.putSerializable(Constants.OPERATION_TYPE,this.type);
@@ -81,7 +90,8 @@ public class ListCategoryFragment extends BaseFragment implements Tageable{
     }
 
     private void setupRefreshLayout() {
-        binding.swipeRefresh.setOnRefreshListener(() -> categoryViewModel.getCategories().subscribe(observer));
+        binding.swipeRefresh.setOnRefreshListener(() ->
+                categoryViewModel.updateCategories(this.getArguments().getInt(Constants.PARENT_ID)));
     }
 
     public void hideLoading() {
@@ -90,31 +100,10 @@ public class ListCategoryFragment extends BaseFragment implements Tageable{
         }
     }
 
-    private class CategoryObserver implements Observer<List<Category>> {
-
-        @Override
-        public void onSubscribe(Disposable d) {
-            showMessage("Suscribe");
-        }
-
-        @Override
-        public void onNext(List<Category> categories) {
-            showMessage("Next");
-            categoryAdapter.setCategoryList(categories);
-            showProgress(false);
-        }
-
-        @Override
-        public void onError(Throwable e) {
-            showMessage("Error");
-            showProgress(false);
-            hideLoading();
-        }
-
-        @Override
-        public void onComplete() {
-            hideLoading();
-        }
+    @Override
+    public void onAttach(Context context) {
+        AndroidSupportInjection.inject(this);
+        super.onAttach(context);
     }
 
 }

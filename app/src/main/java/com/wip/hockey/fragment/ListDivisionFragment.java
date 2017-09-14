@@ -1,6 +1,7 @@
 package com.wip.hockey.fragment;
 
 import android.arch.lifecycle.ViewModelProviders;
+import android.content.Context;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -15,11 +16,13 @@ import com.wip.hockey.databinding.FragmentListDivisionBinding;
 import com.wip.hockey.handler.HandlerFragment;
 import com.wip.hockey.model.Division;
 import com.wip.hockey.model.User;
+import com.wip.hockey.networking.mock.Status;
 import com.wip.hockey.viewModel.DivisionViewModel;
+import com.wip.hockey.viewModel.factory.DivisionViewModelFactory;
 
-import java.util.List;
+import javax.inject.Inject;
 
-import io.reactivex.disposables.Disposable;
+import dagger.android.support.AndroidSupportInjection;
 
 public class ListDivisionFragment extends BaseFragment implements Tageable {
 
@@ -28,8 +31,10 @@ public class ListDivisionFragment extends BaseFragment implements Tageable {
     private FragmentListDivisionBinding binding;
     private DivisionViewModel divisionViewModel;
     private ViewType type;
-    private DivisionsObserver observer;
     private User user;
+
+    @Inject
+    DivisionViewModelFactory divisionViewModelFactory;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -40,7 +45,6 @@ public class ListDivisionFragment extends BaseFragment implements Tageable {
 
         this.type = (ViewType)this.getArguments().getSerializable(Constants.OPERATION_TYPE);
         this.user = (User) this.getArguments().getSerializable(Constants.USER);
-        this.observer = new DivisionsObserver();
 
         return binding.getRoot();
     }
@@ -48,18 +52,25 @@ public class ListDivisionFragment extends BaseFragment implements Tageable {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        divisionViewModel = ViewModelProviders.of(this).get(DivisionViewModel.class);
-
+        showProgress(true);
+        divisionViewModel = ViewModelProviders.of(this, divisionViewModelFactory).get(DivisionViewModel.class);
+        divisionViewModel.getUpdateStatus().observe(this, status -> {
+            if (status == Status.ERROR || status == Status.SUCCESS){
+                hideLoading();
+                showProgress(false);
+            }
+        });
+        divisionViewModel.init();
+        divisionViewModel.getDivisions().observe(this, divisions -> {
+            divisionAdapter.setDivisionList(divisions);
+        });
         setupRefreshLayout();
-        subscribeUi(divisionViewModel);
-    }
-
-    private void subscribeUi(DivisionViewModel divisionViewModel) {
-        divisionViewModel.getDivisions().subscribe(observer);
     }
 
     private void setupRefreshLayout() {
-        binding.swipeRefresh.setOnRefreshListener(() -> divisionViewModel.getDivisions().subscribe(observer));
+        binding.swipeRefresh.setOnRefreshListener(() -> {
+            divisionViewModel.updateDivisions();
+        });
     }
 
     @Override
@@ -77,40 +88,15 @@ public class ListDivisionFragment extends BaseFragment implements Tageable {
         fragment.setArguments(bundle);
     }
 
-    public void showMessage(String message) {
-        //Toast.makeText(getContext(),message,Toast.LENGTH_SHORT).show();
-    }
-
     public void hideLoading() {
         if (binding.swipeRefresh != null) {
             binding.swipeRefresh.setRefreshing(false);
         }
     }
 
-    private class DivisionsObserver implements io.reactivex.Observer<List<Division>> {
-        @Override
-        public void onSubscribe(Disposable d) {
-            showMessage("Subscribe");
-        }
-
-        @Override
-        public void onNext(List<Division> divisions) {
-            showMessage("Next");
-            divisionAdapter.setDivisionList(divisions);
-            showProgress(false);
-            hideLoading();
-        }
-
-        @Override
-        public void onError(Throwable e) {
-            showMessage("Error");
-            showProgress(false);
-            hideLoading();
-        }
-
-        @Override
-        public void onComplete() {
-            hideLoading();
-        }
+    @Override
+    public void onAttach(Context context) {
+        AndroidSupportInjection.inject(this);
+        super.onAttach(context);
     }
 }

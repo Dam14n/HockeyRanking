@@ -29,13 +29,15 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.MyView
     private final ListCategoryFragment mFragment;
     private final User user;
     private final ViewType type;
+    private final String subDivisionName;
     private List<Category> categoryList;
     private FavoriteViewModel favoriteViewModel;
 
-    public CategoryAdapter(ListCategoryFragment fragment, User user, ViewType type) {
+    public CategoryAdapter(ListCategoryFragment fragment, User user, ViewType type, String subDivisionName) {
         mFragment = fragment;
         this.user = user;
         this.type = type;
+        this.subDivisionName = subDivisionName;
     }
 
     @Override
@@ -132,6 +134,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.MyView
                 this.favorite.setCategoryId(binding.getCategory().getId());
                 this.favorite.setUserId(user.getId());
                 this.favorite.setFavoriteType(type);
+                this.favorite.setSubDivisionName(subDivisionName);
                 favoriteViewModel.addFavorite(favorite)
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
