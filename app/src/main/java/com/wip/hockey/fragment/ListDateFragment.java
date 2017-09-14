@@ -14,7 +14,7 @@ import com.wip.hockey.adapter.DateAdapter;
 import com.wip.hockey.app.Constants;
 import com.wip.hockey.databinding.FragmentListDateBinding;
 import com.wip.hockey.model.Date;
-import com.wip.hockey.networking.mock.Status;
+import com.wip.hockey.networking.Status;
 import com.wip.hockey.viewModel.DateViewModel;
 import com.wip.hockey.viewModel.factory.DateViewModelFactory;
 

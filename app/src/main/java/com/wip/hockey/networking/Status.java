@@ -1,4 +1,4 @@
-package com.wip.hockey.networking.mock;
+package com.wip.hockey.networking;
 
 /**
  * Created by djorda on 13/09/2017.

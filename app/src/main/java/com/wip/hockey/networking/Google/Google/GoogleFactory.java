@@ -1,4 +1,4 @@
-package com.wip.hockey.networking.mock.Google;
+package com.wip.hockey.networking.Google.Google;
 
 
 import android.support.annotation.NonNull;

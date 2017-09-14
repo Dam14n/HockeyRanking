@@ -16,7 +16,7 @@ import com.wip.hockey.databinding.FragmentListCategoryBinding;
 import com.wip.hockey.handler.HandlerFragment;
 import com.wip.hockey.model.Category;
 import com.wip.hockey.model.User;
-import com.wip.hockey.networking.mock.Status;
+import com.wip.hockey.networking.Status;
 import com.wip.hockey.viewModel.CategoryViewModel;
 import com.wip.hockey.viewModel.factory.CategoryViewModelFactory;
 

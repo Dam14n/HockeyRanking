@@ -6,7 +6,7 @@ import android.arch.lifecycle.Transformations;
 import android.arch.lifecycle.ViewModel;
 
 import com.wip.hockey.model.Match;
-import com.wip.hockey.networking.mock.Status;
+import com.wip.hockey.networking.Status;
 import com.wip.hockey.repository.MatchRepository;
 
 import java.util.List;

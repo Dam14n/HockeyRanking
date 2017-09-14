@@ -4,7 +4,7 @@ import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.ViewModel;
 
 import com.wip.hockey.model.Division;
-import com.wip.hockey.networking.mock.Status;
+import com.wip.hockey.networking.Status;
 import com.wip.hockey.repository.DivisionRepository;
 
 import java.util.List;

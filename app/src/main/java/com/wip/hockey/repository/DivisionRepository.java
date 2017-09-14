@@ -5,7 +5,7 @@ import android.arch.lifecycle.MutableLiveData;
 
 import com.wip.hockey.AppExecutors;
 import com.wip.hockey.model.Division;
-import com.wip.hockey.networking.mock.Status;
+import com.wip.hockey.networking.Status;
 import com.wip.hockey.room.dao.DivisionDao;
 
 import java.io.IOException;

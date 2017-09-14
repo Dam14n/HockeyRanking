@@ -5,19 +5,11 @@ import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.Transformations;
 import android.arch.lifecycle.ViewModel;
 
-import com.wip.hockey.model.Category;
 import com.wip.hockey.model.Position;
-import com.wip.hockey.model.Team;
-import com.wip.hockey.networking.mock.Status;
-import com.wip.hockey.repository.CategoryRepository;
+import com.wip.hockey.networking.Status;
 import com.wip.hockey.repository.PositionRepository;
-import com.wip.hockey.repository.WebService;
 
 import java.util.List;
-
-import io.reactivex.Observer;
-import io.reactivex.disposables.Disposable;
-import retrofit2.Call;
 
 public class PositionViewModel extends ViewModel{
 

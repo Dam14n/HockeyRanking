@@ -14,7 +14,7 @@ import com.wip.hockey.adapter.MatchAdapter;
 import com.wip.hockey.app.Constants;
 import com.wip.hockey.databinding.FragmentListMatchBinding;
 import com.wip.hockey.model.Match;
-import com.wip.hockey.networking.mock.Status;
+import com.wip.hockey.networking.Status;
 import com.wip.hockey.viewModel.MatchViewModel;
 import com.wip.hockey.viewModel.factory.MatchViewModelFactory;
 

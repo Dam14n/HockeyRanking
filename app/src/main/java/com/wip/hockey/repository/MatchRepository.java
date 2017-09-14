@@ -5,7 +5,7 @@ import android.arch.lifecycle.MutableLiveData;
 
 import com.wip.hockey.AppExecutors;
 import com.wip.hockey.model.Match;
-import com.wip.hockey.networking.mock.Status;
+import com.wip.hockey.networking.Status;
 import com.wip.hockey.room.dao.MatchDao;
 
 import java.io.IOException;

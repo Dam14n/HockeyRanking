@@ -4,10 +4,8 @@ import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
 
 import com.wip.hockey.AppExecutors;
-import com.wip.hockey.model.Category;
 import com.wip.hockey.model.Position;
-import com.wip.hockey.networking.mock.Status;
-import com.wip.hockey.room.dao.CategoryDao;
+import com.wip.hockey.networking.Status;
 import com.wip.hockey.room.dao.PositionDao;
 
 import java.io.IOException;

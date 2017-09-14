@@ -14,7 +14,7 @@ import com.wip.hockey.app.Constants;
 import com.wip.hockey.databinding.FragmentTablePositionBinding;
 import com.wip.hockey.databinding.TableRowPositionBinding;
 import com.wip.hockey.model.Position;
-import com.wip.hockey.networking.mock.Status;
+import com.wip.hockey.networking.Status;
 import com.wip.hockey.viewModel.PositionViewModel;
 import com.wip.hockey.viewModel.factory.PositionViewModelFactory;
 

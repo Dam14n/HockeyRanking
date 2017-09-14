@@ -16,7 +16,7 @@ import com.wip.hockey.databinding.FragmentListSubDivisionBinding;
 import com.wip.hockey.handler.HandlerFragment;
 import com.wip.hockey.model.SubDivision;
 import com.wip.hockey.model.User;
-import com.wip.hockey.networking.mock.Status;
+import com.wip.hockey.networking.Status;
 import com.wip.hockey.viewModel.SubDivisionViewModel;
 import com.wip.hockey.viewModel.factory.SubDivisionViewModelFactory;
 

@@ -1,4 +1,4 @@
-package com.wip.hockey.networking.mock;
+package com.wip.hockey.networking;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;

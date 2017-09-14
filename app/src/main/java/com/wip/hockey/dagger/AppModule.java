@@ -5,7 +5,7 @@ import android.content.Context;
 import com.wip.hockey.App;
 import com.wip.hockey.AppExecutors;
 import com.wip.hockey.api.ApiService;
-import com.wip.hockey.networking.mock.RetrofitFactory;
+import com.wip.hockey.networking.RetrofitFactory;
 import com.wip.hockey.repository.CategoryRepository;
 import com.wip.hockey.repository.DateRepository;
 import com.wip.hockey.repository.DivisionRepository;
