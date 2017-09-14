@@ -1,17 +1,20 @@
 package com.wip.hockey.model;
 
+import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.Ignore;
-import android.databinding.BaseObservable;
+import android.arch.persistence.room.PrimaryKey;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
-public class Team extends BaseObservable implements IIdentificable {
+@Entity
+public class Team implements IIdentificable {
 
     @SerializedName("Id")
     @Expose
+    @PrimaryKey
     private int id;
     @SerializedName("Name")
     @Expose

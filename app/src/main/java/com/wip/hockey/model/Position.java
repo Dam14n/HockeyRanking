@@ -1,16 +1,14 @@
 package com.wip.hockey.model;
 
+import android.arch.persistence.room.Embedded;
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.PrimaryKey;
-import android.databinding.BaseObservable;
-import android.databinding.Bindable;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
-import com.wip.hockey.BR;
 
 @Entity
-public class Position extends BaseObservable implements IIdentificable {
+public class Position implements IIdentificable {
 
     @SerializedName("Id")
     @Expose
@@ -22,7 +20,6 @@ public class Position extends BaseObservable implements IIdentificable {
     @SerializedName("TeamId")
     @Expose
     private int teamId;
-    private Team team;
     @SerializedName("BoardId")
     @Expose
     private int boardId;
@@ -50,6 +47,10 @@ public class Position extends BaseObservable implements IIdentificable {
     @SerializedName("DifferenceGoals")
     @Expose
     private int differenceGoals;
+    @SerializedName("TeamName")
+    @Expose
+    private String teamName;
+    private int categoryId;
 
     @Override
     public int getId() {
@@ -141,21 +142,27 @@ public class Position extends BaseObservable implements IIdentificable {
         this.differenceGoals = differenceGoals;
     }
 
-    @Bindable
-    public Team getTeam() {
-        return team;
-    }
-
-    public void setTeam(Team team) {
-        this.team = team;
-        notifyPropertyChanged(BR.team);
-    }
-
     public int getRank() {
         return rank;
     }
 
     public void setRank(int rank) {
         this.rank = rank;
+    }
+
+    public int getCategoryId() {
+        return categoryId;
+    }
+
+    public void setCategoryId(int categoryId) {
+        this.categoryId = categoryId;
+    }
+
+    public String getTeamName() {
+        return teamName;
+    }
+
+    public void setTeamName(String teamName) {
+        this.teamName = teamName;
     }
 }

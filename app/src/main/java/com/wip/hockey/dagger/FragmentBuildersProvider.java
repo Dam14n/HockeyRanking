@@ -5,6 +5,7 @@ import com.wip.hockey.fragment.ListDateFragment;
 import com.wip.hockey.fragment.ListDivisionFragment;
 import com.wip.hockey.fragment.ListMatchFragment;
 import com.wip.hockey.fragment.ListSubDivisionFragment;
+import com.wip.hockey.fragment.TablePositionFragment;
 
 import dagger.Module;
 import dagger.android.ContributesAndroidInjector;
@@ -25,4 +26,7 @@ public abstract class FragmentBuildersProvider {
 
     @ContributesAndroidInjector(modules = ListMatchFragmentModule.class)
     abstract ListMatchFragment provideMatchFragment();
+
+    @ContributesAndroidInjector(modules = TablePositionFragmentModule.class)
+    abstract TablePositionFragment providePositionFragment();
 }

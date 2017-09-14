@@ -10,6 +10,7 @@ import com.wip.hockey.repository.CategoryRepository;
 import com.wip.hockey.repository.DateRepository;
 import com.wip.hockey.repository.DivisionRepository;
 import com.wip.hockey.repository.MatchRepository;
+import com.wip.hockey.repository.PositionRepository;
 import com.wip.hockey.repository.SubDivisionRepository;
 import com.wip.hockey.repository.WebService;
 import com.wip.hockey.room.RoomFactory;
@@ -17,6 +18,7 @@ import com.wip.hockey.room.dao.CategoryDao;
 import com.wip.hockey.room.dao.DateDao;
 import com.wip.hockey.room.dao.DivisionDao;
 import com.wip.hockey.room.dao.MatchDao;
+import com.wip.hockey.room.dao.PositionDao;
 import com.wip.hockey.room.dao.SubDivisionDao;
 import com.wip.hockey.room.database.AppDataBase;
 
@@ -74,6 +76,11 @@ public class AppModule {
     }
 
     @Provides
+    PositionDao providePositionDao(AppDataBase db){
+        return db.positionDao();
+    }
+
+    @Provides
     Executor provideExecutor(){
         return Executors.newCachedThreadPool();
     }
@@ -106,5 +113,11 @@ public class AppModule {
     @Provides
     MatchRepository provideMatchRepository(WebService webService, MatchDao dateDao, AppExecutors executor ){
         return new MatchRepository(webService,dateDao,executor);
+    }
+
+    @Singleton
+    @Provides
+    PositionRepository providePositionRepository(WebService webService, PositionDao positionDao, AppExecutors executor ){
+        return new PositionRepository(webService,positionDao,executor);
     }
 }

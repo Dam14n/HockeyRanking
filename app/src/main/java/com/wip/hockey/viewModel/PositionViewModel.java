@@ -1,9 +1,16 @@
 package com.wip.hockey.viewModel;
 
+import android.arch.lifecycle.LiveData;
+import android.arch.lifecycle.MutableLiveData;
+import android.arch.lifecycle.Transformations;
 import android.arch.lifecycle.ViewModel;
 
+import com.wip.hockey.model.Category;
 import com.wip.hockey.model.Position;
 import com.wip.hockey.model.Team;
+import com.wip.hockey.networking.mock.Status;
+import com.wip.hockey.repository.CategoryRepository;
+import com.wip.hockey.repository.PositionRepository;
 import com.wip.hockey.repository.WebService;
 
 import java.util.List;
@@ -14,55 +21,34 @@ import retrofit2.Call;
 
 public class PositionViewModel extends ViewModel{
 
-    private WebService webService;
-    private int boardId;
-    private int categoryId;
+    private PositionRepository positionRepository;
+    private MutableLiveData<Integer> category = new MutableLiveData<>();
+    private LiveData<List<Position>> positions =
+            Transformations.switchMap( category , (categoryId) ->
+                    positionRepository.getPositions(categoryId));
 
-    public PositionViewModel() {
-       // webService = WebService.getInstance();
+
+    public PositionViewModel(PositionRepository repository) {
+        this.positionRepository = repository;
     }
 
-
-    public Call<List<Position>> getPositions() {
-        return  webService.getPositionsByCategory(categoryId);
+    public void init(int categoryId){
+        if (this.category.getValue() != null){
+            return;
+        }
+        category.setValue(categoryId);
     }
 
-    public void setBoardId(int boardId) {
-        this.boardId = boardId;
+    public LiveData<List<Position>> getPositions(){
+        return positions;
     }
 
-    public void setCategoryId(int categoryId){ this.categoryId = categoryId; }
-
-    public void getTeam(List<Position> positions) {
-       /* for (Position position : positions)
-            webService.getTeam(position.getTeamId())
-                    .subscribe(new TeamPositionObserver(position));*/
+    public void updatePositions(int categoryId) {
+        positionRepository.updatePositions(categoryId);
     }
 
-    private class TeamPositionObserver implements Observer<Team> {
-        private final Position position;
-
-        public TeamPositionObserver(Position position) {
-            this.position = position;
-        }
-
-        @Override
-        public void onSubscribe(Disposable d) {
-        }
-
-        @Override
-        public void onNext(Team team) {
-            if (team != null)
-                position.setTeam(team);
-        }
-
-        @Override
-        public void onError(Throwable e) {
-        }
-
-        @Override
-        public void onComplete() {
-
-        }
+    public LiveData<Status> getUpdateStatus() {
+        return positionRepository.getUpdateStatus();
     }
+
 }
