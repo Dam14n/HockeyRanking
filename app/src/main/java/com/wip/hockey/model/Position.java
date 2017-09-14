@@ -1,5 +1,7 @@
 package com.wip.hockey.model;
 
+import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.PrimaryKey;
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
 
@@ -7,10 +9,12 @@ import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 import com.wip.hockey.BR;
 
+@Entity
 public class Position extends BaseObservable implements IIdentificable {
 
     @SerializedName("Id")
     @Expose
+    @PrimaryKey
     private int id;
     @SerializedName("Rank")
     @Expose

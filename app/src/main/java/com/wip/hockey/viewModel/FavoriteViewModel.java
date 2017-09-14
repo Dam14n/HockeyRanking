@@ -6,7 +6,6 @@ import android.arch.lifecycle.AndroidViewModel;
 import com.wip.hockey.fragment.ViewType;
 import com.wip.hockey.model.Category;
 import com.wip.hockey.model.Favorite;
-import com.wip.hockey.repository.Repository;
 import com.wip.hockey.room.RoomFactory;
 import com.wip.hockey.room.database.AppDataBase;
 
@@ -24,12 +23,12 @@ import io.reactivex.internal.operators.completable.CompletableFromAction;
 public class FavoriteViewModel extends AndroidViewModel {
 
     private final AppDataBase db;
-    private final Repository repository;
+   // private final WebService webService;
 
     public FavoriteViewModel(Application application) {
         super(application);
         this.db =  RoomFactory.getAdapter(application.getApplicationContext());
-        repository = Repository.getInstance();
+        //webService = WebService.getInstance();
     }
 
     public Flowable<List<Favorite>> getFavoritesByUserId(int userId){
@@ -64,6 +63,7 @@ public class FavoriteViewModel extends AndroidViewModel {
     }
 
     public Observable<Category> getCategory(int categoryId) {
-        return repository.getCategory(categoryId);
+        return  null;
+        // return webService.getCategory(categoryId);
     }
 }

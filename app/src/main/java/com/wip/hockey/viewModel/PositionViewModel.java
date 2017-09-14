@@ -4,27 +4,27 @@ import android.arch.lifecycle.ViewModel;
 
 import com.wip.hockey.model.Position;
 import com.wip.hockey.model.Team;
-import com.wip.hockey.repository.Repository;
+import com.wip.hockey.repository.WebService;
 
 import java.util.List;
 
-import io.reactivex.Observable;
 import io.reactivex.Observer;
 import io.reactivex.disposables.Disposable;
+import retrofit2.Call;
 
 public class PositionViewModel extends ViewModel{
 
-    private Repository repository;
+    private WebService webService;
     private int boardId;
     private int categoryId;
 
     public PositionViewModel() {
-        repository = Repository.getInstance();
+       // webService = WebService.getInstance();
     }
 
 
-    public Observable<List<Position>> getPositions() {
-        return  repository.getPositionsByCategory(categoryId);
+    public Call<List<Position>> getPositions() {
+        return  webService.getPositionsByCategory(categoryId);
     }
 
     public void setBoardId(int boardId) {
@@ -34,9 +34,9 @@ public class PositionViewModel extends ViewModel{
     public void setCategoryId(int categoryId){ this.categoryId = categoryId; }
 
     public void getTeam(List<Position> positions) {
-        for (Position position : positions)
-            repository.getTeam(position.getTeamId())
-                    .subscribe(new TeamPositionObserver(position));
+       /* for (Position position : positions)
+            webService.getTeam(position.getTeamId())
+                    .subscribe(new TeamPositionObserver(position));*/
     }
 
     private class TeamPositionObserver implements Observer<Team> {

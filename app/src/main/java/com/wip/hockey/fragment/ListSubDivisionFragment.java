@@ -1,6 +1,7 @@
 package com.wip.hockey.fragment;
 
 import android.arch.lifecycle.ViewModelProviders;
+import android.content.Context;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -15,12 +16,13 @@ import com.wip.hockey.databinding.FragmentListSubDivisionBinding;
 import com.wip.hockey.handler.HandlerFragment;
 import com.wip.hockey.model.SubDivision;
 import com.wip.hockey.model.User;
+import com.wip.hockey.networking.mock.Status;
 import com.wip.hockey.viewModel.SubDivisionViewModel;
+import com.wip.hockey.viewModel.factory.SubDivisionViewModelFactory;
 
-import java.util.List;
+import javax.inject.Inject;
 
-import io.reactivex.Observer;
-import io.reactivex.disposables.Disposable;
+import dagger.android.support.AndroidSupportInjection;
 
 public class ListSubDivisionFragment extends BaseFragment implements Tageable {
 
@@ -29,25 +31,31 @@ public class ListSubDivisionFragment extends BaseFragment implements Tageable {
     private FragmentListSubDivisionBinding binding;
     private SubDivisionViewModel subDivisionViewModel;
     private ViewType type;
-    private SubDivisionObserver observer;
     private User user;
+
+    @Inject
+    SubDivisionViewModelFactory subDivisionViewModelFactory;
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        subDivisionViewModel = ViewModelProviders.of(this).get(SubDivisionViewModel.class);
-        subDivisionViewModel.setDivisionId(this.getArguments().getInt(Constants.PARENT_ID));
-
+        showProgress(true);
+        subDivisionViewModel = ViewModelProviders.of(this, subDivisionViewModelFactory).get(SubDivisionViewModel.class);
+        subDivisionViewModel.getUpdateStatus().observe(this, status -> {
+            if (status == Status.ERROR || status == Status.SUCCESS){
+                hideLoading();
+                showProgress(false);
+            }
+        });
+        subDivisionViewModel.init(this.getArguments().getInt(Constants.PARENT_ID));
+        subDivisionViewModel.getSubDivisions().observe(this, subDivisions -> {
+            subDivisionAdapter.setSubDivisionList(subDivisions);
+        });
         this.type = (ViewType) this.getArguments().getSerializable(Constants.OPERATION_TYPE);
         this.user = (User) this.getArguments().getSerializable(Constants.USER);
 
         setupRefreshLayout();
-        subscribeUi(subDivisionViewModel);
-    }
-
-    private void subscribeUi(SubDivisionViewModel subDivisionViewModel) {
-        subDivisionViewModel.getSubDivisions().subscribe(observer);
     }
 
     @Override
@@ -57,14 +65,14 @@ public class ListSubDivisionFragment extends BaseFragment implements Tageable {
         subDivisionAdapter = new SubDivisionAdapter(this);
         binding.fragmentSubDivisionRecycler.setAdapter(subDivisionAdapter);
 
-        this.observer = new SubDivisionObserver();
-
         return binding.getRoot();
     }
 
     private void setupRefreshLayout() {
-        binding.swipeRefresh.setOnRefreshListener(() -> subDivisionViewModel.getSubDivisions().subscribe(observer));
+        binding.swipeRefresh.setOnRefreshListener(() ->
+            subDivisionViewModel.updateSubDivisions(this.getArguments().getInt(Constants.PARENT_ID)));
     }
+
 
     @Override
     public String getTAG(){
@@ -82,39 +90,15 @@ public class ListSubDivisionFragment extends BaseFragment implements Tageable {
         fragment.setArguments(bundle);
     }
 
-    public void showMessage(String message) {
-        //Toast.makeText(getContext(),message,Toast.LENGTH_SHORT).show();
-    }
-
     public void hideLoading() {
         if (binding.swipeRefresh != null) {
             binding.swipeRefresh.setRefreshing(false);
         }
     }
 
-    private class SubDivisionObserver implements Observer<List<SubDivision>> {
-        @Override
-        public void onSubscribe(Disposable d) {
-            showMessage("Subscribe");
-        }
-
-        @Override
-        public void onNext(List<SubDivision> subDivisions) {
-            showMessage("Next");
-            subDivisionAdapter.setSubDivisionList(subDivisions);
-            showProgress(false);
-        }
-
-        @Override
-        public void onError(Throwable e) {
-            showMessage("Error");
-            showProgress(false);
-            hideLoading();
-        }
-
-        @Override
-        public void onComplete() {
-            hideLoading();
-        }
+    @Override
+    public void onAttach(Context context) {
+        AndroidSupportInjection.inject(this);
+        super.onAttach(context);
     }
 }

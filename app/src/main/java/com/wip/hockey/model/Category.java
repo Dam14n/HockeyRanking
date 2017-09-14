@@ -1,14 +1,20 @@
 package com.wip.hockey.model;
 
+import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.Ignore;
+import android.arch.persistence.room.PrimaryKey;
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
+@Entity
 public class Category implements  IIdentificable{
 
     @SerializedName("Id")
     @Expose
+    @PrimaryKey
     private int id;
     @SerializedName("Name")
     @Expose
@@ -18,8 +24,11 @@ public class Category implements  IIdentificable{
     private int subDivisionId;
     @SerializedName("DatesIds")
     @Expose
+    @Ignore
     private List<Integer> datesIds;
+    @Ignore
     private Favorite favorite;
+
     @Override
     public int getId() {
         return id;

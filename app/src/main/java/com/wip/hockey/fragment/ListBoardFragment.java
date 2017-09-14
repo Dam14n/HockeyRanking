@@ -16,18 +16,12 @@ import com.wip.hockey.handler.HandlerFragment;
 import com.wip.hockey.model.Board;
 import com.wip.hockey.viewModel.BoardViewModel;
 
-import java.util.List;
-
-import io.reactivex.Observer;
-import io.reactivex.disposables.Disposable;
-
 public class ListBoardFragment extends BaseFragment implements Tageable{
 
     private final String TAG = ListBoardFragment.class.toString();
     private BoardAdapter boardAdapter;
     private FragmentListBoardBinding binding;
     private BoardViewModel boardViewModel;
-    private BoardObserver observer;
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
@@ -41,7 +35,7 @@ public class ListBoardFragment extends BaseFragment implements Tageable{
     }
 
     private void subscribeUi(BoardViewModel boardViewModel) {
-        boardViewModel.getBoards().subscribe(observer);
+       // boardViewModel.getBoards().subscribe(observer);
     }
 
     @Override
@@ -51,8 +45,6 @@ public class ListBoardFragment extends BaseFragment implements Tageable{
         boardAdapter = new BoardAdapter(this);
 
         binding.fragmentBoardRecycler.setAdapter(boardAdapter);
-
-        this.observer = new BoardObserver();
 
         return binding.getRoot();
     }
@@ -71,45 +63,12 @@ public class ListBoardFragment extends BaseFragment implements Tageable{
     }
 
     private void setupRefreshLayout() {
-        binding.swipeRefresh.setOnRefreshListener(() -> boardViewModel.getBoards().subscribe(observer));
-    }
-
-    @Override
-    public void showMessage(String message) {
-        //Toast.makeText(getContext(),message,Toast.LENGTH_SHORT).show();
+        //binding.swipeRefresh.setOnRefreshListener(() -> boardViewModel.getBoards().subscribe(observer));
     }
 
     public void hideLoading() {
         if (binding.swipeRefresh != null) {
             binding.swipeRefresh.setRefreshing(false);
-        }
-    }
-
-
-    private class BoardObserver implements Observer<List<Board>> {
-
-        @Override
-        public void onSubscribe(Disposable d) {
-            showMessage("Subscribe");
-        }
-
-        @Override
-        public void onNext(List<Board> boards) {
-            showMessage("Next");
-            boardAdapter.setBoardList(boards);
-            showProgress(false);
-        }
-
-        @Override
-        public void onError(Throwable e) {
-            showMessage("Error");
-            showProgress(false);
-            hideLoading();
-        }
-
-        @Override
-        public void onComplete() {
-            hideLoading();
         }
     }
 }

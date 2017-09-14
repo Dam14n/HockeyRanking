@@ -5,14 +5,13 @@ import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
-import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.MobileAds;
 import com.google.android.gms.auth.api.Auth;
@@ -32,10 +31,16 @@ import com.wip.hockey.room.RoomFactory;
 import com.wip.hockey.room.database.AppDataBase;
 import com.wip.hockey.viewModel.MainActivityViewModel;
 
+import javax.inject.Inject;
+
+import dagger.android.AndroidInjection;
+import dagger.android.AndroidInjector;
+import dagger.android.DispatchingAndroidInjector;
+import dagger.android.support.HasSupportFragmentInjector;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
-public class MainActivity extends LifecycleActivity implements Toolbar.OnMenuItemClickListener {
+public class MainActivity extends LifecycleActivity implements Toolbar.OnMenuItemClickListener, HasSupportFragmentInjector{
 
     public static final String TAG = MainActivity.class.getSimpleName();
     private HandlerFragment handlerFragment;
@@ -47,8 +52,12 @@ public class MainActivity extends LifecycleActivity implements Toolbar.OnMenuIte
     private MainActivityViewModel mViewModel;
     private User user;
 
+    @Inject
+    DispatchingAndroidInjector<Fragment> dispatchingAndroidInjector;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        AndroidInjection.inject(this);
         super.onCreate(savedInstanceState);
 
         mViewModel = ViewModelProviders.of(this).get(MainActivityViewModel.class);
@@ -165,6 +174,11 @@ public class MainActivity extends LifecycleActivity implements Toolbar.OnMenuIte
         }else {
             super.onBackPressed();
         }
+    }
+
+    @Override
+    public AndroidInjector<Fragment> supportFragmentInjector() {
+        return dispatchingAndroidInjector;
     }
 }
 

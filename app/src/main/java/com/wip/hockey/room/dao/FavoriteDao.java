@@ -4,11 +4,9 @@ import android.arch.persistence.room.Dao;
 import android.arch.persistence.room.Delete;
 import android.arch.persistence.room.Insert;
 import android.arch.persistence.room.Query;
-import android.arch.persistence.room.TypeConverters;
 
 import com.wip.hockey.fragment.ViewType;
 import com.wip.hockey.model.Favorite;
-import com.wip.hockey.room.converter.ViewTypeConverter;
 
 import java.util.List;
 
@@ -16,7 +14,6 @@ import io.reactivex.Flowable;
 import io.reactivex.Single;
 
 @Dao
-@TypeConverters(ViewTypeConverter.class)
 public interface FavoriteDao {
 
 

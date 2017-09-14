@@ -1,22 +1,23 @@
 package com.wip.hockey.model;
 
 
-import android.databinding.BaseObservable;
-import android.databinding.Bindable;
-import android.databinding.BindingAdapter;
-import android.graphics.Bitmap;
-import android.widget.ImageView;
+import android.arch.persistence.room.Embedded;
+import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.Ignore;
+import android.arch.persistence.room.PrimaryKey;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
-import com.wip.hockey.BR;
 
+import java.util.Date;
 import java.util.List;
 
-public class Match extends BaseObservable implements  IIdentificable{
+@Entity(tableName = "matches")
+public class Match implements  IIdentificable{
 
     @SerializedName("Id")
     @Expose
+    @PrimaryKey
     private int id;
     @SerializedName("DateId")
     @Expose
@@ -24,17 +25,45 @@ public class Match extends BaseObservable implements  IIdentificable{
     @SerializedName("LocalTeamId")
     @Expose
     private int localTeamId;
-    private Team localTeam;
+    @SerializedName("LocalTeamName")
+    @Expose
+    private String localTeamName;
+    @SerializedName("LocalTeamLogo")
+    @Expose
+    @Embedded(prefix = "local_logo_")
+    private Logo localTeamLogo;
     @SerializedName("EnemyTeamId")
     @Expose
     private int enemyTeamId;
-    private Team enemyTeam;
+    @SerializedName("EnemyTeamName")
+    @Expose
+    private String enemyTeamName;
+    @SerializedName("EnemyTeamLogo")
+    @Expose
+    @Embedded(prefix = "enemy_logo_")
+    private Logo EnemyTeamLogo;
     @SerializedName("LocalGoalsIds")
     @Expose
+    @Ignore
     private List<Integer> localGoalsIds;
+    @SerializedName("LocalGoals")
+    @Expose
+    private int localGoals;
     @SerializedName("EnemyGoalsIds")
     @Expose
+    @Ignore
     private List<Integer> enemyGoalsIds;
+    @SerializedName("EnemyGoals")
+    @Expose
+    private int enemyGoals;
+    @SerializedName("Played")
+    @Expose
+    private boolean played;
+    @SerializedName("DateMatch")
+    @Expose
+    private java.util.Date dateMatch;
+
+
 
     @Override
     public int getId() {
@@ -70,50 +99,83 @@ public class Match extends BaseObservable implements  IIdentificable{
         this.enemyTeamId = enemyTeamId;
     }
 
-    @Bindable
     public List<Integer> getLocalGoalsIds() {
         return localGoalsIds;
     }
 
     public void setLocalGoalsIds(List<Integer> localGoalsIds) {
         this.localGoalsIds = localGoalsIds;
-        this.notifyPropertyChanged(BR.localGoalsIds);
     }
 
-    @Bindable
     public List<Integer> getEnemyGoalsIds() {
         return enemyGoalsIds;
     }
 
     public void setEnemyGoalsIds(List<Integer> enemyGoalsIds) {
         this.enemyGoalsIds = enemyGoalsIds;
-        this.notifyPropertyChanged(BR.enemyGoalsIds);
     }
 
-    @Bindable
-    public Team getLocalTeam() {
-        return this.localTeam;
+    public String getLocalTeamName() {
+        return localTeamName;
     }
 
-    public void setLocalTeam(Team localTeam) {
-        this.localTeam = localTeam;
-        notifyPropertyChanged(BR.localTeam);
+    public void setLocalTeamName(String localTeamName) {
+        this.localTeamName = localTeamName;
     }
 
-    @Bindable
-    public Team getEnemyTeam() {
-        return enemyTeam;
+    public Logo getLocalTeamLogo() {
+        return localTeamLogo;
     }
 
-    public void setEnemyTeam(Team enemyTeam) {
-        this.enemyTeam = enemyTeam;
-        notifyPropertyChanged(BR.enemyTeam);
+    public void setLocalTeamLogo(Logo localTeamLogo) {
+        this.localTeamLogo = localTeamLogo;
     }
 
-    @BindingAdapter({"bind:imgRes"})
-    public static void loadImage(ImageView view, Bitmap image) {
-        if (image != null)
-            view.setImageBitmap(image);
+    public String getEnemyTeamName() {
+        return enemyTeamName;
     }
 
+    public void setEnemyTeamName(String enemyTeamName) {
+        this.enemyTeamName = enemyTeamName;
+    }
+
+    public Logo getEnemyTeamLogo() {
+        return EnemyTeamLogo;
+    }
+
+    public void setEnemyTeamLogo(Logo enemyTeamLogo) {
+        EnemyTeamLogo = enemyTeamLogo;
+    }
+
+    public boolean isPlayed() {
+        return played;
+    }
+
+    public void setPlayed(boolean played) {
+        this.played = played;
+    }
+
+    public Date getDateMatch() {
+        return dateMatch;
+    }
+
+    public void setDateMatch(Date dateMatch) {
+        this.dateMatch = dateMatch;
+    }
+
+    public int getLocalGoals() {
+        return localGoals;
+    }
+
+    public void setLocalGoals(int localGoals) {
+        this.localGoals = localGoals;
+    }
+
+    public int getEnemyGoals() {
+        return enemyGoals;
+    }
+
+    public void setEnemyGoals(int enemyGoals) {
+        this.enemyGoals = enemyGoals;
+    }
 }

@@ -11,6 +11,6 @@ public class RoomFactory {
 
     public static AppDataBase getAdapter(Context context) {
         return Room.databaseBuilder(context,
-                AppDataBase.class, "database-name").build();
+                AppDataBase.class, "test").build();
     }
 }

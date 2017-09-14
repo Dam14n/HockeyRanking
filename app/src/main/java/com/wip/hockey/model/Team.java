@@ -1,14 +1,10 @@
 package com.wip.hockey.model;
 
+import android.arch.persistence.room.Ignore;
 import android.databinding.BaseObservable;
-import android.databinding.Bindable;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.util.Base64;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
-import com.wip.hockey.BR;
 
 import java.util.List;
 
@@ -22,21 +18,23 @@ public class Team extends BaseObservable implements IIdentificable {
     private String name;
     @SerializedName("PlayersIds")
     @Expose
+    @Ignore
     private List<Integer> playersIds;
     @SerializedName("LocalMatchesIds")
     @Expose
+    @Ignore
     private List<Integer> localMatchesIds;
     @SerializedName("AwayMatchesIds")
     @Expose
+    @Ignore
     private List<Integer> awayMatchesIds;
     @SerializedName("GoalsIds")
     @Expose
+    @Ignore
     private List<Integer> goalsIds;
     @SerializedName("LogoId")
     @Expose
     private int logoId;
-    private Logo logo;
-    private Bitmap image;
 
     @Override
     public int getId() {
@@ -96,24 +94,4 @@ public class Team extends BaseObservable implements IIdentificable {
         this.logoId = logoId;
     }
 
-    public Logo getLogo() {
-        return logo;
-    }
-
-    public void setLogo(Logo logo) {
-        byte[] imgBytes = Base64.decode(logo.getImage().getBytes(),Base64.DEFAULT);
-        Bitmap bitmap = BitmapFactory.decodeByteArray(imgBytes, 0, imgBytes.length);
-        this.setImage(bitmap);
-        this.logo = logo;
-    }
-
-    @Bindable
-    public Bitmap getImage() {
-        return image;
-    }
-
-    public void setImage(Bitmap image) {
-        this.image = image;
-        this.notifyPropertyChanged(BR.image);
-    }
 }

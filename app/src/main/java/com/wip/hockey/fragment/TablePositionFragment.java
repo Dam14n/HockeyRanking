@@ -40,7 +40,7 @@ public class TablePositionFragment extends BaseFragment implements Tageable{
     }
 
     private void subscribeUi(PositionViewModel positionViewModel) {
-        positionViewModel.getPositions().subscribe(observer);
+      //  positionViewModel.getPositions().subscribe(observer);
     }
 
 
@@ -53,7 +53,7 @@ public class TablePositionFragment extends BaseFragment implements Tageable{
     }
 
     private void setupRefreshLayout() {
-        binding.swipeRefresh.setOnRefreshListener(() -> positionViewModel.getPositions().subscribe(observer));
+       // binding.swipeRefresh.setOnRefreshListener(() -> positionViewModel.getPositions().subscribe(observer));
     }
 
     @Override

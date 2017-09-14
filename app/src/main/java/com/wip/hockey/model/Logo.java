@@ -1,16 +1,17 @@
 package com.wip.hockey.model;
 
+import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.PrimaryKey;
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-/**
- * Created by djorda on 13/08/2017.
- */
-
+@Entity
 public class Logo implements IIdentificable {
 
     @SerializedName("Id")
     @Expose
+    @PrimaryKey
     private int id;
     @SerializedName("Image")
     @Expose

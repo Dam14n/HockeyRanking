@@ -1,10 +1,15 @@
 package com.wip.hockey.adapter;
 
+import android.databinding.BindingAdapter;
 import android.databinding.DataBindingUtil;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.support.v7.util.DiffUtil;
 import android.support.v7.widget.RecyclerView;
+import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import com.wip.hockey.R;
 import com.wip.hockey.databinding.ListItemMatchBinding;
@@ -79,6 +84,18 @@ public class MatchAdapter extends RecyclerView.Adapter<MatchAdapter.MyViewHolder
             this.matchList = matchList;
             result.dispatchUpdatesTo(this);
         }
+
+    }
+
+    @BindingAdapter({"bind:imgRes"})
+    public static void loadImage(ImageView view, String image) {
+        if (image != null)
+            view.setImageBitmap(transformImage(image));
+    }
+
+    private static Bitmap transformImage(String image) {
+        byte[] imgBytes = Base64.decode(image.getBytes(),Base64.DEFAULT);
+        return BitmapFactory.decodeByteArray(imgBytes, 0, imgBytes.length);
     }
 
     class MyViewHolder extends RecyclerView.ViewHolder {

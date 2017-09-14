@@ -1,29 +1,46 @@
 package com.wip.hockey.viewModel;
 
+import android.arch.lifecycle.LiveData;
+import android.arch.lifecycle.MutableLiveData;
+import android.arch.lifecycle.Transformations;
 import android.arch.lifecycle.ViewModel;
 
 import com.wip.hockey.model.SubDivision;
-import com.wip.hockey.repository.Repository;
+import com.wip.hockey.networking.mock.Status;
+import com.wip.hockey.repository.SubDivisionRepository;
 
 import java.util.List;
 
-import io.reactivex.ObservableSource;
-
 public class SubDivisionViewModel extends ViewModel{
 
-    private Repository repository;
-    private int divisionId;
 
-    public SubDivisionViewModel() {
-        repository = Repository.getInstance();
+    private SubDivisionRepository subDivisionRepository;
+    private MutableLiveData<Integer> division = new MutableLiveData<>();
+    private LiveData<List<SubDivision>> subDivisions =
+            Transformations.switchMap( division , (divisionId) ->
+                    subDivisionRepository.getSubDivisions(divisionId));
+
+    public SubDivisionViewModel(SubDivisionRepository subDivisionRepository) {
+       this.subDivisionRepository = subDivisionRepository;
     }
 
-    public ObservableSource<List<SubDivision>> getSubDivisions() {
-      return repository.getSubDivisionsByDivision(this.divisionId);
+    public void init(int divisionId){
+        if (this.division.getValue() != null){
+            return;
+        }
+        division.setValue(divisionId);
     }
 
-    public void setDivisionId(int divisionId)
-    {
-        this.divisionId = divisionId;
+    public LiveData<List<SubDivision>> getSubDivisions(){
+        return subDivisions;
     }
+
+    public void updateSubDivisions(int divisionId) {
+        subDivisionRepository.updateSubDivisions(divisionId);
+    }
+
+    public LiveData<Status> getUpdateStatus() {
+        return subDivisionRepository.getUpdateStatus();
+    }
+
 }
