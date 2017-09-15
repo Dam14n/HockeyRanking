@@ -23,6 +23,7 @@ public class NavigationDrawerFragment extends BaseFragment{
     private ActionBarDrawerToggle mDrawerToggle;
     private DrawerLayout mDrawerLayout;
     private FragmentNavigationDrawerBinding binding;
+    private NavigationDrawAdapter adapter;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
@@ -35,9 +36,10 @@ public class NavigationDrawerFragment extends BaseFragment{
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         User user = (User) this.getArguments().getSerializable(Constants.USER);
-        NavigationDrawAdapter adapter = new NavigationDrawAdapter(NavigationDrawerItem.getData(),user);
+        adapter = new NavigationDrawAdapter(NavigationDrawerItem.getData(),user);
         binding.drawerList.setLayoutManager(new LinearLayoutManager(getActivity()));
         binding.drawerList.setAdapter(adapter);
+        adapter.setLayout(mDrawerLayout);
     }
 
     public void setUpDrawer(int fragmentId, DrawerLayout drawerLayout, Toolbar toolbar){
@@ -64,6 +66,8 @@ public class NavigationDrawerFragment extends BaseFragment{
         mDrawerLayout.addDrawerListener(mDrawerToggle);
 
         mDrawerLayout.post(() -> mDrawerToggle.syncState());
+
     }
+
 
 }

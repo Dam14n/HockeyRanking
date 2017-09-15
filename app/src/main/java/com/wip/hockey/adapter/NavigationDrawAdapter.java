@@ -3,8 +3,10 @@ package com.wip.hockey.adapter;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 
 import com.wip.hockey.R;
@@ -19,10 +21,11 @@ import com.wip.hockey.model.User;
 import java.util.Collections;
 import java.util.List;
 
-public class NavigationDrawAdapter extends RecyclerView.Adapter<NavigationDrawAdapter.MyViewHolder> {
+public class NavigationDrawAdapter extends RecyclerView.Adapter<NavigationDrawAdapter.MyViewHolder>{
 
     private final User user;
     private List<NavigationDrawerItem> mDataList = Collections.emptyList();
+    private DrawerLayout mDrawerLayout;
 
     public NavigationDrawAdapter(List<NavigationDrawerItem> mDataList, User user) {
         this.mDataList = mDataList;
@@ -36,6 +39,8 @@ public class NavigationDrawAdapter extends RecyclerView.Adapter<NavigationDrawAd
                         parent, false);
         return new NavigationDrawAdapter.MyViewHolder(binding);
     }
+
+
 
     @Override
     public void onBindViewHolder(final MyViewHolder holder, int position) {
@@ -62,12 +67,17 @@ public class NavigationDrawAdapter extends RecyclerView.Adapter<NavigationDrawAd
                 default:
                     break;
             }
+            mDrawerLayout.closeDrawers();
         });
     }
 
     @Override
     public int getItemCount() {
         return mDataList.size();
+    }
+
+    public void setLayout(DrawerLayout drawerLayout) {
+        this.mDrawerLayout = drawerLayout;
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
