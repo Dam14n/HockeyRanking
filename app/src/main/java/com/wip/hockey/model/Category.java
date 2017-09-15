@@ -26,8 +26,6 @@ public class Category implements  IIdentificable{
     @Expose
     @Ignore
     private List<Integer> datesIds;
-    @Ignore
-    private Favorite favorite;
 
     @Override
     public int getId() {
@@ -63,11 +61,4 @@ public class Category implements  IIdentificable{
         this.datesIds = datesIds;
     }
 
-    public Favorite getFavorite() {
-        return favorite;
-    }
-
-    public void setFavorite(Favorite favorite) {
-        this.favorite = favorite;
-    }
 }

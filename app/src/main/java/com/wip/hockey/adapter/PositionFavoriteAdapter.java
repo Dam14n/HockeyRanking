@@ -27,16 +27,10 @@ public class PositionFavoriteAdapter extends RecyclerView.Adapter<PositionFavori
 
     private static final String TAG = PositionFavoriteAdapter.class.getSimpleName();
     private final ListFavoriteFragment mFragment;
-    private final User user;
-    private FavoriteViewModel favoriteViewModel;
     private List<Favorite> favoriteList;
-    private List<Category> categoryList;
 
-    public PositionFavoriteAdapter(ListFavoriteFragment fragment, User user, FavoriteViewModel favoriteViewModel){
+    public PositionFavoriteAdapter(ListFavoriteFragment fragment){
         this.mFragment = fragment;
-        this.user = user;
-        this.favoriteViewModel = favoriteViewModel;
-        this.categoryList = new ArrayList<>();
     }
 
     @Override
@@ -50,80 +44,29 @@ public class PositionFavoriteAdapter extends RecyclerView.Adapter<PositionFavori
 
     @Override
     public void onBindViewHolder(final PositionFavoriteAdapter.MyViewHolder holder, int position) {
-        holder.binding.setCategory(categoryList.get(position));
+        holder.binding.setFavorite(favoriteList.get(position));
         holder.binding.executePendingBindings();
     }
 
     public void setFavoriteList(List<Favorite> favoriteList) {
-        if (this.favoriteList == null){
-            this.favoriteList = favoriteList;
-            getCategories();
-        }
-    }
-
-    private void getCategories() {
-        for (Favorite favorite: favoriteList ) {
-            favoriteViewModel.getCategory(favorite.getCategoryId())
-                    .subscribe(new PositionFavoriteObserver(favorite));
-        }
+       this.favoriteList = favoriteList;
+       notifyDataSetChanged();
     }
 
     @Override
     public int getItemCount() {
-        return categoryList != null ? categoryList.size() : 0;
+        return favoriteList != null ? favoriteList.size() : 0;
     }
 
-    private class PositionFavoriteObserver implements Observer<Category> {
 
-        private final Favorite favorite;
-
-        public PositionFavoriteObserver(Favorite favorite) {
-            this.favorite = favorite;
-        }
-
-        @Override
-        public void onSubscribe(Disposable d) {
-        }
-
-        @Override
-        public void onNext(Category category) {
-            category.setFavorite(favorite);
-            categoryList.add(category);
-            Collections.sort(categoryList, (left, right) -> left.getId() - right.getId());
-            notifyItemInserted(categoryList.indexOf(category));
-        }
-
-        @Override
-        public void onError(Throwable e) {
-        }
-
-        @Override
-        public void onComplete() {
-
-        }
-    }
-
-    class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
+    class MyViewHolder extends RecyclerView.ViewHolder{
 
         final ListItemFavoriteBinding binding;
 
         public MyViewHolder(ListItemFavoriteBinding binding) {
             super(binding.getRoot());
             this.binding = binding;
-            binding.favorite.setImageResource(R.drawable.button_pressed);
-            binding.favorite.setOnClickListener(this);
         }
 
-        @Override
-        public void onClick(View view) {
-            favoriteViewModel.deleteFavorite(binding.getCategory().getFavorite())
-                    .subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(() -> {
-                        int index = categoryList.indexOf(binding.getCategory());
-                        categoryList.remove(index);
-                        notifyDataSetChanged();
-                    },throwable -> {});
-        }
     }
 }

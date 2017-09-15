@@ -1,6 +1,7 @@
 package com.wip.hockey.fragment;
 
 import android.arch.lifecycle.ViewModelProviders;
+import android.content.Context;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -19,9 +20,14 @@ import com.wip.hockey.model.Category;
 import com.wip.hockey.model.Favorite;
 import com.wip.hockey.model.User;
 import com.wip.hockey.viewModel.FavoriteViewModel;
+import com.wip.hockey.viewModel.factory.DivisionViewModelFactory;
+import com.wip.hockey.viewModel.factory.FavoriteViewModelFactory;
 
 import java.util.List;
 
+import javax.inject.Inject;
+
+import dagger.android.support.AndroidSupportInjection;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
@@ -33,34 +39,29 @@ public class ListFavoriteFragment extends BaseFragment implements Tageable {
     private FragmentListFavoriteBinding binding;
     private PositionFavoriteAdapter positionFavoriteAdapter;
     private User user;
-    private List<Favorite> favorites;
+
+    @Inject
+    FavoriteViewModelFactory favoriteViewModelFactory;
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        favoriteViewModel = ViewModelProviders.of(this).get(FavoriteViewModel.class);
+        favoriteViewModel = ViewModelProviders.of(this, favoriteViewModelFactory).get(FavoriteViewModel.class);
 
         this.user = (User) this.getArguments().getSerializable(Constants.USER);
 
-        fixtureFavoriteAdapter = new FixtureFavoriteAdapter(this,this.user,favoriteViewModel);
-        addFixtureFavorites(fixtureFavoriteAdapter);
+        fixtureFavoriteAdapter = new FixtureFavoriteAdapter(this);
+        favoriteViewModel.getPositionsFavoritesByUserId(this.user.getId())
+                .observe(this, favorites -> positionFavoriteAdapter.setFavoriteList(favorites) );
         binding.fragmentFavoriteFixtureRecycler.setAdapter(fixtureFavoriteAdapter);
 
-        positionFavoriteAdapter = new PositionFavoriteAdapter(this,this.user,favoriteViewModel);
-        addFavoritesPositions(positionFavoriteAdapter);
+        positionFavoriteAdapter = new PositionFavoriteAdapter(this);
+        favoriteViewModel.getFixturesFavoritesByUserId(this.user.getId())
+                .observe(this, favorites -> fixtureFavoriteAdapter.setFavoriteList(favorites));
         binding.fragmentFavoritePositionsRecycler.setAdapter(positionFavoriteAdapter);
 
 
-    }
-
-    private void addFavoritesPositions(PositionFavoriteAdapter positionFavoriteAdapter) {
-        favoriteViewModel.getPositionsFavoritesByUserId(this.user.getId())
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(favorites -> {
-                    positionFavoriteAdapter.setFavoriteList(favorites);
-                },throwable -> Log.d(TAG, "No soy favorito."));
     }
 
     @Override
@@ -70,33 +71,36 @@ public class ListFavoriteFragment extends BaseFragment implements Tageable {
         return binding.getRoot();
     }
 
-    private void addFixtureFavorites(FixtureFavoriteAdapter fixtureFavoriteAdapter) {
-        favoriteViewModel.getFixturesFavoritesByUserId(this.user.getId())
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(favorites -> {
-                    fixtureFavoriteAdapter.setFavoriteList(favorites);
-                },throwable -> Log.d(TAG, "No soy favorito."));
-    }
-
     @Override
     public String getTAG(){
         return TAG;
     }
 
-    public void onClick(Category category) {
+    public void onClick(Favorite favorite) {
         showProgress(true);
         BaseFragment fragment;
         Bundle bundle = new Bundle();
-        if (fixtureFavoriteAdapter.isFixtureType(category)) {
+        if (favorite.getFavoriteType() == ViewType.FIXTURE_VIEW) {
             fragment = (BaseFragment) HandlerFragment.getInstance().changeToFragment(R.id.fragment_pager_date);
             bundle.putSerializable(Constants.OPERATION_TYPE,ViewType.FIXTURE_VIEW);
         }else{
             fragment = (BaseFragment) HandlerFragment.getInstance().changeToFragment(R.id.fragment_table_positions);
             bundle.putSerializable(Constants.OPERATION_TYPE,ViewType.POSITIONS_VIEW);
         }
-        bundle.putInt(Constants.PARENT_ID,category.getId());
+        bundle.putInt(Constants.PARENT_ID,favorite.getCategory().getId());
         fragment.setArguments(bundle);
+    }
+
+    public void onClickFavorite(Favorite favorite) {
+        if (favorite != null){
+            favoriteViewModel.deleteFavorite(favorite);
+        }
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        AndroidSupportInjection.inject(this);
+        super.onAttach(context);
     }
 
 }

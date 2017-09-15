@@ -1,5 +1,6 @@
 package com.wip.hockey.room.dao;
 
+import android.arch.lifecycle.LiveData;
 import android.arch.persistence.room.Dao;
 import android.arch.persistence.room.Delete;
 import android.arch.persistence.room.Insert;
@@ -10,15 +11,9 @@ import com.wip.hockey.model.Favorite;
 
 import java.util.List;
 
-import io.reactivex.Flowable;
-import io.reactivex.Single;
-
 @Dao
 public interface FavoriteDao {
 
-
-    @Query("SELECT * FROM favorite WHERE userId = (:userId)")
-    Flowable<List<Favorite>> getFavoritesByUserId(int userId);
 
     @Insert
     List<Long> insertAll(Favorite... favorites);
@@ -29,15 +24,12 @@ public interface FavoriteDao {
     @Delete
     void delete(Favorite favorite);
 
-    @Query("SELECT * FROM favorite WHERE categoryId = (:categoryId)")
-    Single<Favorite> getFavoriteByCategoryId(int categoryId);
+    @Query("SELECT * FROM favorite WHERE userId = (:userId) AND favoriteType = (:favoriteType) ORDER BY subDivisionName ASC")
+    LiveData<List<Favorite>> getFixturesFavoritesByUserId(int userId, ViewType favoriteType);
 
-    @Query("SELECT * FROM favorite WHERE userId = (:userId) AND favoriteType = (:favoriteType)")
-    Flowable<List<Favorite>> getFixturesFavoritesByUserId(int userId, ViewType favoriteType);
+    @Query("SELECT * FROM favorite WHERE userId = (:userId) AND favoriteType = (:favoriteType) ORDER BY subDivisionName ASC")
+    LiveData<List<Favorite>> getPositionsFavoritesByUserId(int userId, ViewType favoriteType);
 
-    @Query("SELECT * FROM favorite WHERE userId = (:userId) AND favoriteType = (:favoriteType)")
-    Flowable<List<Favorite>> getPositionsFavoritesByUserId(int userId, ViewType favoriteType);
-
-    @Query("SELECT * FROM favorite WHERE categoryId = (:categoryId) AND favoriteType = (:type)")
-    Flowable<Favorite> getFavoriteByCategoryIdAndType(int categoryId, ViewType type);
+    @Query("SELECT * FROM favorite WHERE favoriteType = (:type) AND userId = (:userId) ORDER BY subDivisionName ASC")
+    LiveData<List<Favorite>> getFavoritesByTypeAndUser(ViewType type, int userId);
 }

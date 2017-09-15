@@ -15,28 +15,16 @@ import com.wip.hockey.model.User;
 import com.wip.hockey.viewModel.FavoriteViewModel;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
-
-import io.reactivex.Observer;
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.disposables.Disposable;
-import io.reactivex.schedulers.Schedulers;
 
 public class FixtureFavoriteAdapter extends RecyclerView.Adapter<FixtureFavoriteAdapter.MyViewHolder>{
 
     private static final String TAG = FixtureFavoriteAdapter.class.getSimpleName();
     private final ListFavoriteFragment mFragment;
-    private final User user;
-    private FavoriteViewModel favoriteViewModel;
     private List<Favorite> favoriteList;
-    private List<Category> categoryList;
 
-    public FixtureFavoriteAdapter(ListFavoriteFragment fragment, User user, FavoriteViewModel favoriteViewModel){
+    public FixtureFavoriteAdapter(ListFavoriteFragment fragment){
         this.mFragment = fragment;
-        this.user = user;
-        this.favoriteViewModel = favoriteViewModel;
-        this.categoryList = new ArrayList<>();
     }
 
     @Override
@@ -50,84 +38,28 @@ public class FixtureFavoriteAdapter extends RecyclerView.Adapter<FixtureFavorite
 
     @Override
     public void onBindViewHolder(final MyViewHolder holder, int position) {
-        holder.binding.setCategory(categoryList.get(position));
+        holder.binding.setFavorite(favoriteList.get(position));
         holder.binding.executePendingBindings();
     }
 
     public void setFavoriteList(List<Favorite> favoriteList) {
-        if (this.favoriteList == null){
-            this.favoriteList = favoriteList;
-            getCategories();
-        }
-    }
-
-    private void getCategories() {
-        for (Favorite favorite: favoriteList ) {
-            favoriteViewModel.getCategory(favorite.getCategoryId())
-                    .subscribe(new FixtureFavoriteObserver(favorite));
-        }
+        this.favoriteList = favoriteList;
+        notifyDataSetChanged();
     }
 
     @Override
     public int getItemCount() {
-        return categoryList != null ? categoryList.size() : 0;
+        return favoriteList != null ? favoriteList.size() : 0;
     }
 
-    public boolean isFixtureType(Category category) {
-        return categoryList.contains(category);
-    }
-
-    private class FixtureFavoriteObserver implements Observer<Category> {
-
-        private final Favorite favorite;
-
-        public FixtureFavoriteObserver(Favorite favorite) {
-            this.favorite = favorite;
-        }
-
-        @Override
-        public void onSubscribe(Disposable d) {
-        }
-
-        @Override
-        public void onNext(Category category) {
-            category.setFavorite(favorite);
-            categoryList.add(category);
-            Collections.sort(categoryList, (left, right) -> left.getId() - right.getId());
-            notifyItemInserted(categoryList.indexOf(category));
-        }
-
-        @Override
-        public void onError(Throwable e) {
-        }
-
-        @Override
-        public void onComplete() {
-
-        }
-    }
-
-    class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
+    class MyViewHolder extends RecyclerView.ViewHolder{
 
         final ListItemFavoriteBinding binding;
 
         public MyViewHolder(ListItemFavoriteBinding binding) {
             super(binding.getRoot());
             this.binding = binding;
-            binding.favorite.setImageResource(R.drawable.button_pressed);
-            binding.favorite.setOnClickListener(this);
         }
 
-        @Override
-        public void onClick(View view) {
-            favoriteViewModel.deleteFavorite(binding.getCategory().getFavorite())
-                    .subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(() -> {
-                        int index = categoryList.indexOf(binding.getCategory());
-                        categoryList.remove(index);
-                        notifyDataSetChanged();
-                    },throwable -> {});
-        }
     }
 }

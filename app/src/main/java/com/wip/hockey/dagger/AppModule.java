@@ -9,6 +9,7 @@ import com.wip.hockey.networking.RetrofitFactory;
 import com.wip.hockey.repository.CategoryRepository;
 import com.wip.hockey.repository.DateRepository;
 import com.wip.hockey.repository.DivisionRepository;
+import com.wip.hockey.repository.FavoriteRepository;
 import com.wip.hockey.repository.MatchRepository;
 import com.wip.hockey.repository.PositionRepository;
 import com.wip.hockey.repository.SubDivisionRepository;
@@ -17,6 +18,7 @@ import com.wip.hockey.room.RoomFactory;
 import com.wip.hockey.room.dao.CategoryDao;
 import com.wip.hockey.room.dao.DateDao;
 import com.wip.hockey.room.dao.DivisionDao;
+import com.wip.hockey.room.dao.FavoriteDao;
 import com.wip.hockey.room.dao.MatchDao;
 import com.wip.hockey.room.dao.PositionDao;
 import com.wip.hockey.room.dao.SubDivisionDao;
@@ -81,6 +83,11 @@ public class AppModule {
     }
 
     @Provides
+    FavoriteDao provideFavoriteDao(AppDataBase db){
+        return db.favoriteDao();
+    }
+
+    @Provides
     Executor provideExecutor(){
         return Executors.newCachedThreadPool();
     }
@@ -119,5 +126,11 @@ public class AppModule {
     @Provides
     PositionRepository providePositionRepository(WebService webService, PositionDao positionDao, AppExecutors executor ){
         return new PositionRepository(webService,positionDao,executor);
+    }
+
+    @Singleton
+    @Provides
+    FavoriteRepository provideFavoriteRepository(WebService webService, FavoriteDao favoriteDao, AppExecutors executor ){
+        return new FavoriteRepository(webService,favoriteDao,executor);
     }
 }

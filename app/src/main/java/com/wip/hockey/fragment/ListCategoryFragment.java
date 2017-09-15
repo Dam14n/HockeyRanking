@@ -15,10 +15,13 @@ import com.wip.hockey.app.Constants;
 import com.wip.hockey.databinding.FragmentListCategoryBinding;
 import com.wip.hockey.handler.HandlerFragment;
 import com.wip.hockey.model.Category;
+import com.wip.hockey.model.Favorite;
 import com.wip.hockey.model.User;
 import com.wip.hockey.networking.Status;
 import com.wip.hockey.viewModel.CategoryViewModel;
+import com.wip.hockey.viewModel.FavoriteViewModel;
 import com.wip.hockey.viewModel.factory.CategoryViewModelFactory;
+import com.wip.hockey.viewModel.factory.FavoriteViewModelFactory;
 
 import javax.inject.Inject;
 
@@ -33,14 +36,23 @@ public class ListCategoryFragment extends BaseFragment implements Tageable{
     private ViewType type;
     private User user;
     private String subDivisionName;
+    private FavoriteViewModel favoriteViewModel;
 
     @Inject
     CategoryViewModelFactory categoryViewModelFactory;
 
+    @Inject
+    FavoriteViewModelFactory favoriteViewModelFactory;
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+
+        favoriteViewModel = ViewModelProviders.of(this, favoriteViewModelFactory).get(FavoriteViewModel.class);
+        favoriteViewModel.getFavoritesByTypeAndUser(type,user.getId())
+                .observe(this, favorites -> {
+                    categoryAdapter.setFavoriteList(favorites);
+                });
 
         categoryViewModel = ViewModelProviders.of(this, categoryViewModelFactory).get(CategoryViewModel.class);
         categoryViewModel.getUpdateStatus().observe(this, status -> {
@@ -53,6 +65,8 @@ public class ListCategoryFragment extends BaseFragment implements Tageable{
         categoryViewModel.getCategories().observe(this, categories -> {
             categoryAdapter.setCategoryList(categories);
         });
+
+
         setupRefreshLayout();
     }
 
@@ -64,7 +78,7 @@ public class ListCategoryFragment extends BaseFragment implements Tageable{
         this.user = (User) this.getArguments().getSerializable(Constants.USER);
         this.subDivisionName = this.getArguments().getString(Constants.SUBDIVISION_NAME);
 
-        categoryAdapter = new CategoryAdapter(this,this.user,this.type,this.subDivisionName);
+        categoryAdapter = new CategoryAdapter(this);
         binding.fragmentCategoryRecycler.setAdapter(categoryAdapter);
 
        return binding.getRoot();
@@ -87,6 +101,14 @@ public class ListCategoryFragment extends BaseFragment implements Tageable{
         bundle.putSerializable(Constants.OPERATION_TYPE,this.type);
         bundle.putInt(Constants.PARENT_ID,category.getId());
         fragment.setArguments(bundle);
+    }
+
+    public void onClickFavorite(Category category, Favorite favorite) {
+        if (favorite != null){
+            favoriteViewModel.deleteFavorite(favorite);
+        }else {
+            favoriteViewModel.newFavorite(category,user,type,subDivisionName);
+        }
     }
 
     private void setupRefreshLayout() {

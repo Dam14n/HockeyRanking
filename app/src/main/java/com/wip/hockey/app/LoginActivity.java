@@ -22,7 +22,7 @@ import com.google.firebase.auth.GoogleAuthProvider;
 import com.wip.hockey.R;
 import com.wip.hockey.databinding.ActivityLoginBinding;
 import com.wip.hockey.model.User;
-import com.wip.hockey.networking.Google.Google.GoogleFactory;
+import com.wip.hockey.networking.Google.GoogleFactory;
 
 import io.fabric.sdk.android.Fabric;
 

@@ -3,6 +3,7 @@ package com.wip.hockey.dagger;
 import com.wip.hockey.fragment.ListCategoryFragment;
 import com.wip.hockey.fragment.ListDateFragment;
 import com.wip.hockey.fragment.ListDivisionFragment;
+import com.wip.hockey.fragment.ListFavoriteFragment;
 import com.wip.hockey.fragment.ListMatchFragment;
 import com.wip.hockey.fragment.ListSubDivisionFragment;
 import com.wip.hockey.fragment.TablePositionFragment;
@@ -29,4 +30,7 @@ public abstract class FragmentBuildersProvider {
 
     @ContributesAndroidInjector(modules = TablePositionFragmentModule.class)
     abstract TablePositionFragment providePositionFragment();
+
+    @ContributesAndroidInjector(modules = ListFavoriteFragmentModule.class)
+    abstract ListFavoriteFragment provideFavoriteFragment();
 }

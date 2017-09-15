@@ -1,5 +1,6 @@
 package com.wip.hockey.model;
 
+import android.arch.persistence.room.Embedded;
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.ForeignKey;
 import android.arch.persistence.room.Ignore;
@@ -17,8 +18,8 @@ public class Favorite implements IIdentificable {
     @ForeignKey(entity = User.class,parentColumns = "id",childColumns = "userId")
     private int userId;
     private int categoryId;
-    @Ignore
-    private List<Category> categories;
+    @Embedded(prefix = "category_")
+    private Category category;
     private ViewType favoriteType;
     private String subDivisionName;
 
@@ -30,14 +31,6 @@ public class Favorite implements IIdentificable {
     @Override
     public void setId(int id) {
         this.id = id;
-    }
-
-    public List<Category> getCategories() {
-        return categories;
-    }
-
-    public void setCategories(List<Category> categories) {
-        this.categories = categories;
     }
 
     public int getUserId() {
@@ -70,6 +63,14 @@ public class Favorite implements IIdentificable {
 
     public void setSubDivisionName(String subDivisionName) {
         this.subDivisionName = subDivisionName;
+    }
+
+    public Category getCategory() {
+        return category;
+    }
+
+    public void setCategory(Category category) {
+        this.category = category;
     }
 }
 

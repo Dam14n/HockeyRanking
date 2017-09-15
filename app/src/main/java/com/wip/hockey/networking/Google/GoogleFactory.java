@@ -1,4 +1,4 @@
-package com.wip.hockey.networking.Google.Google;
+package com.wip.hockey.networking.Google;
 
 
 import android.support.annotation.NonNull;

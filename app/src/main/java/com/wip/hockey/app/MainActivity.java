@@ -26,7 +26,7 @@ import com.wip.hockey.fragment.NavigationDrawerFragment;
 import com.wip.hockey.fragment.ViewType;
 import com.wip.hockey.handler.HandlerFragment;
 import com.wip.hockey.model.User;
-import com.wip.hockey.networking.Google.Google.GoogleFactory;
+import com.wip.hockey.networking.Google.GoogleFactory;
 import com.wip.hockey.room.RoomFactory;
 import com.wip.hockey.room.database.AppDataBase;
 import com.wip.hockey.viewModel.MainActivityViewModel;
