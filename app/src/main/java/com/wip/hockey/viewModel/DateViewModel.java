@@ -19,6 +19,8 @@ public class DateViewModel extends ViewModel{
             Transformations.switchMap( category , (categoryId) ->
                     dateRepository.getDates(categoryId));
 
+    private MutableLiveData<Integer> currentPage = new MutableLiveData<>();
+
     public DateViewModel(DateRepository repository) {
         this.dateRepository = repository;
     }
@@ -38,4 +40,13 @@ public class DateViewModel extends ViewModel{
         }
         category.setValue(categoryId);
     }
+
+    public LiveData<Integer> getCurrentPage(){
+        return currentPage;
+    }
+
+    public void setCurrentPage(int currentPage){
+        this.currentPage.postValue(currentPage);
+    }
+
 }

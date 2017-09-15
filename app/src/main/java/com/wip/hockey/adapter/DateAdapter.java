@@ -11,6 +11,7 @@ import com.wip.hockey.fragment.BaseFragment;
 import com.wip.hockey.fragment.ListDateFragment;
 import com.wip.hockey.handler.HandlerFragment;
 import com.wip.hockey.model.Date;
+import com.wip.hockey.viewModel.DateViewModel;
 
 import java.util.List;
 
@@ -18,12 +19,12 @@ public class DateAdapter extends FragmentStatePagerAdapter implements ViewPager.
 
 
     private static final String TAG = DateAdapter.class.getSimpleName();
-    private final ListDateFragment fragment;
+    private final ListDateFragment mFragment;
     private List<Date> dateList;
 
     public DateAdapter(ListDateFragment fragment) {
         super(fragment.getFragmentManager());
-        this.fragment = fragment;
+        this.mFragment = fragment;
     }
 
     @Override
@@ -55,7 +56,7 @@ public class DateAdapter extends FragmentStatePagerAdapter implements ViewPager.
     @Override
     public void onPageSelected(int position) {
         Date date = this.dateList.get(position);
-        fragment.setTitle(String.valueOf(date.getDateNumber()));
+        mFragment.setTitle(date.getDateNumber());
     }
 
     @Override

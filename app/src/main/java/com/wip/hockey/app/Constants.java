@@ -7,4 +7,5 @@ public interface Constants {
     String USER = "user";
     String EXIT = "exit";
     String SUBDIVISION_NAME = "subDivision_name";
+    String PAGE_POSITION = "page_position";
 }

@@ -2,6 +2,7 @@ package com.wip.hockey.fragment;
 
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
+import android.content.res.Configuration;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -31,7 +32,8 @@ public class ListDateFragment extends BaseFragment
     private DateAdapter dateAdapter;
     private FragmentListDateBinding binding;
     private DateViewModel dateViewModel;
-    private ViewType type;
+
+    private int selectedPage;
 
     @Inject
     DateViewModelFactory dateViewModelFactory;
@@ -40,8 +42,10 @@ public class ListDateFragment extends BaseFragment
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
+        if (savedInstanceState != null){
+            this.selectedPage = savedInstanceState.getInt(Constants.PAGE_POSITION);
+        }
         dateViewModel = ViewModelProviders.of(this,dateViewModelFactory).get(DateViewModel.class);
-        this.type = (ViewType) this.getArguments().getSerializable(Constants.OPERATION_TYPE);
         dateViewModel.getUpdateStatus().observe(this, status -> {
             if (status == Status.ERROR || status == Status.SUCCESS){
                 //TODO
@@ -50,7 +54,10 @@ public class ListDateFragment extends BaseFragment
         dateViewModel.init(this.getArguments().getInt(Constants.PARENT_ID));
         dateViewModel.getDates().observe(this, dates -> {
             dateAdapter.setDateList(dates);
-            binding.fragmentPagerDate.setCurrentItem(getActualDate(dates),false);
+            binding.fragmentPagerDate.setCurrentItem(savedInstanceState != null ? this.selectedPage : getActualDate(dates),false);
+        });
+        dateViewModel.getCurrentPage().observe(this, currentPage -> {
+            binding.toolbarDate.toolbarTitle.setText(String.valueOf(currentPage));
         });
     }
 
@@ -77,8 +84,8 @@ public class ListDateFragment extends BaseFragment
         return TAG;
     }
 
-    public void setTitle(String title){
-        binding.toolbarDate.toolbarTitle.setText(title);
+    public void setTitle(int title){
+        dateViewModel.setCurrentPage(title);
     }
 
     @Override
@@ -86,4 +93,11 @@ public class ListDateFragment extends BaseFragment
         AndroidSupportInjection.inject(this);
         super.onAttach(context);
     }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        outState.putInt(Constants.PAGE_POSITION,binding.fragmentPagerDate.getCurrentItem());
+        super.onSaveInstanceState(outState);
+    }
+
 }
