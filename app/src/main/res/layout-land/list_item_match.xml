@@ -53,7 +53,7 @@
                         android:id="@+id/local_team_goals"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@{Integer.toString(match.localGoals)}"/>
+                        android:text="@{match.played ? Integer.toString(match.localGoals) : @string/no_text }"/>
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -64,7 +64,7 @@
                         android:id="@+id/enemy_team_goals"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@{Integer.toString(match.enemyGoals)}"/>
+                        android:text="@{match.played ? Integer.toString(match.enemyGoals) : @string/no_text }"/>
 
                 </LinearLayout>
 

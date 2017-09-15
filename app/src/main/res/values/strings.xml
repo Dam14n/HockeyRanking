@@ -36,4 +36,5 @@
     <string name="cancel">Cancel</string>
     <string name="fixtures">Fixtures</string>
     <string name="positions">Positions</string>
+    <string name="no_text"></string>
 </resources>
