@@ -36,7 +36,6 @@ public class HandlerFragment {
 
     public void setContext(Context context){
         this.context = (FragmentActivity) context;
-        this.firstCall = true;
     }
 
     public Fragment changeToFragment(int id) {
