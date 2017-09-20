@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "941309374987",
+    "firebase_url": "https://hockey-ec5d8.firebaseio.com",
+    "project_id": "hockey-ec5d8",
+    "storage_bucket": "hockey-ec5d8.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:941309374987:android:9e2aff7dfb526843",
+        "android_client_info": {
+          "package_name": "com.wip.hockey"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "941309374987-mr8rvdsr3h1vqjg4kkfvd4tjkm4k9oq3.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.wip.hockey",
+            "certificate_hash": "0c7fb4de6aa0db0c917117a7acb3e102e71bff9c"
+          }
+        },
+        {
+          "client_id": "941309374987-pik32paon47fes7ck2ci2ralsa7903gr.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD2XToKeJA-iMvfB7HnpGCtaqUu7_gCSXA"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "941309374987-pik32paon47fes7ck2ci2ralsa7903gr.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -37,4 +37,14 @@
     <string name="fixtures">Fixtures</string>
     <string name="positions">Positions</string>
     <string name="no_text"></string>
+    <string name="Position">#</string>
+    <string name="Team_Name">Team</string>
+    <string name="Points">P</string>
+    <string name="Matches_Played">P</string>
+    <string name="Matches_Win">W</string>
+    <string name="Matches_Lose">L</string>
+    <string name="Matches_Tie">T</string>
+    <string name="Favor_Goals">GF</string>
+    <string name="Against_Goals">GA</string>
+    <string name="Difference_Goals">GD</string>
 </resources>

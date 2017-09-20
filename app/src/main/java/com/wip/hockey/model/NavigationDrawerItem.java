@@ -32,28 +32,15 @@ public class NavigationDrawerItem {
 
     public static List<NavigationDrawerItem> getData(){
         List<NavigationDrawerItem> dataList = new ArrayList<>();
-
-        int[] imageIds = getImages();
         String[] titles = getTitles();
 
         for ( int i = 0; i < titles.length ; i++){
             NavigationDrawerItem navItem = new NavigationDrawerItem();
             navItem.setTitle(titles[i]);
-            navItem.setImageId(imageIds[i]);
             dataList.add(navItem);
         }
 
         return dataList;
-    }
-    private  static int[] getImages(){
-
-        return new int[]{
-                R.drawable.images_1,
-                R.drawable.images_1,
-                R.drawable.images_1,
-                R.drawable.images_1,
-                R.drawable.images_1
-        };
     }
 
     private static String[] getTitles(){

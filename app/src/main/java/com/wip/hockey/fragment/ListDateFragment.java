@@ -46,11 +46,13 @@ public class ListDateFragment extends BaseFragment
             this.selectedPage = savedInstanceState.getInt(Constants.PAGE_POSITION);
         }
         dateViewModel = ViewModelProviders.of(this,dateViewModelFactory).get(DateViewModel.class);
-        dateViewModel.getUpdateStatus().observe(this, status -> {
-            if (status == Status.ERROR || status == Status.SUCCESS){
-                //TODO
-            }
-        });
+        if (!dateViewModel.getUpdateStatus().hasObservers()) {
+            dateViewModel.getUpdateStatus().observe(this, status -> {
+                if (status == Status.ERROR || status == Status.SUCCESS) {
+                    //TODO
+                }
+            });
+        }
         dateViewModel.init(this.getArguments().getInt(Constants.PARENT_ID));
         dateViewModel.getDates().observe(this, dates -> {
             dateAdapter.setDateList(dates);
