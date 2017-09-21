@@ -20,60 +20,60 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:gravity="center"
-                        android:text="@string/Position" />
+                        android:text="@string/position" />
                     <TextView
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:gravity="center"
-                        android:text="@string/Team_Name" />
+                        android:text="@string/teamName" />
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:gravity="center"
                         android:layout_weight="0.1"
-                        android:text="@string/Points" />
+                        android:text="@string/points" />
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="0.1"
                         android:gravity="center"
-                        android:text="@string/Matches_Played" />
+                        android:text="@string/matchesPlayed" />
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="0.1"
                         android:gravity="center"
-                        android:text="@string/Matches_Win" />
+                        android:text="@string/matchesWin" />
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="0.1"
                         android:gravity="center"
-                        android:text="@string/Matches_Lose" />
+                        android:text="@string/matchesLose" />
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="0.1"
                         android:gravity="center"
-                        android:text="@string/Matches_Tie" />
+                        android:text="@string/matchesTie" />
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="0.1"
                         android:gravity="center"
-                        android:text="@string/Favor_Goals" />
+                        android:text="@string/favorGoals" />
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="0.1"
                         android:gravity="center"
-                        android:text="@string/Against_Goals" />
+                        android:text="@string/againstGoals" />
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="0.1"
                         android:gravity="center"
-                        android:text="@string/Difference_Goals" />
+                        android:text="@string/differenceGoals" />
                 </TableRow>
             </TableLayout>
         </android.support.v4.widget.NestedScrollView>

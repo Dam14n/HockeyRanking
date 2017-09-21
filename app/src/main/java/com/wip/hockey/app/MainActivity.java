@@ -44,11 +44,8 @@ public class MainActivity extends LifecycleActivity implements Toolbar.OnMenuIte
 
     public static final String TAG = MainActivity.class.getSimpleName();
     private HandlerFragment handlerFragment;
-    public static FavoriteManager favoriteManager;
-    private FirebaseAnalytics mFirebaseAnalytics;
     private ActivityMainBinding binding;
     private GoogleApiClient mGoogleApiClient;
-    private AppDataBase db;
     private MainActivityViewModel mViewModel;
     private User user;
 
@@ -77,11 +74,7 @@ public class MainActivity extends LifecycleActivity implements Toolbar.OnMenuIte
         setUpToolbar();
         setUpDrawer();
 
-        mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
-
         createAdBanner();
-
-        db = RoomFactory.getAdapter(this);
 
         mViewModel.findById(user.getUid())
                 .subscribeOn(Schedulers.io())

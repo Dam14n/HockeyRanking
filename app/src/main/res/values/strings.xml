@@ -37,14 +37,21 @@
     <string name="fixtures">Fixtures</string>
     <string name="positions">Positions</string>
     <string name="no_text"></string>
-    <string name="Position">#</string>
-    <string name="Team_Name">Team</string>
-    <string name="Points">P</string>
-    <string name="Matches_Played">P</string>
-    <string name="Matches_Win">W</string>
-    <string name="Matches_Lose">L</string>
-    <string name="Matches_Tie">T</string>
-    <string name="Favor_Goals">GF</string>
-    <string name="Against_Goals">GA</string>
-    <string name="Difference_Goals">GD</string>
+    <string name="position">#</string>
+    <string name="teamName">Team</string>
+    <string name="points">P</string>
+    <string name="matchesPlayed">P</string>
+    <string name="matchesWin">W</string>
+    <string name="matchesLose">L</string>
+    <string name="matchesTie">T</string>
+    <string name="favorGoals">GF</string>
+    <string name="againstGoals">GA</string>
+    <string name="differenceGoals">GD</string>
+    <string name="favorites">Favorites</string>
+
+    <string-array name="listTitlesNavigation">
+        <item>Fixtures</item>
+        <item>Positions</item>
+        <item>Favorites</item>
+    </string-array>
 </resources>
