@@ -1,10 +1,9 @@
 package com.wip.hockey.fragment;
 
-import android.arch.lifecycle.LifecycleFragment;
-
+import android.support.v4.app.Fragment;
 import com.wip.hockey.app.MainActivity;
 
-public abstract class BaseFragment extends LifecycleFragment {
+public abstract class BaseFragment extends Fragment {
 
     public void showProgress(boolean isVisible) {
         if (this.isVisible()) {

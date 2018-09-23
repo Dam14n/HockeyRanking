@@ -1,12 +1,12 @@
 package com.wip.hockey.app;
 
-import android.arch.lifecycle.LifecycleActivity;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -16,6 +16,7 @@ import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.MobileAds;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.internal.LifecycleActivity;
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.auth.FirebaseAuth;
 import com.wip.hockey.R;
@@ -40,7 +41,7 @@ import dagger.android.support.HasSupportFragmentInjector;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
-public class MainActivity extends LifecycleActivity implements Toolbar.OnMenuItemClickListener, HasSupportFragmentInjector{
+public class MainActivity extends AppCompatActivity implements Toolbar.OnMenuItemClickListener, HasSupportFragmentInjector{
 
     public static final String TAG = MainActivity.class.getSimpleName();
     private HandlerFragment handlerFragment;

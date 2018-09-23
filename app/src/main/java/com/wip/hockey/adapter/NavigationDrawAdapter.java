@@ -46,11 +46,11 @@ public class NavigationDrawAdapter extends RecyclerView.Adapter<NavigationDrawAd
     public void onBindViewHolder(final MyViewHolder holder, int position) {
         NavigationDrawerItem current = mDataList.get(position);
         holder.binding.imgIcon.setImageResource(current.getImageId());
-        holder.binding.title.setText(current.getTitle());
+        holder.binding.listItemTitle.setText(current.getTitle());
         Bundle bundle = new Bundle();
         bundle.putSerializable(Constants.USER,this.user);
         holder.itemView.setOnClickListener(v -> {
-            switch (holder.binding.title.getText().toString()){
+            switch (holder.binding.listItemTitle.getText().toString()){
                 case "Fixtures":
                     BaseFragment divisionFragment = (BaseFragment) HandlerFragment.getInstance().changeToFragment(R.id.fragment_division_recycler);
                     bundle.putSerializable(Constants.OPERATION_TYPE, ViewType.FIXTURE_VIEW);

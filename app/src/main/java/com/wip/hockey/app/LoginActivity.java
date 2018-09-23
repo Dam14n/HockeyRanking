@@ -1,11 +1,11 @@
 package com.wip.hockey.app;
 
 import android.app.ProgressDialog;
-import android.arch.lifecycle.LifecycleActivity;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.VisibleForTesting;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
@@ -26,7 +26,7 @@ import com.wip.hockey.networking.Google.GoogleFactory;
 
 import io.fabric.sdk.android.Fabric;
 
-public class LoginActivity extends LifecycleActivity implements View.OnClickListener{
+public class LoginActivity extends AppCompatActivity implements View.OnClickListener{
 
     private static final String TAG = LoginActivity.class.toString();
 

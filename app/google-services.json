@@ -15,11 +15,35 @@
       },
       "oauth_client": [
         {
+          "client_id": "941309374987-acg35rrbptq84pmlb7u5nj1n5o85muve.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.wip.hockey",
+            "certificate_hash": "3a7f1c5c9a93aca6c1030e68f1ad276f318d9376"
+          }
+        },
+        {
           "client_id": "941309374987-mr8rvdsr3h1vqjg4kkfvd4tjkm4k9oq3.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.wip.hockey",
             "certificate_hash": "0c7fb4de6aa0db0c917117a7acb3e102e71bff9c"
+          }
+        },
+        {
+          "client_id": "941309374987-urdbfhs7cdr32hbrm03e234b0u0rr1bb.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.wip.hockey",
+            "certificate_hash": "bdf6a3e5b61e4bb17af0f184c76f8cb771beaac6"
+          }
+        },
+        {
+          "client_id": "941309374987-b36rt6soj1p67fmri8akka7412ubkslb.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.wip.hockey",
+            "certificate_hash": "ab16d5e271122e315ba81da21c80b1b593f474b8"
           }
         },
         {
@@ -48,7 +72,8 @@
         "ads_service": {
           "status": 2
         }
-      }
+      },
+      "admob_app_id": "ca-app-pub-7652174985399137~2420714987"
     }
   ],
   "configuration_version": "1"

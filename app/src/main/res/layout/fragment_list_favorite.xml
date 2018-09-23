@@ -21,9 +21,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/title_fixture"
-                app:layoutManager="LinearLayoutManager" >
-
-            </android.support.v7.widget.RecyclerView>
+                app:layoutManager="android.support.v7.widget.LinearLayoutManager"/>
 
             <TextView
                 android:id="@+id/title_positions"
@@ -38,7 +36,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/title_positions"
-                app:layoutManager="LinearLayoutManager" />
+                app:layoutManager="android.support.v7.widget.LinearLayoutManager"/>
 
         </RelativeLayout>
     </android.support.v4.widget.NestedScrollView>

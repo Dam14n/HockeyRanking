@@ -1,6 +1,5 @@
 package com.wip.hockey.handler;
 
-import android.arch.lifecycle.LifecycleFragment;
 import android.content.Context;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -49,14 +48,14 @@ public class HandlerFragment {
         FragmentManager fragmentManager = context.getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         if (!firstCall){
-            fragmentTransaction.replace(R.id.fragment, (LifecycleFragment) fragment,fragment.getTAG());
+            fragmentTransaction.replace(R.id.fragment, (Fragment) fragment,fragment.getTAG());
             fragmentTransaction.addToBackStack(null);
         }else{
-            fragmentTransaction.add(R.id.fragment, (LifecycleFragment) fragment, fragment.getTAG());
+            fragmentTransaction.add(R.id.fragment, (Fragment) fragment, fragment.getTAG());
             firstCall = false;
         }
         fragmentTransaction.commit();
-        return (LifecycleFragment) fragment;
+        return (Fragment) fragment;
     }
 
     public Tageable getFragment(int id) {
